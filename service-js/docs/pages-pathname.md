@@ -53,3 +53,9 @@ pathname = /launderingBack
 <img src="page7.png" width=200px>
 
 pathname = /addInfo
+
+## Page 8
+
+<img src="page8.png" width=200px>
+
+pathname = /settleBank

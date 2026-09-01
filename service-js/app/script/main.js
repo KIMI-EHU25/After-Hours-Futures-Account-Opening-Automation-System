@@ -189,11 +189,13 @@ async function selectMultipleVantCheckboxes(questionText, selectedIndexes) {
 }
 
 
+// 判断当前字段是否为 null 或 undefined 以确定是否跳过
 function hasInjectionValue(value) {
     return value !== null && value !== undefined && value !== "";
 }
 
 
+// 获取 vue 页面实例
 function getAddInfoViewModel() {
     const viewModel = document.querySelector("#addInfo")?.__vue__;
 
@@ -206,6 +208,7 @@ function getAddInfoViewModel() {
 }
 
 
+// 等待页面更新
 function nextVueTick(viewModel) {
     return new Promise((resolve) => {
         if (typeof viewModel?.$nextTick === "function") {
@@ -395,9 +398,10 @@ async function pathname() {
             break;
         }
         
-        // case "" :{
-        //     break;
-        // }
+        case "/settleBank" :{ // Page 8
+            settleBank();
+            break;
+        }
         
         // case "" :{
         //     break;
@@ -527,4 +531,11 @@ async function addInfo() {
     fillTextField({ label: "居间人登记编号", value: form.intermediaryCode });
     fillTextField({ label: "推荐人代码", value: form.referencePersonCode });
     fillTextField({ label: "推荐人名称", value: form.referencePersonName });
+}
+
+
+// Page 8 上传银行卡照片 用户自己操作
+function settleBank() {
+
+    return;
 }
