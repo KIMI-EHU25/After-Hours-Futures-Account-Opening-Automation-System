@@ -59,3 +59,17 @@ pathname = /addInfo
 <img src="page8.png" width=200px>
 
 pathname = /settleBank
+
+## Page 9
+
+<img src="page9.png" width=200px>
+
+pathname = /appropriate
+
+## Page 10
+
+<img src="page10.png" width=200px>
+
+交易者风险测评问卷
+
+pathname = /question

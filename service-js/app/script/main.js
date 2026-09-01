@@ -110,11 +110,28 @@ const data = {
         "referencePersonCode" : null,                          // 推荐人代码
         "referencePersonName" : null,                          // 推荐人姓名
     },
+
+    "p10-question" : {
+        "10-1" : "A",   // 是否具有民事行为能力
+        "10-2" : "A",   // 主要收入来源
+        "10-3" : "A",   // 计划用于金融投资的主要资金来源
+        "10-4" : "B",   // 年平均收入
+        "10-5" : "C",   // 金融资产情况
+        "10-6" : "A",   // 是否有尚未清偿的数额较大的债务
+        "10-7" : "A",   // 投资回报主要用于
+        "10-8" : "B",   // 关于专业背景、教育经历、投资知识等描述
+        "10-9" : "B",   // 主要依据什么作出金融投资决策
+        "10-10" : "B",  // 投资经历
+        "10-11" : "C",  // 交易频率
+        "10-12" : "B",  // 投资资产分配
+        "10-13" : "A",  // 可承受的最大损失
+        "10-14" : "C",  // 账户亏损约为
+    },
 };
 
 
 /* utils */
-// 单选题内容注入
+// Page 6 单选题内容注入
 function selectSingleCheckbox(questionText, selectedValue) {
     const question = Array.from(document.querySelectorAll("p.monicker")).find(
         (element) => element.textContent.includes(questionText)
@@ -130,7 +147,7 @@ function selectSingleCheckbox(questionText, selectedValue) {
         : options.find((option) => option.value === String(selectedValue));
 
     if (!target) {
-        window.alert("未找到目标选项：", questionText, selectedValue);
+        window.alert(`未找到目标选项：${questionText}，选项值：${selectedValue}`);
         return;
     }
 
@@ -147,7 +164,7 @@ function selectSingleCheckbox(questionText, selectedValue) {
 }
 
 
-// 多选题内容注入
+// Page 6 多选题内容注入
 async function selectMultipleVantCheckboxes(questionText, selectedIndexes) { 
     const question = Array.from(document.querySelectorAll("p.monicker")).find(
         (element) => element.textContent.includes(questionText)
@@ -159,7 +176,7 @@ async function selectMultipleVantCheckboxes(questionText, selectedIndexes) {
     const selected = new Set(selectedIndexes.map(String));
 
     if (optionCount === 0) {
-        window.alert("未找到多选题：", questionText);
+        window.alert(`未找到多选题：${questionText}`);
         return;
     }
 
@@ -175,7 +192,7 @@ async function selectMultipleVantCheckboxes(questionText, selectedIndexes) {
             );
 
             if (!toggle) {
-                window.alert("未找到多选项点击节点：", questionText, index + 1);
+                window.alert(`未找到多选项点击节点：${questionText}，选项序号：${index + 1}`);
                 return;
             }
 
@@ -189,13 +206,13 @@ async function selectMultipleVantCheckboxes(questionText, selectedIndexes) {
 }
 
 
-// 判断当前字段是否为 null 或 undefined 以确定是否跳过
+// Page 7 判断当前字段是否为 null 或 undefined 以确定是否跳过
 function hasInjectionValue(value) {
     return value !== null && value !== undefined && value !== "";
 }
 
 
-// 获取 vue 页面实例
+// Page 7 获取 vue 页面实例
 function getAddInfoViewModel() {
     const viewModel = document.querySelector("#addInfo")?.__vue__;
 
@@ -208,7 +225,7 @@ function getAddInfoViewModel() {
 }
 
 
-// 等待页面更新
+// Page 7 等待页面更新
 function nextVueTick(viewModel) {
     return new Promise((resolve) => {
         if (typeof viewModel?.$nextTick === "function") {
@@ -221,7 +238,7 @@ function nextVueTick(viewModel) {
 }
 
 
-// 单个普通文本字段注入：按页面标签定位 input 或 textarea。
+// Page 7 单个普通文本字段注入：按页面标签定位 input 或 textarea。
 function fillTextField({ label, value }) {
     if (!hasInjectionValue(value)) return;
 
@@ -231,7 +248,7 @@ function fillTextField({ label, value }) {
     const control = field?.querySelector("input.van-field__control, textarea.van-field__control");
 
     if (!control) {
-        window.alert("未找到文本字段：", label);
+        window.alert(`未找到文本字段：${label}`);
         return;
     }
 
@@ -251,7 +268,7 @@ function fillTextField({ label, value }) {
 }
 
 
-// 单个日期字段注入：Vux datetime 的数据模型字段使用 yyyy-MM-dd 格式。
+// Page 7 单个日期字段注入：Vux datetime 的数据模型字段使用 yyyy-MM-dd 格式。
 async function fillDateField({ modelKey, value }) {
     if (!hasInjectionValue(value)) return;
 
@@ -267,7 +284,7 @@ async function fillDateField({ modelKey, value }) {
 }
 
 
-// 等待关联 picker 的选项列表中出现目标 value。
+// Page 7 等待关联 picker 的选项列表中出现目标 value。
 async function waitForPickerOption({ viewModel, optionsKey, value, timeout = 8000 }) {
     const expectedValue = String(value);
     const deadline = Date.now() + timeout;
@@ -281,12 +298,12 @@ async function waitForPickerOption({ viewModel, optionsKey, value, timeout = 800
         await new Promise((resolve) => setTimeout(resolve, 50));
     }
 
-    window.alert("关联 picker 未加载目标选项：", optionsKey, expectedValue);
+    window.alert(`关联 picker 未加载目标选项：${optionsKey}，目标值：${expectedValue}`);
     return false;
 }
 
 
-// 单个 Vux popup picker 注入；value 会转换为 picker 所需的一项数组。
+// Page 7 单个 Vux popup picker 注入；value 会转换为 picker 所需的一项数组。
 async function fillPopupPickerField({
     modelKey,
     value,
@@ -332,7 +349,7 @@ async function fillPopupPickerField({
 }
 
 
-// 单个 Vant checkbox 注入，用于“身份证长期有效”。
+// Page 7 单个 Vant checkbox 注入，用于“身份证长期有效”。
 async function fillVantCheckboxField({ value }) {
     if (typeof value !== "boolean") return;
 
@@ -353,7 +370,7 @@ async function fillVantCheckboxField({ value }) {
 }
 
 
-// 单个 Vant radio 注入，用于“是否存在居间人”。
+// Page 7 单个 Vant radio 注入，用于“是否存在居间人”。
 async function fillVantRadioField({ value }) {
     if (typeof value !== "boolean") return;
 
@@ -367,6 +384,76 @@ async function fillVantRadioField({ value }) {
     }
 
     await nextVueTick(viewModel);
+}
+
+
+// Page 10 等待异步问卷加载完成。
+async function waitForPage10RadioGroups(expectedCount, timeout = 8000) {
+    const deadline = Date.now() + timeout;
+
+    while (Date.now() < deadline) {
+        const groups = document.querySelectorAll(".question .van-radio-group");
+        if (groups.length >= expectedCount) {
+            return true;
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 50));
+    }
+
+    window.alert(`Page 10 单选题加载超时：应有 ${expectedCount} 题`);
+    return false;
+}
+
+
+// Page 10 单个 Vant 单选题注入：按题号和选项字母定位并真实点击。
+async function selectSingleVantRadio({ questionNumber, selectedValue }) {
+    if (!hasInjectionValue(selectedValue)) return true;
+
+    const normalizedValue = String(selectedValue).trim().toUpperCase();
+    const group = Array.from(
+        document.querySelectorAll(".question .van-radio-group")
+    ).find((element) => {
+        const title = element.querySelector(".question_title")?.textContent
+            .replace(/\s+/g, " ")
+            .trim();
+        return title?.startsWith(`${questionNumber}.`);
+    });
+
+    if (!group) {
+        window.alert(`未找到 Page 10 单选题：${questionNumber}`);
+        return false;
+    }
+
+    const option = Array.from(group.querySelectorAll(".van-radio")).find((element) => {
+        const label = element.querySelector(".van-radio__label")?.textContent
+            .replace(/\s+/g, " ")
+            .trim();
+        const optionValue = label?.match(/^([A-Z])\s*[.．、]/i)?.[1].toUpperCase();
+        return optionValue === normalizedValue;
+    });
+
+    if (!option) {
+        window.alert(`未找到 Page 10 单选题选项：${questionNumber}，选项值：${normalizedValue}`);
+        return false;
+    }
+
+    const control = option.querySelector('input.van-radio__control[type="radio"]');
+    if (!control) {
+        window.alert(`未找到 Page 10 单选项点击节点：${questionNumber}，选项值：${normalizedValue}`);
+        return false;
+    }
+
+    if (!control.checked) {
+        control.click();
+        await new Promise((resolve) => setTimeout(resolve, 0));
+    }
+
+    if (!control.checked) {
+        window.alert(`Page 10 单选题未成功选中：${questionNumber}，选项值：${normalizedValue}`);
+        return false;
+    }
+
+    return true;
 }
 
 
@@ -403,13 +490,15 @@ async function pathname() {
             break;
         }
         
-        // case "" :{
-        //     break;
-        // }
+        case "/appropriate" :{ // Page 9
+            appropriate();
+            break;
+        }
         
-        // case "" :{
-        //     break;
-        // }
+        case "/question" :{ // Page 10
+            await question();
+            break;
+        }
 
         default:
             break;
@@ -536,6 +625,39 @@ async function addInfo() {
 
 // Page 8 上传银行卡照片 用户自己操作
 function settleBank() {
+
+    return;
+}
+
+
+// Page 9 交易者类型选择 用户自己操作
+function appropriate() {
+
+    return;
+}
+
+
+// Page 10 交易者风险测评问卷
+async function question() {
+    const form = data["p10-question"];
+
+    const ready = await waitForPage10RadioGroups(14);
+    if (!ready) return;
+
+    if (!await selectSingleVantRadio({ questionNumber: 1, selectedValue: form["10-1"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 2, selectedValue: form["10-2"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 3, selectedValue: form["10-3"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 4, selectedValue: form["10-4"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 5, selectedValue: form["10-5"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 6, selectedValue: form["10-6"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 7, selectedValue: form["10-7"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 8, selectedValue: form["10-8"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 9, selectedValue: form["10-9"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 10, selectedValue: form["10-10"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 11, selectedValue: form["10-11"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 12, selectedValue: form["10-12"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 13, selectedValue: form["10-13"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 14, selectedValue: form["10-14"] })) return;
 
     return;
 }
