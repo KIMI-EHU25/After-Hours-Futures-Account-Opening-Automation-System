@@ -38,10 +38,28 @@ window.addEventListener("hashchange", runYourLogic);
 // =============================
 // 每次跳转 刷新页面都会触发下面的 main_func 函数
 
-let data = {
+
+/* main.js */
+async function main_func() {
+    let currentPathname = window.location.pathname;
+    window.alert(`current pathname : ${currentPathname}`);
+
+    await pathname();
+
+    return;
+}
+
+/* api.js */
+// data 存模拟用户数据
+// 选择题的值用 "1,2,3" 或 "A,B,C" 表示都可以
+const data = {
     "p6-launderingBack" : {
         "6-1" : "A",    // 居民税收身份
-        "6-2" : "D",    // 政要人物关系 !注意最后两个选项的 E 和 D 的 value 反过来了
+
+        "6-2" : "D",    // 政要人物关系 
+                        // !注意最后两个选项的 E 和 D 的 value 反过来了
+                        // value="E" 为倒数第二个选项 value="D" 为最后一个选项
+
         "6-3" : "C",    // 投资期限
         "6-4" : "C",    // 期望收益
         "6-5" : "A",    // 账户是否存在被他人控制
@@ -57,19 +75,91 @@ let data = {
             2,
             3
         ]
-    }
+    },
+    "p7-" : {
+        
+    },
 };
 
-async function main_func() {
-    let pathname = window.location.pathname;
-    window.alert(`current pathname : ${pathname}`);
 
-    await distinguish();
+/* utils */
+// 单选题内容注入
+function selectSingleCheckbox(questionText, selectedValue) {
+    const question = Array.from(document.querySelectorAll("p.monicker")).find(
+        (element) => element.textContent.includes(questionText)
+    );
 
-    return;
+    const options = Array.from(
+        question?.nextElementSibling?.querySelectorAll(
+            'input.weui-check[type="checkbox"]'
+        ) ?? []
+    );
+    const target = Number.isInteger(selectedValue)
+        ? options[selectedValue - 1]
+        : options.find((option) => option.value === String(selectedValue));
+
+    if (!target) {
+        console.warn("未找到目标选项：", questionText, selectedValue);
+        return;
+    }
+
+    // 这些题目业务上是单选；先通过真实点击取消其余已选项。
+    options.forEach((option) => {
+        if (option !== target && option.checked) {
+            option.click();
+        }
+    });
+
+    if (!target.checked) {
+        target.click();
+    }
 }
 
-async function distinguish() {
+
+// 多选题内容注入
+async function selectMultipleVantCheckboxes(questionText, selectedIndexes) { 
+    const question = Array.from(document.querySelectorAll("p.monicker")).find(
+        (element) => element.textContent.includes(questionText)
+    );
+    const getOptions = () => Array.from(
+        question?.nextElementSibling?.querySelectorAll(".van-checkbox") ?? []
+    );
+    const optionCount = getOptions().length;
+    const selected = new Set(selectedIndexes.map(String));
+
+    if (optionCount === 0) {
+        console.warn("未找到多选题：", questionText);
+        return;
+    }
+
+    for (let index = 0; index < optionCount; index += 1) {
+        // 每次都重新取 DOM，避免 Vue 重渲染后继续使用旧状态。
+        const option = getOptions()[index];
+        const shouldBeSelected = selected.has(String(index + 1));
+        const isSelected = option.querySelector(".van-checkbox__icon--checked") !== null;
+
+        if (shouldBeSelected !== isSelected) {
+            const toggle = option.querySelector(
+                ".van-checkbox__icon, .van-checkbox__label"
+            );
+
+            if (!toggle) {
+                console.warn("未找到多选项点击节点：", questionText, index + 1);
+                return;
+            }
+
+            toggle.click();
+
+            // Vant 通过 Vue 的 v-model 异步写回父组件；等待后再处理下一项，
+            // 避免下一次点击基于旧数组覆盖本次选择。
+            await new Promise((resolve) => setTimeout(resolve, 0));
+        }
+    }
+}
+
+
+// 获取当前页面路径，并执行相应逻辑
+async function pathname() {
 
     await new Promise((resolve) => setTimeout(resolve, 1000)); // 等待 DOM 加载完毕
 
@@ -114,6 +204,9 @@ async function distinguish() {
     return;
 }
 
+
+/* pages */
+// Page 3 Page 4 此处填入身份证号为了方便测试测试，实际不需要填入身份证号
 function canahartaLogin() {
     const element = document.querySelector(
         'input.van-field__control[placeholder="请输入身份证"][maxlength="18"]'
@@ -126,84 +219,16 @@ function canahartaLogin() {
     element.dispatchEvent(new Event("change", { bubbles: true }));
 }
 
+
+// Page 5 上传身份证图片 用户自己操作
 function idcardUpload() {
-    // 上传身份证图片 用户自己操作
+    
     return;
 }
 
+
+// Page 6 基本信息资料问卷
 async function launderingBack() {
-    // 填写基本资料表单
-
-    function selectSingleCheckbox(questionText, selectedValue) {
-        const question = Array.from(document.querySelectorAll("p.monicker")).find(
-            (element) => element.textContent.includes(questionText)
-        );
-
-        const options = Array.from(
-            question?.nextElementSibling?.querySelectorAll(
-                'input.weui-check[type="checkbox"]'
-            ) ?? []
-        );
-        const target = Number.isInteger(selectedValue)
-            ? options[selectedValue - 1]
-            : options.find((option) => option.value === String(selectedValue));
-
-        if (!target) {
-            console.warn("未找到目标选项：", questionText, selectedValue);
-            return;
-        }
-
-        // 这些题目业务上是单选；先通过真实点击取消其余已选项。
-        options.forEach((option) => {
-            if (option !== target && option.checked) {
-                option.click();
-            }
-        });
-
-        if (!target.checked) {
-            target.click();
-        }
-    }
-
-    async function selectMultipleVantCheckboxes(questionText, selectedIndexes) {
-        const question = Array.from(document.querySelectorAll("p.monicker")).find(
-            (element) => element.textContent.includes(questionText)
-        );
-        const getOptions = () => Array.from(
-            question?.nextElementSibling?.querySelectorAll(".van-checkbox") ?? []
-        );
-        const optionCount = getOptions().length;
-        const selected = new Set(selectedIndexes.map(String));
-
-        if (optionCount === 0) {
-            console.warn("未找到多选题：", questionText);
-            return;
-        }
-
-        for (let index = 0; index < optionCount; index += 1) {
-            // 每次都重新取 DOM，避免 Vue 重渲染后继续使用旧状态。
-            const option = getOptions()[index];
-            const shouldBeSelected = selected.has(String(index + 1));
-            const isSelected = option.querySelector(".van-checkbox__icon--checked") !== null;
-
-            if (shouldBeSelected !== isSelected) {
-                const toggle = option.querySelector(
-                    ".van-checkbox__icon, .van-checkbox__label"
-                );
-
-                if (!toggle) {
-                    console.warn("未找到多选项点击节点：", questionText, index + 1);
-                    return;
-                }
-
-                toggle.click();
-
-                // Vant 通过 Vue 的 v-model 异步写回父组件；等待后再处理下一项，
-                // 避免下一次点击基于旧数组覆盖本次选择。
-                await new Promise((resolve) => setTimeout(resolve, 0));
-            }
-        }
-    }
 
     // 1-6、8：单选题。字母按 HTML value 匹配，数字按选项序号（从 1 开始）匹配。
     selectSingleCheckbox("税收居民身份", data["p6-launderingBack"]["6-1"]);

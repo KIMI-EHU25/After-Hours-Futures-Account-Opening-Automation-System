@@ -50,3 +50,6 @@ pathname = /launderingBack
 
 ## Page 7
 
+<img src="page7.png" width=200px>
+
+pathname = /addInfo
