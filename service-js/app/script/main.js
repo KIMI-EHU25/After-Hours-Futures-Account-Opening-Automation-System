@@ -59,7 +59,7 @@ const data = {
                         // value="E" 为倒数第二个选项 value="D" 为最后一个选项
 
         "6-3" : "C",    // 投资期限
-        "6-4" : "C",    // 期望收益
+        "6-4" : "A",    // 期望收益
         "6-5" : "A",    // 账户是否存在被他人控制
         "6-6" : "A",    // 账户交易实际受益人为
         "6-7" : [       // 想投资的品种
@@ -127,6 +127,15 @@ const data = {
         "10-13" : "A",  // 可承受的最大损失
         "10-14" : "C",  // 账户亏损约为
     },
+
+    "p12-chooseFutures" : {
+        "12-1" : [
+            1,
+            2,
+            3,
+            4
+        ]
+    }
 };
 
 
@@ -457,6 +466,96 @@ async function selectSingleVantRadio({ questionNumber, selectedValue }) {
 }
 
 
+// 等待 Page 12 指定账户类型的选项加载完成。
+async function waitForPage12CheckboxOptions({ sectionTitle, minimumCount, timeout = 8000 }) {
+    const deadline = Date.now() + timeout;
+
+    while (Date.now() < deadline) {
+        const section = Array.from(document.querySelectorAll(".accountListCommon")).find(
+            (element) => element.querySelector(".accounlCommon")?.textContent.includes(sectionTitle)
+        );
+        const optionCount = section?.querySelectorAll(".van-checkbox").length ?? 0;
+
+        if (section && optionCount >= minimumCount) {
+            return section;
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 50));
+    }
+
+    window.alert(`Page 12 选项加载超时：${sectionTitle}`);
+    return null;
+}
+
+
+// Page 12 多选题注入：selectedIndexes 使用从 1 开始的选项序号。
+async function selectPage12MultipleVantCheckboxes({ sectionTitle, selectedIndexes }) {
+    if (!hasInjectionValue(selectedIndexes)) return true;
+
+    if (!Array.isArray(selectedIndexes)) {
+        window.alert(`Page 12 多选题数据必须是数组：${sectionTitle}`);
+        return false;
+    }
+
+    const normalizedIndexes = selectedIndexes.map(Number);
+    if (normalizedIndexes.some((index) => !Number.isInteger(index) || index < 1)) {
+        window.alert(`Page 12 多选题包含无效选项序号：${sectionTitle}`);
+        return false;
+    }
+
+    const selected = new Set(normalizedIndexes);
+    const minimumCount = normalizedIndexes.length > 0
+        ? Math.max(...normalizedIndexes)
+        : 1;
+    const section = await waitForPage12CheckboxOptions({ sectionTitle, minimumCount });
+    if (!section) return false;
+
+    const getOptions = () => Array.from(section.querySelectorAll(".van-checkbox"));
+    const optionCount = getOptions().length;
+
+    for (let index = 0; index < optionCount; index += 1) {
+        // 每次重新获取节点，避免 Vant/Vue 更新后继续使用旧 DOM。
+        const option = getOptions()[index];
+        const icon = option.querySelector(".van-checkbox__icon");
+        const label = option.querySelector(".van-checkbox__label");
+        const isDisabled = icon?.classList.contains("van-checkbox__icon--disabled")
+            || label?.classList.contains("van-checkbox__label--disabled");
+        const shouldBeSelected = selected.has(index + 1);
+        const isSelected = icon?.classList.contains("van-checkbox__icon--checked") ?? false;
+
+        if (isDisabled) {
+            if (shouldBeSelected && !isSelected) {
+                window.alert(`Page 12 目标选项不可操作：${sectionTitle}，选项序号：${index + 1}`);
+                return false;
+            }
+            continue;
+        }
+
+        if (shouldBeSelected !== isSelected) {
+            const toggle = icon ?? label;
+            if (!toggle) {
+                window.alert(`未找到 Page 12 多选项点击节点：${sectionTitle}，选项序号：${index + 1}`);
+                return false;
+            }
+
+            toggle.click();
+            await new Promise((resolve) => setTimeout(resolve, 0));
+
+            const updatedIcon = getOptions()[index]?.querySelector(".van-checkbox__icon");
+            const updatedSelected = updatedIcon?.classList.contains(
+                "van-checkbox__icon--checked"
+            ) ?? false;
+            if (updatedSelected !== shouldBeSelected) {
+                window.alert(`Page 12 多选项未成功更新：${sectionTitle}，选项序号：${index + 1}`);
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+
 // 获取当前页面路径，并执行相应逻辑
 async function pathname() {
 
@@ -498,6 +597,26 @@ async function pathname() {
         case "/question" :{ // Page 10
             await question();
             break;
+        }
+
+        case "/echarts" :{ // Page 11
+            echarts();
+            break;
+        }
+
+        case "/chooseFutures" :{ // Page 12
+            await chooseFutures();
+            break;
+        }
+
+        case "/agreement" :{ // Page 13
+            agreement();
+            break;
+        }
+
+        case "/video" :{ // Page 14
+            video();
+            break;    
         }
 
         default:
@@ -658,6 +777,40 @@ async function question() {
     if (!await selectSingleVantRadio({ questionNumber: 12, selectedValue: form["10-12"] })) return;
     if (!await selectSingleVantRadio({ questionNumber: 13, selectedValue: form["10-13"] })) return;
     if (!await selectSingleVantRadio({ questionNumber: 14, selectedValue: form["10-14"] })) return;
+
+    return;
+}
+
+
+// Page 11 交易者风险测评结果图表 用户自己手动点击
+function echarts() {
+
+    return;
+}
+
+
+// Page 12 账户类型选择 选择商品交易所等
+async function chooseFutures() {
+    const form = data["p12-chooseFutures"];
+
+    await selectPage12MultipleVantCheckboxes({
+        sectionTitle: "商品期货",
+        selectedIndexes: form["12-1"],
+    });
+
+    return;
+}
+
+
+// Page 13 阅读协议 用户手动点击
+function agreement() {
+
+    return;
+}
+
+
+// Page 14 视频验证 业务逻辑结束
+function video() {
 
     return;
 }

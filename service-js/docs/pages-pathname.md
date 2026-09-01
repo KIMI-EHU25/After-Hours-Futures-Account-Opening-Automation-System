@@ -73,3 +73,27 @@ pathname = /appropriate
 交易者风险测评问卷
 
 pathname = /question
+
+## Page 11
+
+<img src="page11.png" width=200px>
+
+pathname = /echarts
+
+## Page 12
+
+<img src="page12.png" width=200px>
+
+pathname = /chooseFutures
+
+## Page 13
+
+<img src="page13.png" width=200px>
+
+pathname = /agreement
+
+## Page 14
+
+<img src="page14.png" width=200px>
+
+pathname = /video
