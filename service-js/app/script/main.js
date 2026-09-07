@@ -66,7 +66,7 @@ const data = {
             1
         ],
         "6-8" : "I",    // 是否有来源以下机构不良诚信记录
-        "6-10" : [      // 参与期货的主要交易类型
+        "6-9" : [      // 参与期货的主要交易类型
             1
         ]
     },
@@ -663,7 +663,7 @@ async function launderingBack() {
 
     // 7、9：多选题。数组中的数字为选项序号（从 1 开始）。
     await selectMultipleVantCheckboxes("想投资的品种", data["p6-launderingBack"]["6-7"]);
-    await selectMultipleVantCheckboxes("参与期货的主要交易类型", data["p6-launderingBack"]["6-10"]);
+    await selectMultipleVantCheckboxes("参与期货的主要交易类型", data["p6-launderingBack"]["6-9"]);
 
     return;
 }
