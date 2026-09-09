@@ -1,0 +1,3338 @@
+{
+  "launderingbacktitles": [
+    {
+      "question_code": 1,
+      "type": "one-choice",
+      "title": "您的税收居民身份为："
+    },
+    {
+      "question_code": 2,
+      "type": "one-choice",
+      "title": "您的政要人物关系为："
+    },
+    {
+      "question_code": 3,
+      "type": "one-choice",
+      "title": "您的投资期限为："
+    },
+    {
+      "question_code": 4,
+      "type": "one-choice",
+      "title": "您的期望收益为："
+    },
+    {
+      "question_code": 5,
+      "type": "one-choice",
+      "title": "您的账户是否存在被他人控制或存在控制他人账户的情况："
+    },
+    {
+      "question_code": 6,
+      "type": "one-choice",
+      "title": "您的账户交易实际受益人为："
+    },
+    {
+      "question_code": 7,
+      "type": "multiple-choice",
+      "title": "您想投资的品种为：（多选）"
+    },
+    {
+      "question_code": 8,
+      "type": "one-choice",
+      "title": "您是否有来源以下机构不良诚信记录："
+    },
+    {
+      "question_code": 9,
+      "type": "multiple-choice",
+      "title": "您参与期货的主要交易类型：（多选）"
+    }
+  ],
+  "launderingbackoptions": [
+    {
+      "question_code": 1,
+      "option": "A",
+      "optiontext": "仅为中国税收居民"
+    },
+    {
+      "question_code": 1,
+      "option": "B",
+      "optiontext": "仅为非居民"
+    },
+    {
+      "question_code": 1,
+      "option": "C",
+      "optiontext": "既是中国税收居民又是其他国家(地区)税收居民"
+    },
+    {
+      "question_code": 2,
+      "option": "A",
+      "optiontext": "外国政要"
+    },
+    {
+      "question_code": 2,
+      "option": "B",
+      "optiontext": "外国政要家庭成员"
+    },
+    {
+      "question_code": 2,
+      "option": "C",
+      "optiontext": "与外国政要关系密切"
+    },
+    {
+      "question_code": 2,
+      "option": "D",
+      "optiontext": "国际组织的高级管理人员"
+    },
+    {
+      "question_code": 2,
+      "option": "E",
+      "optiontext": "无关系"
+    },
+    {
+      "question_code": 3,
+      "option": "A",
+      "optiontext": "0年-1年"
+    },
+    {
+      "question_code": 3,
+      "option": "B",
+      "optiontext": "1年-5年"
+    },
+    {
+      "question_code": 3,
+      "option": "C",
+      "optiontext": "5年以上"
+    },
+    {
+      "question_code": 4,
+      "option": "A",
+      "optiontext": "稳健"
+    },
+    {
+      "question_code": 4,
+      "option": "B",
+      "optiontext": "成长"
+    },
+    {
+      "question_code": 4,
+      "option": "C",
+      "optiontext": "激进"
+    },
+    {
+      "question_code": 5,
+      "option": "A",
+      "optiontext": "不存在"
+    },
+    {
+      "question_code": 5,
+      "option": "B",
+      "optiontext": "存在"
+    },
+    {
+      "question_code": 6,
+      "option": "A",
+      "optiontext": "本人"
+    },
+    {
+      "question_code": 6,
+      "option": "B",
+      "optiontext": "其他"
+    },
+    {
+      "question_code": 7,
+      "option": "A",
+      "optiontext": "期货、期权"
+    },
+    {
+      "question_code": 7,
+      "option": "B",
+      "optiontext": "资管产品"
+    },
+    {
+      "question_code": 7,
+      "option": "C",
+      "optiontext": "其他"
+    },
+    {
+      "question_code": 8,
+      "option": "A",
+      "optiontext": "中国人民银行征信中心"
+    },
+    {
+      "question_code": 8,
+      "option": "B",
+      "optiontext": "最高人民法院失信被执行人名单"
+    },
+    {
+      "question_code": 8,
+      "option": "C",
+      "optiontext": "工商行政管理机构"
+    },
+    {
+      "question_code": 8,
+      "option": "D",
+      "optiontext": "税务管理机构"
+    },
+    {
+      "question_code": 8,
+      "option": "E",
+      "optiontext": "监管机制、自律组织"
+    },
+    {
+      "question_code": 8,
+      "option": "F",
+      "optiontext": "交易者在期货经营机构从事投资活动时产生的违约行为记录"
+    },
+    {
+      "question_code": 8,
+      "option": "G",
+      "optiontext": "过度维权等不当行为信息"
+    },
+    {
+      "question_code": 8,
+      "option": "H",
+      "optiontext": "其他组织"
+    },
+    {
+      "question_code": 8,
+      "option": "I",
+      "optiontext": "无"
+    },
+    {
+      "question_code": 9,
+      "option": "A",
+      "optiontext": "投机"
+    },
+    {
+      "question_code": 9,
+      "option": "B",
+      "optiontext": "套利"
+    },
+    {
+      "question_code": 9,
+      "option": "C",
+      "optiontext": "套保"
+    }
+  ],
+  "addinfotitles": [
+    {
+      "field_id": 1,
+      "field_name": "name",
+      "type": "str"
+    },
+    {
+      "field_id": 2,
+      "field_name": "idCardNumber",
+      "type": "str"
+    },
+    {
+      "field_id": 3,
+      "field_name": "idCardAddress",
+      "type": "str"
+    },
+    {
+      "field_id": 4,
+      "field_name": "nationality",
+      "type": "readonly"
+    },
+    {
+      "field_id": 5,
+      "field_name": "idCardValidPeriodStart",
+      "type": "date"
+    },
+    {
+      "field_id": 6,
+      "field_name": "idCardValidPeriodEnd",
+      "type": "date"
+    },
+    {
+      "field_id": 7,
+      "field_name": "ifIdCardPermanentlyValid",
+      "type": "bool"
+    },
+    {
+      "field_id": 8,
+      "field_name": "contactAddressProvince",
+      "type": "int"
+    },
+    {
+      "field_id": 9,
+      "field_name": "contactAddressCity",
+      "type": "int"
+    },
+    {
+      "field_id": 10,
+      "field_name": "contactAddress",
+      "type": "str"
+    },
+    {
+      "field_id": 11,
+      "field_name": "postalCode",
+      "type": "str"
+    },
+    {
+      "field_id": 12,
+      "field_name": "departmentProvince",
+      "type": "str"
+    },
+    {
+      "field_id": 13,
+      "field_name": "departmentCity",
+      "type": "str"
+    },
+    {
+      "field_id": 14,
+      "field_name": "departmentCategory",
+      "type": "int"
+    },
+    {
+      "field_id": 15,
+      "field_name": "departmentName",
+      "type": "int"
+    },
+    {
+      "field_id": 16,
+      "field_name": "contactnumber",
+      "type": "str"
+    },
+    {
+      "field_id": 17,
+      "field_name": "phonenumber",
+      "type": "readonly"
+    },
+    {
+      "field_id": 18,
+      "field_name": "emailAddress",
+      "type": "str"
+    },
+    {
+      "field_id": 19,
+      "field_name": "occupation",
+      "type": "int"
+    },
+    {
+      "field_id": 20,
+      "field_name": "educationalQualification",
+      "type": "int"
+    },
+    {
+      "field_id": 21,
+      "field_name": "ifIntermediary",
+      "type": "bool"
+    },
+    {
+      "field_id": 22,
+      "field_name": "intermediaryName",
+      "type": "str"
+    },
+    {
+      "field_id": 23,
+      "field_name": "intermediaryCode",
+      "type": "str"
+    },
+    {
+      "field_id": 24,
+      "field_name": "referencePersonCode",
+      "type": "str"
+    },
+    {
+      "field_id": 25,
+      "field_name": "referencePersonName",
+      "type": "str"
+    }
+  ],
+  "questiontitles": [
+    {
+      "question_code": 1,
+      "type": "one-choice",
+      "title": "您是否具有完全民事行为能力："
+    },
+    {
+      "question_code": 2,
+      "type": "one-choice",
+      "title": "您目前的主要收入来源是："
+    },
+    {
+      "question_code": 3,
+      "type": "one-choice",
+      "title": "您计划用于金融投资的主要资金来源为？"
+    },
+    {
+      "question_code": 4,
+      "type": "one-choice",
+      "title": "最近三年您个人的年平均收入（折合人民币）是："
+    },
+    {
+      "question_code": 5,
+      "type": "one-choice",
+      "title": "您本人的金融资产情况（折合人民币）："
+    },
+    {
+      "question_code": 6,
+      "type": "one-choice",
+      "title": "您是否有尚未清偿的数额较大的债务，如有，其性质是："
+    },
+    {
+      "question_code": 7,
+      "type": "one-choice",
+      "title": "您打算将自己的投资回报主要用于："
+    },
+    {
+      "question_code": 8,
+      "type": "one-choice",
+      "title": "以下关于专业背景、教育经历、投资知识等描述中，符合您实际情况的是：<br>①现在或此前曾从事金融、经济或财会等与金融产品投资相关的工作超过两年<br>②已取得金融、经济或财会等与金融产品投资相关专业学士以上学位<br>③取得证券从业资格、期货从业资格、基金从业资格、注册会计师证书(CPA)或注册金融分析师证书(CFA)中的一项及以上"
+    },
+    {
+      "question_code": 9,
+      "type": "one-choice",
+      "title": "您主要依据什么作出金融投资决策？"
+    },
+    {
+      "question_code": 10,
+      "type": "one-choice",
+      "title": "您的投资经历可以被概括为："
+    },
+    {
+      "question_code": 11,
+      "type": "one-choice",
+      "title": "有一位交易者一个月内做了15笔交易（同一品种买卖各一次算一笔），我认为这样的交易频率："
+    },
+    {
+      "question_code": 12,
+      "type": "one-choice",
+      "title": "假设有两种不同的投资：投资A预期获得5%的收益，有可能承担非常小的损失；投资B预期获得20%的收益，但有可能面临25%甚至更高的亏损。您将您的投资资产分配为："
+    },
+    {
+      "question_code": 13,
+      "type": "one-choice",
+      "title": "假设您投入的本金在交易3个月内出现以下亏损，哪种是您心理和生活上均可承受的最大损失？"
+    },
+    {
+      "question_code": 14,
+      "type": "one-choice",
+      "title": "假设您以10万元保证金买入某期货合约，该合约保证金比例为10%。若该合约价格下跌10%，您的账户亏损约为多少？"
+    }
+  ],
+  "questionoptions": [
+    {
+      "question_code": 1,
+      "option": "A",
+      "optiontext": "具有",
+      "value": 1
+    },
+    {
+      "question_code": 1,
+      "option": "B",
+      "optiontext": "不具有",
+      "value": 0
+    },
+    {
+      "question_code": 2,
+      "option": "A",
+      "optiontext": "工资、劳务报酬",
+      "value": 4
+    },
+    {
+      "question_code": 2,
+      "option": "B",
+      "optiontext": "生产经营所得",
+      "value": 4
+    },
+    {
+      "question_code": 2,
+      "option": "C",
+      "optiontext": "利息、股息、转让证券等金融性资产收入",
+      "value": 2
+    },
+    {
+      "question_code": 2,
+      "option": "D",
+      "optiontext": "出租、出售房地产等非金融性资产收入",
+      "value": 2
+    },
+    {
+      "question_code": 2,
+      "option": "E",
+      "optiontext": "无收入来源，生活主要依靠积蓄或社会保障",
+      "value": 0
+    },
+    {
+      "question_code": 3,
+      "option": "A",
+      "optiontext": "闲置资金",
+      "value": 5
+    },
+    {
+      "question_code": 3,
+      "option": "B",
+      "optiontext": "用于日常生活的工资或其他收入",
+      "value": 2
+    },
+    {
+      "question_code": 3,
+      "option": "C",
+      "optiontext": "养老/医疗储备金",
+      "value": 0
+    },
+    {
+      "question_code": 3,
+      "option": "D",
+      "optiontext": "借贷资金",
+      "value": 0
+    },
+    {
+      "question_code": 4,
+      "option": "A",
+      "optiontext": "不超过5万元人民币",
+      "value": 2
+    },
+    {
+      "question_code": 4,
+      "option": "B",
+      "optiontext": "5万-20万元（不含）人民币",
+      "value": 5
+    },
+    {
+      "question_code": 4,
+      "option": "C",
+      "optiontext": "20万-70万元（不含）人民币",
+      "value": 8
+    },
+    {
+      "question_code": 4,
+      "option": "D",
+      "optiontext": "70万元人民币以上",
+      "value": 10
+    },
+    {
+      "question_code": 5,
+      "option": "A",
+      "optiontext": "50万元以下",
+      "value": 2
+    },
+    {
+      "question_code": 5,
+      "option": "B",
+      "optiontext": "50万元—300万元",
+      "value": 6
+    },
+    {
+      "question_code": 5,
+      "option": "C",
+      "optiontext": "300万元—1000万元",
+      "value": 8
+    },
+    {
+      "question_code": 5,
+      "option": "D",
+      "optiontext": "1000万元以上",
+      "value": 12
+    },
+    {
+      "question_code": 6,
+      "option": "A",
+      "optiontext": "没有",
+      "value": 6
+    },
+    {
+      "question_code": 6,
+      "option": "B",
+      "optiontext": "有，住房抵押贷款等长期定额债务",
+      "value": 2
+    },
+    {
+      "question_code": 6,
+      "option": "C",
+      "optiontext": "有，信用卡欠款、消费信贷等短期信用债务",
+      "value": 2
+    },
+    {
+      "question_code": 6,
+      "option": "D",
+      "optiontext": "有，亲朋之间借款",
+      "value": 0
+    },
+    {
+      "question_code": 7,
+      "option": "A",
+      "optiontext": "改善生活",
+      "value": 6
+    },
+    {
+      "question_code": 7,
+      "option": "B",
+      "optiontext": "个体生产经营或证券、期货投资以外的投资行为",
+      "value": 5
+    },
+    {
+      "question_code": 7,
+      "option": "C",
+      "optiontext": "履行抚养、抚育或赡养义务",
+      "value": 1
+    },
+    {
+      "question_code": 7,
+      "option": "D",
+      "optiontext": "偿付债务",
+      "value": 0
+    },
+    {
+      "question_code": 8,
+      "option": "A",
+      "optiontext": "不满足①②③中的任何一项，基本没有证券期货等金融产品投资知识",
+      "value": 0
+    },
+    {
+      "question_code": 8,
+      "option": "B",
+      "optiontext": "不满足①②③中的任何一项，但对证券期货等金融产品及相关风险具有基本的知识和理解",
+      "value": 4
+    },
+    {
+      "question_code": 8,
+      "option": "C",
+      "optiontext": "满足①②③中的一项，对证券期货等金融产品及相关风险具有丰富的知识和理解",
+      "value": 8
+    },
+    {
+      "question_code": 8,
+      "option": "D",
+      "optiontext": "满足①②③中的两项及以上，具有专业的证券期货等金融产品及相关风险知识，且理解深入",
+      "value": 10
+    },
+    {
+      "question_code": 9,
+      "option": "A",
+      "optiontext": "本人具备专业的投资知识和经验，完全由本人独立决策",
+      "value": 7
+    },
+    {
+      "question_code": 9,
+      "option": "B",
+      "optiontext": "本人主要参考主流媒体、持牌机构的观点、建议等作出交易决策",
+      "value": 3
+    },
+    {
+      "question_code": 9,
+      "option": "C",
+      "optiontext": "本人主要参考非主流媒体、非持牌机构的网络群聊/直播/短视频等观点、建议作出交易决策",
+      "value": 0
+    },
+    {
+      "question_code": 9,
+      "option": "D",
+      "optiontext": "本人主要根据亲朋好友、特定人员等他人意见作出决策",
+      "value": 0
+    },
+    {
+      "question_code": 10,
+      "option": "A",
+      "optiontext": "有限：除银行活期帐户和定期存款外，我基本没有其他投资经验",
+      "value": 1
+    },
+    {
+      "question_code": 10,
+      "option": "B",
+      "optiontext": "一般：除银行活期和定期存款外，我购买过基金、保险等理财产品，但还需要进一步指导",
+      "value": 6
+    },
+    {
+      "question_code": 10,
+      "option": "C",
+      "optiontext": "丰富：我是一位有经验的交易者，参与过股票、基金等产品的交易，并倾向于自己做出投资决策",
+      "value": 8
+    },
+    {
+      "question_code": 10,
+      "option": "D",
+      "optiontext": "非常丰富：我是一位非常有经验的交易者，参与过权证、期货或创业板等产品的交易",
+      "value": 10
+    },
+    {
+      "question_code": 11,
+      "option": "A",
+      "optiontext": "太高了",
+      "value": 2
+    },
+    {
+      "question_code": 11,
+      "option": "B",
+      "optiontext": "偏高",
+      "value": 4
+    },
+    {
+      "question_code": 11,
+      "option": "C",
+      "optiontext": "正常",
+      "value": 6
+    },
+    {
+      "question_code": 11,
+      "option": "D",
+      "optiontext": "偏低",
+      "value": 8
+    },
+    {
+      "question_code": 12,
+      "option": "A",
+      "optiontext": "全部投资于A",
+      "value": 1
+    },
+    {
+      "question_code": 12,
+      "option": "B",
+      "optiontext": "大部分投资于A",
+      "value": 3
+    },
+    {
+      "question_code": 12,
+      "option": "C",
+      "optiontext": "两种投资各一半",
+      "value": 5
+    },
+    {
+      "question_code": 12,
+      "option": "D",
+      "optiontext": "大部分投资于B",
+      "value": 7
+    },
+    {
+      "question_code": 12,
+      "option": "E",
+      "optiontext": "全部投资于B",
+      "value": 9
+    },
+    {
+      "question_code": 13,
+      "option": "A",
+      "optiontext": "亏损20%以内",
+      "value": 2
+    },
+    {
+      "question_code": 13,
+      "option": "B",
+      "optiontext": "亏损20%-50%",
+      "value": 4
+    },
+    {
+      "question_code": 13,
+      "option": "C",
+      "optiontext": "亏损50%以上，甚至接近全部亏损",
+      "value": 6
+    },
+    {
+      "question_code": 13,
+      "option": "D",
+      "optiontext": "全部亏损甚至需要追加保证金",
+      "value": 8
+    },
+    {
+      "question_code": 13,
+      "option": "E",
+      "optiontext": "无法承受任何本金亏损，希望保本",
+      "value": 0
+    },
+    {
+      "question_code": 14,
+      "option": "A",
+      "optiontext": "约1,000元",
+      "value": 0
+    },
+    {
+      "question_code": 14,
+      "option": "B",
+      "optiontext": "约10,000元",
+      "value": 0
+    },
+    {
+      "question_code": 14,
+      "option": "C",
+      "optiontext": "约100,000元",
+      "value": 4
+    },
+    {
+      "question_code": 14,
+      "option": "D",
+      "optiontext": "不确定，不了解杠杆效应",
+      "value": 0
+    }
+  ],
+  "choosefuturestitles": [
+    {
+      "question_code": 1,
+      "type": "multiple-choice",
+      "title": "商品期货"
+    }
+  ],
+  "choosefuturesoptions": [
+    {
+      "question_code": 1,
+      "option": "A",
+      "optiontext": "大连商品交易所"
+    },
+    {
+      "question_code": 1,
+      "option": "B",
+      "optiontext": "郑州商品交易所"
+    },
+    {
+      "question_code": 1,
+      "option": "C",
+      "optiontext": "上海商品交易所"
+    },
+    {
+      "question_code": 1,
+      "option": "D",
+      "optiontext": "广州商品交易所"
+    }
+  ],
+  "provincecodes": [
+    {
+      "name": "北京市",
+      "province_code": "156110000"
+    },
+    {
+      "name": "天津市",
+      "province_code": "156120000"
+    },
+    {
+      "name": "河北省",
+      "province_code": "156130000"
+    },
+    {
+      "name": "山西省",
+      "province_code": "156140000"
+    },
+    {
+      "name": "内蒙古自治区",
+      "province_code": "156150000"
+    },
+    {
+      "name": "辽宁省",
+      "province_code": "156210000"
+    },
+    {
+      "name": "吉林省",
+      "province_code": "156220000"
+    },
+    {
+      "name": "黑龙江省",
+      "province_code": "156230000"
+    },
+    {
+      "name": "上海市",
+      "province_code": "156310000"
+    },
+    {
+      "name": "江苏省",
+      "province_code": "156320000"
+    },
+    {
+      "name": "浙江省",
+      "province_code": "156330000"
+    },
+    {
+      "name": "安徽省",
+      "province_code": "156340000"
+    },
+    {
+      "name": "福建省",
+      "province_code": "156350000"
+    },
+    {
+      "name": "江西省",
+      "province_code": "156360000"
+    },
+    {
+      "name": "山东省",
+      "province_code": "156370000"
+    },
+    {
+      "name": "河南省",
+      "province_code": "156410000"
+    },
+    {
+      "name": "湖北省",
+      "province_code": "156420000"
+    },
+    {
+      "name": "湖南省",
+      "province_code": "156430000"
+    },
+    {
+      "name": "广东省",
+      "province_code": "156440000"
+    },
+    {
+      "name": "广西壮族自治区",
+      "province_code": "156450000"
+    },
+    {
+      "name": "海南省",
+      "province_code": "156460000"
+    },
+    {
+      "name": "重庆市",
+      "province_code": "156500000"
+    },
+    {
+      "name": "四川省",
+      "province_code": "156510000"
+    },
+    {
+      "name": "贵州省",
+      "province_code": "156520000"
+    },
+    {
+      "name": "云南省",
+      "province_code": "156530000"
+    },
+    {
+      "name": "西藏自治区",
+      "province_code": "156540000"
+    },
+    {
+      "name": "陕西省",
+      "province_code": "156610000"
+    },
+    {
+      "name": "甘肃省",
+      "province_code": "156620000"
+    },
+    {
+      "name": "青海省",
+      "province_code": "156630000"
+    },
+    {
+      "name": "宁夏回族自治区",
+      "province_code": "156640000"
+    },
+    {
+      "name": "新疆维吾尔自治区",
+      "province_code": "156650000"
+    }
+  ],
+  "citycodes": [
+    {
+      "province_code": "156110000",
+      "city_code": "156110101",
+      "name": "东城区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110102",
+      "name": "西城区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110105",
+      "name": "朝阳区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110106",
+      "name": "丰台区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110107",
+      "name": "石景山区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110108",
+      "name": "海淀区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110109",
+      "name": "门头沟区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110111",
+      "name": "房山区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110112",
+      "name": "通州区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110113",
+      "name": "顺义区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110114",
+      "name": "昌平区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110115",
+      "name": "大兴区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110116",
+      "name": "怀柔区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110117",
+      "name": "平谷区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110118",
+      "name": "密云区"
+    },
+    {
+      "province_code": "156110000",
+      "city_code": "156110119",
+      "name": "延庆区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120101",
+      "name": "和平区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120102",
+      "name": "河东区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120103",
+      "name": "河西区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120104",
+      "name": "南开区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120105",
+      "name": "河北区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120106",
+      "name": "红桥区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120110",
+      "name": "东丽区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120111",
+      "name": "西青区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120112",
+      "name": "津南区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120113",
+      "name": "北辰区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120114",
+      "name": "武清区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120115",
+      "name": "宝坻区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120116",
+      "name": "滨海新区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120117",
+      "name": "宁河区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120118",
+      "name": "静海区"
+    },
+    {
+      "province_code": "156120000",
+      "city_code": "156120119",
+      "name": "蓟州区"
+    },
+    {
+      "province_code": "156130000",
+      "city_code": "156130100",
+      "name": "石家庄市"
+    },
+    {
+      "province_code": "156130000",
+      "city_code": "156130200",
+      "name": "唐山市"
+    },
+    {
+      "province_code": "156130000",
+      "city_code": "156130300",
+      "name": "秦皇岛市"
+    },
+    {
+      "province_code": "156130000",
+      "city_code": "156130400",
+      "name": "邯郸市"
+    },
+    {
+      "province_code": "156130000",
+      "city_code": "156130500",
+      "name": "邢台市"
+    },
+    {
+      "province_code": "156130000",
+      "city_code": "156130600",
+      "name": "保定市"
+    },
+    {
+      "province_code": "156130000",
+      "city_code": "156130700",
+      "name": "张家口市"
+    },
+    {
+      "province_code": "156130000",
+      "city_code": "156130800",
+      "name": "承德市"
+    },
+    {
+      "province_code": "156130000",
+      "city_code": "156130900",
+      "name": "沧州市"
+    },
+    {
+      "province_code": "156130000",
+      "city_code": "156131000",
+      "name": "廊坊市"
+    },
+    {
+      "province_code": "156130000",
+      "city_code": "156131100",
+      "name": "衡水市"
+    },
+    {
+      "province_code": "156140000",
+      "city_code": "156140100",
+      "name": "太原市"
+    },
+    {
+      "province_code": "156140000",
+      "city_code": "156140200",
+      "name": "大同市"
+    },
+    {
+      "province_code": "156140000",
+      "city_code": "156140300",
+      "name": "阳泉市"
+    },
+    {
+      "province_code": "156140000",
+      "city_code": "156140400",
+      "name": "长治市"
+    },
+    {
+      "province_code": "156140000",
+      "city_code": "156140500",
+      "name": "晋城市"
+    },
+    {
+      "province_code": "156140000",
+      "city_code": "156140600",
+      "name": "朔州市"
+    },
+    {
+      "province_code": "156140000",
+      "city_code": "156140700",
+      "name": "晋中市"
+    },
+    {
+      "province_code": "156140000",
+      "city_code": "156140800",
+      "name": "运城市"
+    },
+    {
+      "province_code": "156140000",
+      "city_code": "156140900",
+      "name": "忻州市"
+    },
+    {
+      "province_code": "156140000",
+      "city_code": "156141000",
+      "name": "临汾市"
+    },
+    {
+      "province_code": "156140000",
+      "city_code": "156141100",
+      "name": "吕梁市"
+    },
+    {
+      "province_code": "156150000",
+      "city_code": "156150100",
+      "name": "呼和浩特市"
+    },
+    {
+      "province_code": "156150000",
+      "city_code": "156150200",
+      "name": "包头市"
+    },
+    {
+      "province_code": "156150000",
+      "city_code": "156150300",
+      "name": "乌海市"
+    },
+    {
+      "province_code": "156150000",
+      "city_code": "156150400",
+      "name": "赤峰市"
+    },
+    {
+      "province_code": "156150000",
+      "city_code": "156150500",
+      "name": "通辽市"
+    },
+    {
+      "province_code": "156150000",
+      "city_code": "156150600",
+      "name": "鄂尔多斯市"
+    },
+    {
+      "province_code": "156150000",
+      "city_code": "156150700",
+      "name": "呼伦贝尔市"
+    },
+    {
+      "province_code": "156150000",
+      "city_code": "156150800",
+      "name": "巴彦淖尔市"
+    },
+    {
+      "province_code": "156150000",
+      "city_code": "156150900",
+      "name": "乌兰察布市"
+    },
+    {
+      "province_code": "156150000",
+      "city_code": "156152200",
+      "name": "兴安盟"
+    },
+    {
+      "province_code": "156150000",
+      "city_code": "156152500",
+      "name": "锡林郭勒盟"
+    },
+    {
+      "province_code": "156150000",
+      "city_code": "156152900",
+      "name": "阿拉善盟"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156210100",
+      "name": "沈阳市"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156210200",
+      "name": "大连市"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156210300",
+      "name": "鞍山市"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156210400",
+      "name": "抚顺市"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156210500",
+      "name": "本溪市"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156210600",
+      "name": "丹东市"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156210700",
+      "name": "锦州市"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156210800",
+      "name": "营口市"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156210900",
+      "name": "阜新市"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156211000",
+      "name": "辽阳市"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156211100",
+      "name": "盘锦市"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156211200",
+      "name": "铁岭市"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156211300",
+      "name": "朝阳市"
+    },
+    {
+      "province_code": "156210000",
+      "city_code": "156211400",
+      "name": "葫芦岛市"
+    },
+    {
+      "province_code": "156220000",
+      "city_code": "156220100",
+      "name": "长春市"
+    },
+    {
+      "province_code": "156220000",
+      "city_code": "156220200",
+      "name": "吉林市"
+    },
+    {
+      "province_code": "156220000",
+      "city_code": "156220300",
+      "name": "四平市"
+    },
+    {
+      "province_code": "156220000",
+      "city_code": "156220400",
+      "name": "辽源市"
+    },
+    {
+      "province_code": "156220000",
+      "city_code": "156220500",
+      "name": "通化市"
+    },
+    {
+      "province_code": "156220000",
+      "city_code": "156220600",
+      "name": "白山市"
+    },
+    {
+      "province_code": "156220000",
+      "city_code": "156220700",
+      "name": "松原市"
+    },
+    {
+      "province_code": "156220000",
+      "city_code": "156220800",
+      "name": "白城市"
+    },
+    {
+      "province_code": "156220000",
+      "city_code": "156222400",
+      "name": "延边朝鲜族自治州"
+    },
+    {
+      "province_code": "156230000",
+      "city_code": "156230100",
+      "name": "哈尔滨市"
+    },
+    {
+      "province_code": "156230000",
+      "city_code": "156230200",
+      "name": "齐齐哈尔市"
+    },
+    {
+      "province_code": "156230000",
+      "city_code": "156230300",
+      "name": "鸡西市"
+    },
+    {
+      "province_code": "156230000",
+      "city_code": "156230400",
+      "name": "鹤岗市"
+    },
+    {
+      "province_code": "156230000",
+      "city_code": "156230500",
+      "name": "双鸭山市"
+    },
+    {
+      "province_code": "156230000",
+      "city_code": "156230600",
+      "name": "大庆市"
+    },
+    {
+      "province_code": "156230000",
+      "city_code": "156230700",
+      "name": "伊春市"
+    },
+    {
+      "province_code": "156230000",
+      "city_code": "156230800",
+      "name": "佳木斯市"
+    },
+    {
+      "province_code": "156230000",
+      "city_code": "156230900",
+      "name": "七台河市"
+    },
+    {
+      "province_code": "156230000",
+      "city_code": "156231000",
+      "name": "牡丹江市"
+    },
+    {
+      "province_code": "156230000",
+      "city_code": "156231100",
+      "name": "黑河市"
+    },
+    {
+      "province_code": "156230000",
+      "city_code": "156231200",
+      "name": "绥化市"
+    },
+    {
+      "province_code": "156230000",
+      "city_code": "156232700",
+      "name": "大兴安岭地区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310101",
+      "name": "黄浦区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310104",
+      "name": "徐汇区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310105",
+      "name": "长宁区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310106",
+      "name": "静安区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310107",
+      "name": "普陀区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310109",
+      "name": "虹口区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310110",
+      "name": "杨浦区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310112",
+      "name": "闵行区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310113",
+      "name": "宝山区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310114",
+      "name": "嘉定区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310115",
+      "name": "浦东新区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310116",
+      "name": "金山区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310117",
+      "name": "松江区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310118",
+      "name": "青浦区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310120",
+      "name": "奉贤区"
+    },
+    {
+      "province_code": "156310000",
+      "city_code": "156310151",
+      "name": "崇明区"
+    },
+    {
+      "province_code": "156320000",
+      "city_code": "156320100",
+      "name": "南京市"
+    },
+    {
+      "province_code": "156320000",
+      "city_code": "156320200",
+      "name": "无锡市"
+    },
+    {
+      "province_code": "156320000",
+      "city_code": "156320300",
+      "name": "徐州市"
+    },
+    {
+      "province_code": "156320000",
+      "city_code": "156320400",
+      "name": "常州市"
+    },
+    {
+      "province_code": "156320000",
+      "city_code": "156320500",
+      "name": "苏州市"
+    },
+    {
+      "province_code": "156320000",
+      "city_code": "156320600",
+      "name": "南通市"
+    },
+    {
+      "province_code": "156320000",
+      "city_code": "156320700",
+      "name": "连云港市"
+    },
+    {
+      "province_code": "156320000",
+      "city_code": "156320800",
+      "name": "淮安市"
+    },
+    {
+      "province_code": "156320000",
+      "city_code": "156320900",
+      "name": "盐城市"
+    },
+    {
+      "province_code": "156320000",
+      "city_code": "156321000",
+      "name": "扬州市"
+    },
+    {
+      "province_code": "156320000",
+      "city_code": "156321100",
+      "name": "镇江市"
+    },
+    {
+      "province_code": "156320000",
+      "city_code": "156321200",
+      "name": "泰州市"
+    },
+    {
+      "province_code": "156320000",
+      "city_code": "156321300",
+      "name": "宿迁市"
+    },
+    {
+      "province_code": "156330000",
+      "city_code": "156330100",
+      "name": "杭州市"
+    },
+    {
+      "province_code": "156330000",
+      "city_code": "156330200",
+      "name": "宁波市"
+    },
+    {
+      "province_code": "156330000",
+      "city_code": "156330300",
+      "name": "温州市"
+    },
+    {
+      "province_code": "156330000",
+      "city_code": "156330400",
+      "name": "嘉兴市"
+    },
+    {
+      "province_code": "156330000",
+      "city_code": "156330500",
+      "name": "湖州市"
+    },
+    {
+      "province_code": "156330000",
+      "city_code": "156330600",
+      "name": "绍兴市"
+    },
+    {
+      "province_code": "156330000",
+      "city_code": "156330700",
+      "name": "金华市"
+    },
+    {
+      "province_code": "156330000",
+      "city_code": "156330800",
+      "name": "衢州市"
+    },
+    {
+      "province_code": "156330000",
+      "city_code": "156330900",
+      "name": "舟山市"
+    },
+    {
+      "province_code": "156330000",
+      "city_code": "156331000",
+      "name": "台州市"
+    },
+    {
+      "province_code": "156330000",
+      "city_code": "156331100",
+      "name": "丽水市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156340100",
+      "name": "合肥市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156340200",
+      "name": "芜湖市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156340300",
+      "name": "蚌埠市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156340400",
+      "name": "淮南市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156340500",
+      "name": "马鞍山市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156340600",
+      "name": "淮北市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156340700",
+      "name": "铜陵市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156340800",
+      "name": "安庆市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156341000",
+      "name": "黄山市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156341100",
+      "name": "滁州市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156341200",
+      "name": "阜阳市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156341300",
+      "name": "宿州市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156341500",
+      "name": "六安市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156341600",
+      "name": "亳州市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156341700",
+      "name": "池州市"
+    },
+    {
+      "province_code": "156340000",
+      "city_code": "156341800",
+      "name": "宣城市"
+    },
+    {
+      "province_code": "156350000",
+      "city_code": "156350100",
+      "name": "福州市"
+    },
+    {
+      "province_code": "156350000",
+      "city_code": "156350200",
+      "name": "厦门市"
+    },
+    {
+      "province_code": "156350000",
+      "city_code": "156350300",
+      "name": "莆田市"
+    },
+    {
+      "province_code": "156350000",
+      "city_code": "156350400",
+      "name": "三明市"
+    },
+    {
+      "province_code": "156350000",
+      "city_code": "156350500",
+      "name": "泉州市"
+    },
+    {
+      "province_code": "156350000",
+      "city_code": "156350600",
+      "name": "漳州市"
+    },
+    {
+      "province_code": "156350000",
+      "city_code": "156350700",
+      "name": "南平市"
+    },
+    {
+      "province_code": "156350000",
+      "city_code": "156350800",
+      "name": "龙岩市"
+    },
+    {
+      "province_code": "156350000",
+      "city_code": "156350900",
+      "name": "宁德市"
+    },
+    {
+      "province_code": "156360000",
+      "city_code": "156360100",
+      "name": "南昌市"
+    },
+    {
+      "province_code": "156360000",
+      "city_code": "156360200",
+      "name": "景德镇市"
+    },
+    {
+      "province_code": "156360000",
+      "city_code": "156360300",
+      "name": "萍乡市"
+    },
+    {
+      "province_code": "156360000",
+      "city_code": "156360400",
+      "name": "九江市"
+    },
+    {
+      "province_code": "156360000",
+      "city_code": "156360500",
+      "name": "新余市"
+    },
+    {
+      "province_code": "156360000",
+      "city_code": "156360600",
+      "name": "鹰潭市"
+    },
+    {
+      "province_code": "156360000",
+      "city_code": "156360700",
+      "name": "赣州市"
+    },
+    {
+      "province_code": "156360000",
+      "city_code": "156360800",
+      "name": "吉安市"
+    },
+    {
+      "province_code": "156360000",
+      "city_code": "156360900",
+      "name": "宜春市"
+    },
+    {
+      "province_code": "156360000",
+      "city_code": "156361000",
+      "name": "抚州市"
+    },
+    {
+      "province_code": "156360000",
+      "city_code": "156361100",
+      "name": "上饶市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156370100",
+      "name": "济南市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156370200",
+      "name": "青岛市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156370300",
+      "name": "淄博市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156370400",
+      "name": "枣庄市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156370500",
+      "name": "东营市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156370600",
+      "name": "烟台市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156370700",
+      "name": "潍坊市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156370800",
+      "name": "济宁市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156370900",
+      "name": "泰安市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156371000",
+      "name": "威海市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156371100",
+      "name": "日照市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156371300",
+      "name": "临沂市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156371400",
+      "name": "德州市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156371500",
+      "name": "聊城市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156371600",
+      "name": "滨州市"
+    },
+    {
+      "province_code": "156370000",
+      "city_code": "156371700",
+      "name": "菏泽市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156410100",
+      "name": "郑州市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156410200",
+      "name": "开封市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156410300",
+      "name": "洛阳市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156410400",
+      "name": "平顶山市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156410500",
+      "name": "安阳市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156410600",
+      "name": "鹤壁市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156410700",
+      "name": "新乡市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156410800",
+      "name": "焦作市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156410900",
+      "name": "濮阳市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156411000",
+      "name": "许昌市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156411100",
+      "name": "漯河市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156411200",
+      "name": "三门峡市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156411300",
+      "name": "南阳市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156411400",
+      "name": "商丘市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156411500",
+      "name": "信阳市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156411600",
+      "name": "周口市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156411700",
+      "name": "驻马店市"
+    },
+    {
+      "province_code": "156410000",
+      "city_code": "156419001",
+      "name": "济源市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156420100",
+      "name": "武汉市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156420200",
+      "name": "黄石市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156420300",
+      "name": "十堰市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156420500",
+      "name": "宜昌市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156420600",
+      "name": "襄阳市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156420700",
+      "name": "鄂州市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156420800",
+      "name": "荆门市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156420900",
+      "name": "孝感市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156421000",
+      "name": "荆州市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156421100",
+      "name": "黄冈市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156421200",
+      "name": "咸宁市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156421300",
+      "name": "随州市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156422800",
+      "name": "恩施土家族苗族自治州"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156429004",
+      "name": "仙桃市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156429005",
+      "name": "潜江市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156429006",
+      "name": "天门市"
+    },
+    {
+      "province_code": "156420000",
+      "city_code": "156429021",
+      "name": "神农架林区"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156430100",
+      "name": "长沙市"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156430200",
+      "name": "株洲市"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156430300",
+      "name": "湘潭市"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156430400",
+      "name": "衡阳市"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156430500",
+      "name": "邵阳市"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156430600",
+      "name": "岳阳市"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156430700",
+      "name": "常德市"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156430800",
+      "name": "张家界市"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156430900",
+      "name": "益阳市"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156431000",
+      "name": "郴州市"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156431100",
+      "name": "永州市"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156431200",
+      "name": "怀化市"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156431300",
+      "name": "娄底市"
+    },
+    {
+      "province_code": "156430000",
+      "city_code": "156433100",
+      "name": "湘西土家族苗族自治州"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156440100",
+      "name": "广州市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156440200",
+      "name": "韶关市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156440300",
+      "name": "深圳市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156440400",
+      "name": "珠海市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156440500",
+      "name": "汕头市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156440600",
+      "name": "佛山市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156440700",
+      "name": "江门市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156440800",
+      "name": "湛江市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156440900",
+      "name": "茂名市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156441200",
+      "name": "肇庆市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156441300",
+      "name": "惠州市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156441400",
+      "name": "梅州市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156441500",
+      "name": "汕尾市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156441600",
+      "name": "河源市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156441700",
+      "name": "阳江市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156441800",
+      "name": "清远市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156441900",
+      "name": "东莞市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156442000",
+      "name": "中山市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156445100",
+      "name": "潮州市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156445200",
+      "name": "揭阳市"
+    },
+    {
+      "province_code": "156440000",
+      "city_code": "156445300",
+      "name": "云浮市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156450100",
+      "name": "南宁市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156450200",
+      "name": "柳州市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156450300",
+      "name": "桂林市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156450400",
+      "name": "梧州市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156450500",
+      "name": "北海市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156450600",
+      "name": "防城港市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156450700",
+      "name": "钦州市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156450800",
+      "name": "贵港市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156450900",
+      "name": "玉林市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156451000",
+      "name": "百色市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156451100",
+      "name": "贺州市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156451200",
+      "name": "河池市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156451300",
+      "name": "来宾市"
+    },
+    {
+      "province_code": "156450000",
+      "city_code": "156451400",
+      "name": "崇左市"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156460100",
+      "name": "海口市"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156460200",
+      "name": "三亚市"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156460300",
+      "name": "三沙市"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469003",
+      "name": "儋州市"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469001",
+      "name": "五指山市"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469002",
+      "name": "琼海市"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469005",
+      "name": "文昌市"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469006",
+      "name": "万宁市"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469007",
+      "name": "东方市"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469025",
+      "name": "定安县"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469026",
+      "name": "屯昌县"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469027",
+      "name": "澄迈县"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469028",
+      "name": "临高县"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469030",
+      "name": "白沙黎族自治县"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469031",
+      "name": "昌江黎族自治县"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469033",
+      "name": "乐东黎族自治县"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469034",
+      "name": "陵水黎族自治县"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469035",
+      "name": "保亭黎族苗族自治县"
+    },
+    {
+      "province_code": "156460000",
+      "city_code": "156469036",
+      "name": "琼中黎族苗族自治县"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500101",
+      "name": "万州区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500102",
+      "name": "涪陵区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500103",
+      "name": "渝中区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500104",
+      "name": "大渡口区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500105",
+      "name": "江北区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500106",
+      "name": "沙坪坝区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500107",
+      "name": "九龙坡区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500108",
+      "name": "南岸区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500109",
+      "name": "北碚区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500110",
+      "name": "綦江区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500111",
+      "name": "大足区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500112",
+      "name": "渝北区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500113",
+      "name": "巴南区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500114",
+      "name": "黔江区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500115",
+      "name": "长寿区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500116",
+      "name": "江津区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500117",
+      "name": "合川区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500118",
+      "name": "永川区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500119",
+      "name": "南川区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500120",
+      "name": "璧山区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500151",
+      "name": "铜梁区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500152",
+      "name": "潼南区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500153",
+      "name": "荣昌区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500154",
+      "name": "开州区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500155",
+      "name": "梁平区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500156",
+      "name": "武隆区"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500229",
+      "name": "城口县"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500230",
+      "name": "丰都县"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500231",
+      "name": "垫江县"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500233",
+      "name": "忠　县"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500235",
+      "name": "云阳县"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500236",
+      "name": "奉节县"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500237",
+      "name": "巫山县"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500238",
+      "name": "巫溪县"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500240",
+      "name": "石柱土家族自治县"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500241",
+      "name": "秀山土家族苗族自治县"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500242",
+      "name": "酉阳土家族苗族自治县"
+    },
+    {
+      "province_code": "156500000",
+      "city_code": "156500243",
+      "name": "彭水苗族土家族自治县"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156510100",
+      "name": "成都市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156510300",
+      "name": "自贡市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156510400",
+      "name": "攀枝花市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156510500",
+      "name": "泸州市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156510600",
+      "name": "德阳市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156510700",
+      "name": "绵阳市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156510800",
+      "name": "广元市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156510900",
+      "name": "遂宁市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156511000",
+      "name": "内江市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156511100",
+      "name": "乐山市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156511300",
+      "name": "南充市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156511400",
+      "name": "眉山市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156511500",
+      "name": "宜宾市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156511600",
+      "name": "广安市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156511700",
+      "name": "达州市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156511800",
+      "name": "雅安市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156511900",
+      "name": "巴中市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156512000",
+      "name": "资阳市"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156513200",
+      "name": "阿坝藏族羌族自治州"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156513300",
+      "name": "甘孜藏族自治州"
+    },
+    {
+      "province_code": "156510000",
+      "city_code": "156513400",
+      "name": "凉山彝族自治州"
+    },
+    {
+      "province_code": "156520000",
+      "city_code": "156520100",
+      "name": "贵阳市"
+    },
+    {
+      "province_code": "156520000",
+      "city_code": "156520200",
+      "name": "六盘水市"
+    },
+    {
+      "province_code": "156520000",
+      "city_code": "156520300",
+      "name": "遵义市"
+    },
+    {
+      "province_code": "156520000",
+      "city_code": "156520400",
+      "name": "安顺市"
+    },
+    {
+      "province_code": "156520000",
+      "city_code": "156520500",
+      "name": "毕节市"
+    },
+    {
+      "province_code": "156520000",
+      "city_code": "156520600",
+      "name": "铜仁市"
+    },
+    {
+      "province_code": "156520000",
+      "city_code": "156522300",
+      "name": "黔西南布依族苗族自治州"
+    },
+    {
+      "province_code": "156520000",
+      "city_code": "156522600",
+      "name": "黔东南苗族侗族自治州"
+    },
+    {
+      "province_code": "156520000",
+      "city_code": "156522700",
+      "name": "黔南布依族苗族自治州"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156530100",
+      "name": "昆明市"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156530300",
+      "name": "曲靖市"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156530400",
+      "name": "玉溪市"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156530500",
+      "name": "保山市"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156530600",
+      "name": "昭通市"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156530700",
+      "name": "丽江市"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156530800",
+      "name": "普洱市"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156530900",
+      "name": "临沧市"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156532300",
+      "name": "楚雄彝族自治州"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156532500",
+      "name": "红河哈尼族彝族自治州"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156532600",
+      "name": "文山壮族苗族自治州"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156532800",
+      "name": "西双版纳傣族自治州"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156532900",
+      "name": "大理白族自治州"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156533100",
+      "name": "德宏傣族景颇族自治州"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156533300",
+      "name": "怒江傈僳族自治州"
+    },
+    {
+      "province_code": "156530000",
+      "city_code": "156533400",
+      "name": "迪庆藏族自治州"
+    },
+    {
+      "province_code": "156540000",
+      "city_code": "156540100",
+      "name": "拉萨市"
+    },
+    {
+      "province_code": "156540000",
+      "city_code": "156540200",
+      "name": "日喀则市"
+    },
+    {
+      "province_code": "156540000",
+      "city_code": "156540300",
+      "name": "昌都市"
+    },
+    {
+      "province_code": "156540000",
+      "city_code": "156540400",
+      "name": "林芝市"
+    },
+    {
+      "province_code": "156540000",
+      "city_code": "156540500",
+      "name": "山南市"
+    },
+    {
+      "province_code": "156540000",
+      "city_code": "156540600",
+      "name": "那曲市"
+    },
+    {
+      "province_code": "156540000",
+      "city_code": "156542500",
+      "name": "阿里地区"
+    },
+    {
+      "province_code": "156610000",
+      "city_code": "156610100",
+      "name": "西安市"
+    },
+    {
+      "province_code": "156610000",
+      "city_code": "156610200",
+      "name": "铜川市"
+    },
+    {
+      "province_code": "156610000",
+      "city_code": "156610300",
+      "name": "宝鸡市"
+    },
+    {
+      "province_code": "156610000",
+      "city_code": "156610400",
+      "name": "咸阳市"
+    },
+    {
+      "province_code": "156610000",
+      "city_code": "156610500",
+      "name": "渭南市"
+    },
+    {
+      "province_code": "156610000",
+      "city_code": "156610600",
+      "name": "延安市"
+    },
+    {
+      "province_code": "156610000",
+      "city_code": "156610700",
+      "name": "汉中市"
+    },
+    {
+      "province_code": "156610000",
+      "city_code": "156610800",
+      "name": "榆林市"
+    },
+    {
+      "province_code": "156610000",
+      "city_code": "156610900",
+      "name": "安康市"
+    },
+    {
+      "province_code": "156610000",
+      "city_code": "156611000",
+      "name": "商洛市"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156620100",
+      "name": "兰州市"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156620200",
+      "name": "嘉峪关市"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156620300",
+      "name": "金昌市"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156620400",
+      "name": "白银市"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156620500",
+      "name": "天水市"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156620600",
+      "name": "武威市"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156620700",
+      "name": "张掖市"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156620800",
+      "name": "平凉市"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156620900",
+      "name": "酒泉市"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156621000",
+      "name": "庆阳市"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156621100",
+      "name": "定西市"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156621200",
+      "name": "陇南市"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156622900",
+      "name": "临夏回族自治州"
+    },
+    {
+      "province_code": "156620000",
+      "city_code": "156623000",
+      "name": "甘南藏族自治州"
+    },
+    {
+      "province_code": "156630000",
+      "city_code": "156630100",
+      "name": "西宁市"
+    },
+    {
+      "province_code": "156630000",
+      "city_code": "156630200",
+      "name": "海东市"
+    },
+    {
+      "province_code": "156630000",
+      "city_code": "156632200",
+      "name": "海北藏族自治州"
+    },
+    {
+      "province_code": "156630000",
+      "city_code": "156632300",
+      "name": "黄南藏族自治州"
+    },
+    {
+      "province_code": "156630000",
+      "city_code": "156632500",
+      "name": "海南藏族自治州"
+    },
+    {
+      "province_code": "156630000",
+      "city_code": "156632600",
+      "name": "果洛藏族自治州"
+    },
+    {
+      "province_code": "156630000",
+      "city_code": "156632700",
+      "name": "玉树藏族自治州"
+    },
+    {
+      "province_code": "156630000",
+      "city_code": "156632800",
+      "name": "海西蒙古族藏族自治州"
+    },
+    {
+      "province_code": "156640000",
+      "city_code": "156640100",
+      "name": "银川市"
+    },
+    {
+      "province_code": "156640000",
+      "city_code": "156640200",
+      "name": "石嘴山市"
+    },
+    {
+      "province_code": "156640000",
+      "city_code": "156640300",
+      "name": "吴忠市"
+    },
+    {
+      "province_code": "156640000",
+      "city_code": "156640400",
+      "name": "固原市"
+    },
+    {
+      "province_code": "156640000",
+      "city_code": "156640500",
+      "name": "中卫市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156650100",
+      "name": "乌鲁木齐市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156650200",
+      "name": "克拉玛依市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156650400",
+      "name": "吐鲁番市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156650500",
+      "name": "哈密市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156652300",
+      "name": "昌吉回族自治州"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156652700",
+      "name": "博尔塔拉蒙古自治州"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156652800",
+      "name": "巴音郭楞蒙古自治州"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156652900",
+      "name": "阿克苏地区"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156653000",
+      "name": "克孜勒苏柯尔克孜自治州"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156653100",
+      "name": "喀什地区"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156653200",
+      "name": "和田地区"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156654000",
+      "name": "伊犁哈萨克自治州"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156654200",
+      "name": "塔城地区"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156654300",
+      "name": "阿勒泰地区"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156659001",
+      "name": "石河子市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156659002",
+      "name": "阿拉尔市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156659003",
+      "name": "图木舒克市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156659004",
+      "name": "五家渠市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156659005",
+      "name": "北屯市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156659006",
+      "name": "铁门关市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156659007",
+      "name": "双河市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156659008",
+      "name": "可克达拉市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156659009",
+      "name": "昆玉市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156659010",
+      "name": "胡杨河市"
+    },
+    {
+      "province_code": "156650000",
+      "city_code": "156659011",
+      "name": "新星市"
+    }
+  ],
+  "occupationcodes": [
+    {
+      "occupation_code": "500",
+      "name": "党政机关负责人及管理人员"
+    },
+    {
+      "occupation_code": "501",
+      "name": "企事业单位负责人及管理人员"
+    },
+    {
+      "occupation_code": "502",
+      "name": "民主党派和工商联负责人及管理人员"
+    },
+    {
+      "occupation_code": "503",
+      "name": "人民团体或群众团体负责人及管理人员"
+    },
+    {
+      "occupation_code": "504",
+      "name": "社会组织（社会团体、基金会、社会服务机构、外国商会等）负责人及管理人员"
+    },
+    {
+      "occupation_code": "505",
+      "name": "科学研究及教学人员"
+    },
+    {
+      "occupation_code": "506",
+      "name": "文学艺术、体育专业人员"
+    },
+    {
+      "occupation_code": "507",
+      "name": "新闻出版、文化专业人员"
+    },
+    {
+      "occupation_code": "508",
+      "name": "卫生专业技术人员"
+    },
+    {
+      "occupation_code": "509",
+      "name": "工程、农业专业人员"
+    },
+    {
+      "occupation_code": "510",
+      "name": "法律、会计、审计、税务专业人员"
+    },
+    {
+      "occupation_code": "511",
+      "name": "证券从业人员"
+    },
+    {
+      "occupation_code": "512",
+      "name": "经济和金融专业人员"
+    },
+    {
+      "occupation_code": "513",
+      "name": "宗教人士等特殊职业人员"
+    },
+    {
+      "occupation_code": "514",
+      "name": "其他专业技术人员"
+    },
+    {
+      "occupation_code": "515",
+      "name": "党政机关、企事业单位行政工作人员"
+    },
+    {
+      "occupation_code": "516",
+      "name": "民主党派、工商联、人民团体或社会组织等单位工作人员"
+    },
+    {
+      "occupation_code": "517",
+      "name": "人民警察、消防、应急救援人员"
+    },
+    {
+      "occupation_code": "518",
+      "name": "批发与零售服务人员"
+    },
+    {
+      "occupation_code": "519",
+      "name": "房地产服务人员"
+    },
+    {
+      "occupation_code": "520",
+      "name": "旅游、住宿和餐饮服务人员"
+    },
+    {
+      "occupation_code": "521",
+      "name": "珠宝、黄金等贵金属行业服务人员"
+    },
+    {
+      "occupation_code": "522",
+      "name": "文化、体育和娱乐服务人员"
+    },
+    {
+      "occupation_code": "523",
+      "name": "典当、拍卖行业服务人员"
+    },
+    {
+      "occupation_code": "524",
+      "name": "艺术品或文物收藏行业服务人员"
+    },
+    {
+      "occupation_code": "525",
+      "name": "废品、旧货回收服务人员"
+    },
+    {
+      "occupation_code": "526",
+      "name": "交通运输、仓储、邮政业服务人员"
+    },
+    {
+      "occupation_code": "527",
+      "name": "信息运输、软件和信息技术服务人员"
+    },
+    {
+      "occupation_code": "528",
+      "name": "居民、健康服务人员"
+    },
+    {
+      "occupation_code": "529",
+      "name": "其他社会生产和社会服务人员"
+    },
+    {
+      "occupation_code": "530",
+      "name": "农、林、牧、渔业生产及辅助人员"
+    },
+    {
+      "occupation_code": "531",
+      "name": "生产制造及有关人员"
+    },
+    {
+      "occupation_code": "532",
+      "name": "军人"
+    },
+    {
+      "occupation_code": "533",
+      "name": "国际组织工作人员"
+    },
+    {
+      "occupation_code": "534",
+      "name": "离退休人员"
+    },
+    {
+      "occupation_code": "535",
+      "name": "个体工商户（含淘宝店自营等）"
+    },
+    {
+      "occupation_code": "536",
+      "name": "无业"
+    },
+    {
+      "occupation_code": "537",
+      "name": "学生"
+    }
+  ],
+  "educationalqualificationcodes": [
+    {
+      "educationalqualification_code": "2",
+      "name": "硕士及以上"
+    },
+    {
+      "educationalqualification_code": "3",
+      "name": "大学本科"
+    },
+    {
+      "educationalqualification_code": "4",
+      "name": "大学专科"
+    },
+    {
+      "educationalqualification_code": "5",
+      "name": "高中及以下"
+    }
+  ]
+}
