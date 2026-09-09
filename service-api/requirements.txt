@@ -3,4 +3,4 @@ uvicorn[standard]
 sqlalchemy
 psycopg[binary]
 pydantic
-alembic
+alembic[standard]
