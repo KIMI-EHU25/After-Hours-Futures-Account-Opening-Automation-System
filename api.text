@@ -1,0 +1,85 @@
+- get_launderingBack_config()
+GET /api/launderingBack/config
+Request : 
+body : none
+Response : 
+body : [
+    {
+        "question_code" : int,
+        "type" : str,
+        "title" : str,
+        "options" : [
+            {
+                "question_code" : int,
+                "option" : str,
+                "optiontext" : str
+            },
+            {}
+        ]
+    },
+    {}
+]
+
+
+
+- get_addInfo_config()
+GET /api/addInfo/config
+Request : 
+body : none
+Response : 
+body : [
+    {
+        "field_id" : int,
+        "field_name" : str,
+        "type" : str
+    },
+    {}
+]
+
+
+
+- get_question_config()
+GET /api/question/config
+Request : 
+body : none
+Response :
+body : [
+    {
+        "question_code" : int,
+        "type" : str,
+        "title" : str,
+        "options" : [
+            {
+                "question_code" : int,
+                "option" : str,
+                "optiontext" : str
+            },
+            {}
+        ]
+    },
+    {}
+]
+
+
+
+- get_chooseFutures_config()
+GET /api/chooseFutures/config
+Request : 
+body : none
+Response :
+body : [
+    {
+        "question_code" : int,
+        "type" : str,
+        "title" : str,
+        "options" : [
+            {
+                "question_code" : int,
+                "option" : str,
+                "optiontext" : str
+            },
+            {}
+        ]
+    },
+    {}
+]
