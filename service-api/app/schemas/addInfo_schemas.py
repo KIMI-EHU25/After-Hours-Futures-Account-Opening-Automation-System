@@ -6,6 +6,10 @@ class FieldResponse(BaseModel) :
     field_name : str
     type : str
 
+    model_config = {
+        "from_attributes": True
+    }
+
 
 
 class post_addInfo_answer_Request(BaseModel) :
