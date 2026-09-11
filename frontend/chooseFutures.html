@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>期货品种选择</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body data-config-path="/api/chooseFutures/config"
+      data-answer-path="/api/chooseFutures/answer"
+      data-next-page="./dataprint.html">
+    <main class="page-shell">
+        <header class="page-header">
+            <h1>期货品种选择</h1>
+            <p>请选择您需要开通的期货品种。</p>
+            <div class="progress">第 4 步，共 4 步</div>
+        </header>
+
+        <form id="dynamic-form" class="form-card">
+            <div id="form-content" class="loading">正在读取题目……</div>
+            <div class="actions">
+                <button id="next-button" class="primary-button" type="submit" hidden>下一步</button>
+            </div>
+            <p id="status" class="status" aria-live="polite"></p>
+        </form>
+    </main>
+    <script type="module" src="./questionnaire.js"></script>
+</body>
+</html>

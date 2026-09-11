@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基本资料</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <main class="page-shell">
+        <header class="page-header">
+            <h1>基本资料</h1>
+            <p>请填写开户所需的基本资料，标记为可不填的字段可以留空。</p>
+            <div class="progress">第 2 步，共 4 步</div>
+        </header>
+
+        <form id="dynamic-form" class="form-card">
+            <div id="form-content" class="field-grid loading">正在读取字段……</div>
+            <div class="actions">
+                <button id="next-button" class="primary-button" type="submit" hidden>下一步</button>
+            </div>
+            <p id="status" class="status" aria-live="polite"></p>
+        </form>
+    </main>
+    <script type="module" src="./addInfo.js"></script>
+</body>
+</html>

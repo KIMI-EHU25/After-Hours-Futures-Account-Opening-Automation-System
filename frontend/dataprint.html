@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提交结果</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <main class="page-shell">
+        <header class="page-header">
+            <h1>提交结果</h1>
+            <p>以下内容来自后端的 get_jsinject_data 接口。</p>
+        </header>
+
+        <section class="data-card">
+            <pre id="json-output" class="json-output">正在读取数据……</pre>
+            <p id="status" class="status" aria-live="polite"></p>
+        </section>
+    </main>
+    <script type="module" src="./dataprint.js"></script>
+</body>
+</html>
