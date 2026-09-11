@@ -27,6 +27,7 @@ $testFiles = @(
     "post_addInfo_answer.js"
     "post_question_answer.js"
     "post_chooseFutures_answer.js"
+    "get_jsinject_data.js"
 )
 
 Push-Location $serviceApiDir
