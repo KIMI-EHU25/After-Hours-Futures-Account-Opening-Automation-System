@@ -1,7 +1,9 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
+from app.models.bussiness_models import User , questionAnswer
 from app.models.config_models import questionTitle , questionOption
+from app.schemas.question_schemas import post_question_answer_Request
 
 
 def get_question_config(
@@ -33,3 +35,42 @@ def get_question_config(
     ret.sort(key=lambda obj: obj["question_code"])
 
     return ret
+
+
+
+def post_question_answer(
+    data : post_question_answer_Request,
+    db : Session
+) : 
+    user = db.execute(
+        select(User).where(
+            User.uid == data.uid
+        )
+    ).scalar_one_or_none()
+
+    if user is None : 
+        return False
+
+    questionanswer = questionAnswer(
+        uid = data.uid,
+        p1 = data.p1,
+        p2 = data.p2,
+        p3 = data.p3,
+        p4 = data.p4,
+        p5 = data.p5,
+        p6 = data.p6,
+        p7 = data.p7,
+        p8 = data.p8,
+        p9 = data.p9,
+        p10 = data.p10,
+        p11 = data.p11,
+        p12 = data.p12,
+        p13 = data.p13,
+        p14 = data.p14
+    )
+
+    db.add(questionanswer)
+    db.commit()
+    db.refresh(questionanswer)
+
+    return True

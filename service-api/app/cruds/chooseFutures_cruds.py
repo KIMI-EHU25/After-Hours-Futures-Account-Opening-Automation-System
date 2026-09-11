@@ -2,6 +2,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 
 from app.models.config_models import chooseFuturesTitle , chooseFuturesOption
+from app.schemas.chooseFutures_schemas import post_chooseFutures_answer_Request
+from app.models.bussiness_models import User , chooseFuturesAnswer
 
 
 def get_chooseFutures_config(
@@ -33,3 +35,29 @@ def get_chooseFutures_config(
     ret.sort(key=lambda obj: obj["question_code"])
 
     return ret
+
+
+
+def post_chooseFutures_answer(
+    data : post_chooseFutures_answer_Request,
+    db : Session
+) : 
+    user = db.execute(
+        select(User).where(
+            User.uid == data.uid
+        )
+    ).scalar_one_or_none()
+
+    if user is None : 
+        return False
+
+    chooseFuturesanswer = chooseFuturesAnswer(
+        uid = data.uid,
+        p1 = data.p1
+    )
+
+    db.add(chooseFuturesanswer)
+    db.commit()
+    db.refresh(chooseFuturesanswer)
+
+    return True

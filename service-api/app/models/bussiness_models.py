@@ -52,8 +52,8 @@ class launderingBackAnswer(Base) :
     __tablename__ = "launderingbackanswers"
     __table_args__ = {"schema": "openaccount"}
 
-    serial_number : Mapped[str] = mapped_column(
-        Text,
+    serial_number : Mapped[int] = mapped_column(
+        Integer,
         primary_key=True
     )
 
@@ -116,8 +116,8 @@ class addInfoAnswer(Base) :
     __tablename__ = "addinfoanswers"
     __table_args__ = {"schema": "openaccount"}
 
-    serial_number : Mapped[str] = mapped_column(
-        Text,
+    serial_number : Mapped[int] = mapped_column(
+        Integer,
         primary_key=True
     )
 
@@ -146,15 +146,14 @@ class addInfoAnswer(Base) :
         nullable=False
     )
 
-    # nationality
-
-
-    idCardValidPeriodStart : Mapped[date] = mapped_column(
-        Date
+    idCardValidPeriodStart : Mapped[date | None] = mapped_column(
+        Date,
+        nullable=True
     )
 
-    idCardValidPeriodEnd : Mapped[date] = mapped_column(
-        Date
+    idCardValidPeriodEnd : Mapped[date | None] = mapped_column(
+        Date,
+        nullable=True
     )
 
     ifIdCardPermanentlyValid : Mapped[bool] = mapped_column(
@@ -211,8 +210,6 @@ class addInfoAnswer(Base) :
         nullable=False
     )
 
-    # phonenumber
-
     emailAddress : Mapped[str] = mapped_column(
         Text,
         nullable=True
@@ -257,8 +254,8 @@ class questionAnswer(Base) :
     __tablename__ = "questionanswers"
     __table_args__ = {"schema": "openaccount"}
 
-    serial_number : Mapped[str] = mapped_column(
-        Text,
+    serial_number : Mapped[int] = mapped_column(
+        Integer,
         primary_key=True
     )
 
@@ -346,8 +343,8 @@ class chooseFuturesAnswer(Base) :
     __tablename__ = "choosefuturesanswers"
     __table_args__ = {"schema": "openaccount"}
 
-    serial_number : Mapped[str] = mapped_column(
-        Text,
+    serial_number : Mapped[int] = mapped_column(
+        Integer,
         primary_key=True
     )
 

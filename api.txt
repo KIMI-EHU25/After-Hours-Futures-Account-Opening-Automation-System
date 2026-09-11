@@ -1,0 +1,181 @@
+- get_launderingBack_config()
+GET /api/launderingBack/config
+Request : 
+body : none
+Response : 
+body : [
+    {
+        "question_code" : int,
+        "type" : str,
+        "title" : str,
+        "options" : [
+            {
+                "question_code" : int,
+                "option" : str,
+                "optiontext" : str
+            },
+            {}
+        ]
+    },
+    {}
+]
+
+
+
+- get_addInfo_config()
+GET /api/addInfo/config
+Request : 
+body : none
+Response : 
+body : [
+    {
+        "field_id" : int,
+        "field_name" : str,
+        "type" : str
+    },
+    {}
+]
+
+
+
+- get_question_config()
+GET /api/question/config
+Request : 
+body : none
+Response :
+body : [
+    {
+        "question_code" : int,
+        "type" : str,
+        "title" : str,
+        "options" : [
+            {
+                "question_code" : int,
+                "option" : str,
+                "optiontext" : str
+            },
+            {}
+        ]
+    },
+    {}
+]
+
+
+
+- get_chooseFutures_config()
+GET /api/chooseFutures/config
+Request : 
+body : none
+Response :
+body : [
+    {
+        "question_code" : int,
+        "type" : str,
+        "title" : str,
+        "options" : [
+            {
+                "question_code" : int,
+                "option" : str,
+                "optiontext" : str
+            },
+            {}
+        ]
+    },
+    {}
+]
+
+
+
+- post_launderingBack_answer()
+POST /api/launderingBack/answer
+Request : 
+body : {
+    "uid" : int,
+    "p1" : str,
+    "p2" : str,
+    "p3" : str,
+    "p4" : str,
+    "p5" : str,
+    "p6" : str,
+    "p7" : str,
+    "p8" : str,
+    "p9" : str
+}
+Response : 
+body : {
+    "msg" : "Success"
+}
+
+
+
+- post_addInfo_answer()
+POST /api/addInfo/answer
+Request : 
+body : {
+    "uid" : int,
+    "name" : str,
+    "idCardNumber" : str,
+    "idCardAddress" : str,
+    "idCardValidPeriodStart" : date | None = None,      这个字段可以传 null 或者不传，就会在数据库中存 null
+                                                        但如果传的话需要传字符串 "YYYY-MM-DD"
+    "idCardValidPeriodEnd" : date | None = None,
+    "ifIdCardPermanentlyValid" : bool,
+    "contactAddressProvince" : str,
+    "contactAddressCity" : str,
+    "contactAddress" : str,
+    "postalCode" : str,
+    "departmentProvince" : str,
+    "departmentCity" : str,
+    "departmentCategory" : str,
+    "departmentName" : str,
+    "contactnumber" : str,
+    "emailAddress" : str | None = None,     可以不传或者传 null
+    "occupation" : str,
+    "educationalQualification" : str,
+    "ifIntermediary" : bool,
+    "intermediaryName" : str | None = None,
+    "intermediaryCode" : str | None = None,
+    "referencePersonCode" : str | None = None,
+    "referencePersonName" : str | None = None
+}
+Response : 
+body : {
+    "msg" : "Success"
+}
+
+
+
+- post_question_answer()
+POST /api/question/answer
+Request : 
+body : {
+    "uid" : int,
+    "p1" : str,
+    "p2" : str,
+    "p3" : str,
+    "p4" : str,
+    "p5" : str,
+    "p6" : str,
+    "p7" : str,
+    "p8" : str,
+    "p9" : str,
+    "p10" : str,
+    "p11" : str,
+    "p12" : str,
+    "p13" : str,
+    "p14" : str
+}
+
+
+
+- post_chooseFutures_answer()
+POST /api/chooseFutures/answer
+Request : 
+body : {
+    "uid" : int,
+    "p1" : str
+}
+Response : 
+body : {
+    "msg" : "Success"
+}

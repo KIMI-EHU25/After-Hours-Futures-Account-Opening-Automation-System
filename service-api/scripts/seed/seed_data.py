@@ -24,7 +24,7 @@ EXPECTED_COUNTS = {
     "users": 1,
     "launderingbacktitles": 9,
     "launderingbackoptions": 33,
-    "addinfotitles": 25,
+    "addinfotitles": 23,
     "questiontitles": 14,
     "questionoptions": 57,
     "choosefuturestitles": 1,

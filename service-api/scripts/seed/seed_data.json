@@ -237,11 +237,6 @@
       "type": "str"
     },
     {
-      "field_id": 4,
-      "field_name": "nationality",
-      "type": "readonly"
-    },
-    {
       "field_id": 5,
       "field_name": "idCardValidPeriodStart",
       "type": "date"
@@ -300,11 +295,6 @@
       "field_id": 16,
       "field_name": "contactnumber",
       "type": "str"
-    },
-    {
-      "field_id": 17,
-      "field_name": "phonenumber",
-      "type": "readonly"
     },
     {
       "field_id": 18,

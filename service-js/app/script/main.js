@@ -75,7 +75,6 @@ const data = {
         "name" : "张三",                                      // 姓名 
         "idCardNumber" : "110101199003071233",                 // 身份证号
         "idCardAddress" : "北京市东城区示例路1号101室",    // 身份证地址
-        "nationality" : null ,                                 // 国籍 - 只读
         "idCardValidPeriodStart" : new Date(2026, 2, 3),       // 身份证有效期起始
         "idCardValidPeriodEnd" : new Date(2036, 2, 3),         // 身份证有效期结束
         "ifIdCardPermanentlyValid" : true,                     // 身份证是否长期有效
@@ -94,7 +93,6 @@ const data = {
         "departmentCategory" : "0",                            // 营业部类别
         "departmentName" : "2015",                             // 开户营业部
         "contactnumber" : "13900000000",                       // 联系电话
-        "phonenumber" : null,                                  // 联系手机 - 只读
         "emailAddress" : null,                                 // 电子邮箱
         "occupation" : {                                       // 职业
             "value" : "537",
