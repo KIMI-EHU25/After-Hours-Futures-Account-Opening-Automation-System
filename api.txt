@@ -165,6 +165,10 @@ body : {
     "p13" : str,
     "p14" : str
 }
+Response : 
+body : {
+    "msg" : "Success"
+}
 
 
 

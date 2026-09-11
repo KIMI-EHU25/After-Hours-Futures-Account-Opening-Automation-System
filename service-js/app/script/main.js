@@ -49,43 +49,33 @@ async function main_func() {
 
 /* api.js */
 // data 存模拟用户数据
-// 选择题的值用 "1,2,3" 或 "A,B,C" 表示都可以
+// 单选题使用一个选项字母，多选题使用连续的选项字母字符串，例如 "ABC"
 const data = {
-    "p6-launderingBack" : {
-        "6-1" : "A",    // 居民税收身份
+    "launderingBack" : {
+        "p1" : "A",    // 居民税收身份
 
-        "6-2" : "D",    // 政要人物关系 
+        "p2" : "D",    // 政要人物关系
                         // !注意最后两个选项的 E 和 D 的 value 反过来了
                         // value="E" 为倒数第二个选项 value="D" 为最后一个选项
 
-        "6-3" : "C",    // 投资期限
-        "6-4" : "A",    // 期望收益
-        "6-5" : "A",    // 账户是否存在被他人控制
-        "6-6" : "A",    // 账户交易实际受益人为
-        "6-7" : [       // 想投资的品种
-            1
-        ],
-        "6-8" : "I",    // 是否有来源以下机构不良诚信记录
-        "6-9" : [      // 参与期货的主要交易类型
-            1
-        ]
+        "p3" : "C",    // 投资期限
+        "p4" : "A",    // 期望收益
+        "p5" : "A",    // 账户是否存在被他人控制
+        "p6" : "A",    // 账户交易实际受益人为
+        "p7" : "AB",       // 想投资的品种
+        "p8" : "I",    // 是否有来源以下机构不良诚信记录
+        "p9" : "AB"      // 参与期货的主要交易类型
     },
 
-    "p7-addInfo" : {
+    "addInfo" : {
         "name" : "张三",                                      // 姓名 
         "idCardNumber" : "110101199003071233",                 // 身份证号
         "idCardAddress" : "北京市东城区示例路1号101室",    // 身份证地址
-        "idCardValidPeriodStart" : new Date(2026, 2, 3),       // 身份证有效期起始
-        "idCardValidPeriodEnd" : new Date(2036, 2, 3),         // 身份证有效期结束
-        "ifIdCardPermanentlyValid" : true,                     // 身份证是否长期有效
-        "contactAddressProvince" : {                           // 联系地址省
-            "value" : "156310000",
-            "label" : "上海市"
-        },
-        "contactAddressCity" : {                               // 联系地址市
-            "value" : "156310105",
-            "label" : "长宁区"
-        },
+        "idCardValidPeriodStart" : "2026-02-04",                 // 身份证有效期起始
+        "idCardValidPeriodEnd" : "2036-02-04",                   // 身份证有效期结束
+        "ifIdCardPermanentlyValid" : false,                     // 身份证是否长期有效
+        "contactAddressProvince" : "156110000",
+        "contactAddressCity" : "156110101",
         "contactAddress" : "北京市东城区示例路1号101室",     // 联系地址
         "postalCode" : "200000",                               // 邮政编码
         "departmentProvince" : "湖北省",                        // 开户营业部省
@@ -94,14 +84,8 @@ const data = {
         "departmentName" : "2015",                             // 开户营业部
         "contactnumber" : "13900000000",                       // 联系电话
         "emailAddress" : null,                                 // 电子邮箱
-        "occupation" : {                                       // 职业
-            "value" : "537",
-            "label" : "学生"
-        },                                     
-        "educationalQualification" : {                         // 学历
-            "value" : "3",
-            "label" : "大学本科"
-        },                       
+        "occupation" : "537",
+        "educationalQualification" : "3",
         "ifIntermediary" : false,                              // 是否存在居间人
         "intermediaryName" : null,                             // 居间人姓名
         "intermediaryCode" : null,                             // 居间人登记编号
@@ -109,30 +93,25 @@ const data = {
         "referencePersonName" : null,                          // 推荐人姓名
     },
 
-    "p10-question" : {
-        "10-1" : "A",   // 是否具有民事行为能力
-        "10-2" : "A",   // 主要收入来源
-        "10-3" : "A",   // 计划用于金融投资的主要资金来源
-        "10-4" : "B",   // 年平均收入
-        "10-5" : "C",   // 金融资产情况
-        "10-6" : "A",   // 是否有尚未清偿的数额较大的债务
-        "10-7" : "A",   // 投资回报主要用于
-        "10-8" : "B",   // 关于专业背景、教育经历、投资知识等描述
-        "10-9" : "B",   // 主要依据什么作出金融投资决策
-        "10-10" : "B",  // 投资经历
-        "10-11" : "C",  // 交易频率
-        "10-12" : "B",  // 投资资产分配
-        "10-13" : "A",  // 可承受的最大损失
-        "10-14" : "C",  // 账户亏损约为
+    "question" : {
+        "p1" : "A",   // 是否具有民事行为能力
+        "p2" : "A",   // 主要收入来源
+        "p3" : "A",   // 计划用于金融投资的主要资金来源
+        "p4" : "B",   // 年平均收入
+        "p5" : "C",   // 金融资产情况
+        "p6" : "A",   // 是否有尚未清偿的数额较大的债务
+        "p7" : "A",   // 投资回报主要用于
+        "p8" : "B",   // 关于专业背景、教育经历、投资知识等描述
+        "p9" : "B",   // 主要依据什么作出金融投资决策
+        "p10" : "B",  // 投资经历
+        "p11" : "C",  // 交易频率
+        "p12" : "B",  // 投资资产分配
+        "p13" : "A",  // 可承受的最大损失
+        "p14" : "C",  // 账户亏损约为
     },
 
-    "p12-chooseFutures" : {
-        "12-1" : [
-            1,
-            2,
-            3,
-            4
-        ]
+    "chooseFutures" : {
+        "p1" : "AC"
     }
 };
 
@@ -171,8 +150,27 @@ function selectSingleCheckbox(questionText, selectedValue) {
 }
 
 
+// 将多选题字母字符串转换为从 1 开始的选项序号，例如 "AC" 转换为 [1, 3]。
+function parseMultipleOptionLetters(selectedLetters, context) {
+    if (typeof selectedLetters !== "string") {
+        window.alert(`多选题数据必须是字母字符串：${context}`);
+        return null;
+    }
+
+    const normalizedLetters = selectedLetters.trim().toUpperCase();
+    if (!/^[A-Z]+$/.test(normalizedLetters)) {
+        window.alert(`多选题数据格式错误：${context}，选项值：${selectedLetters}`);
+        return null;
+    }
+
+    return Array.from(new Set(normalizedLetters)).map(
+        (letter) => letter.charCodeAt(0) - "A".charCodeAt(0) + 1
+    );
+}
+
+
 // Page 6 多选题内容注入
-async function selectMultipleVantCheckboxes(questionText, selectedIndexes) { 
+async function selectMultipleVantCheckboxes(questionText, selectedLetters) {
     const question = Array.from(document.querySelectorAll("p.monicker")).find(
         (element) => element.textContent.includes(questionText)
     );
@@ -180,17 +178,26 @@ async function selectMultipleVantCheckboxes(questionText, selectedIndexes) {
         question?.nextElementSibling?.querySelectorAll(".van-checkbox") ?? []
     );
     const optionCount = getOptions().length;
-    const selected = new Set(selectedIndexes.map(String));
 
     if (optionCount === 0) {
         window.alert(`未找到多选题：${questionText}`);
         return;
     }
 
+    const selectedIndexes = parseMultipleOptionLetters(selectedLetters, questionText);
+    if (!selectedIndexes) return;
+
+    if (selectedIndexes.some((index) => index > optionCount)) {
+        window.alert(`多选题包含不存在的选项：${questionText}，选项值：${selectedLetters}`);
+        return;
+    }
+
+    const selected = new Set(selectedIndexes);
+
     for (let index = 0; index < optionCount; index += 1) {
         // 每次都重新取 DOM，避免 Vue 重渲染后继续使用旧状态。
         const option = getOptions()[index];
-        const shouldBeSelected = selected.has(String(index + 1));
+        const shouldBeSelected = selected.has(index + 1);
         const isSelected = option.querySelector(".van-checkbox__icon--checked") !== null;
 
         if (shouldBeSelected !== isSelected) {
@@ -275,18 +282,19 @@ function fillTextField({ label, value }) {
 }
 
 
-// Page 7 单个日期字段注入：Vux datetime 的数据模型字段使用 yyyy-MM-dd 格式。
+// Page 7 单个日期字段注入：Vux datetime 的数据模型字段使用 YYYY-MM-DD 格式。
 async function fillDateField({ modelKey, value }) {
     if (!hasInjectionValue(value)) return;
 
     const viewModel = getAddInfoViewModel();
     if (!viewModel) return;
 
-    const dateText = value instanceof Date
-        ? `${value.getFullYear()}-${String(value.getMonth() + 1).padStart(2, "0")}-${String(value.getDate()).padStart(2, "0")}`
-        : String(value);
+    if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        window.alert(`日期字段必须使用 YYYY-MM-DD 格式：${modelKey}，当前值：${value}`);
+        return;
+    }
 
-    viewModel.$set(viewModel.ruleForm3, modelKey, dateText);
+    viewModel.$set(viewModel.ruleForm3, modelKey, value);
     await nextVueTick(viewModel);
 }
 
@@ -486,24 +494,16 @@ async function waitForPage12CheckboxOptions({ sectionTitle, minimumCount, timeou
 }
 
 
-// Page 12 多选题注入：selectedIndexes 使用从 1 开始的选项序号。
-async function selectPage12MultipleVantCheckboxes({ sectionTitle, selectedIndexes }) {
-    if (!hasInjectionValue(selectedIndexes)) return true;
+// Page 12 多选题注入：selectedLetters 使用字母字符串，例如 "ABCD"。
+async function selectPage12MultipleVantCheckboxes({ sectionTitle, selectedLetters }) {
+    if (!hasInjectionValue(selectedLetters)) return true;
 
-    if (!Array.isArray(selectedIndexes)) {
-        window.alert(`Page 12 多选题数据必须是数组：${sectionTitle}`);
-        return false;
-    }
+    const selectedIndexes = parseMultipleOptionLetters(selectedLetters, sectionTitle);
+    if (!selectedIndexes) return false;
 
-    const normalizedIndexes = selectedIndexes.map(Number);
-    if (normalizedIndexes.some((index) => !Number.isInteger(index) || index < 1)) {
-        window.alert(`Page 12 多选题包含无效选项序号：${sectionTitle}`);
-        return false;
-    }
-
-    const selected = new Set(normalizedIndexes);
-    const minimumCount = normalizedIndexes.length > 0
-        ? Math.max(...normalizedIndexes)
+    const selected = new Set(selectedIndexes);
+    const minimumCount = selectedIndexes.length > 0
+        ? Math.max(...selectedIndexes)
         : 1;
     const section = await waitForPage12CheckboxOptions({ sectionTitle, minimumCount });
     if (!section) return false;
@@ -651,17 +651,17 @@ function idcardUpload() {
 async function launderingBack() {
 
     // 1-6、8：单选题。字母按 HTML value 匹配，数字按选项序号（从 1 开始）匹配。
-    selectSingleCheckbox("税收居民身份", data["p6-launderingBack"]["6-1"]);
-    selectSingleCheckbox("政要人物关系", data["p6-launderingBack"]["6-2"]);
-    selectSingleCheckbox("投资期限", data["p6-launderingBack"]["6-3"]);
-    selectSingleCheckbox("期望收益", data["p6-launderingBack"]["6-4"]);
-    selectSingleCheckbox("账户是否存在被他人控制", data["p6-launderingBack"]["6-5"]);
-    selectSingleCheckbox("账户交易实际受益人为", data["p6-launderingBack"]["6-6"]);
-    selectSingleCheckbox("是否有来源以下机构不良诚信记录", data["p6-launderingBack"]["6-8"]);
+    selectSingleCheckbox("税收居民身份", data["launderingBack"]["p1"]);
+    selectSingleCheckbox("政要人物关系", data["launderingBack"]["p2"]);
+    selectSingleCheckbox("投资期限", data["launderingBack"]["p3"]);
+    selectSingleCheckbox("期望收益", data["launderingBack"]["p4"]);
+    selectSingleCheckbox("账户是否存在被他人控制", data["launderingBack"]["p5"]);
+    selectSingleCheckbox("账户交易实际受益人为", data["launderingBack"]["p6"]);
+    selectSingleCheckbox("是否有来源以下机构不良诚信记录", data["launderingBack"]["p8"]);
 
     // 7、9：多选题。数组中的数字为选项序号（从 1 开始）。
-    await selectMultipleVantCheckboxes("想投资的品种", data["p6-launderingBack"]["6-7"]);
-    await selectMultipleVantCheckboxes("参与期货的主要交易类型", data["p6-launderingBack"]["6-9"]);
+    await selectMultipleVantCheckboxes("想投资的品种", data["launderingBack"]["p7"]);
+    await selectMultipleVantCheckboxes("参与期货的主要交易类型", data["launderingBack"]["p9"]);
 
     return;
 }
@@ -669,7 +669,7 @@ async function launderingBack() {
 
 // Page 7 基本信息资料填写
 async function addInfo() {
-    const form = data["p7-addInfo"];
+    const form = data["addInfo"];
 
     fillTextField({ label: "姓名", value: form.name });
     fillTextField({ label: "身份证号", value: form.idCardNumber });
@@ -687,13 +687,13 @@ async function addInfo() {
 
     const cityReady = await fillPopupPickerField({
         modelKey: "sheng",
-        value: form.contactAddressProvince?.value,
+        value: form.contactAddressProvince,
         onChange: "provinceChange",
         waitOptionsKey: "cityListSelect",
-        waitForValue: form.contactAddressCity?.value,
+        waitForValue: form.contactAddressCity,
     });
     if (cityReady) {
-        await fillPopupPickerField({ modelKey: "shi", value: form.contactAddressCity?.value });
+        await fillPopupPickerField({ modelKey: "shi", value: form.contactAddressCity });
     }
 
     const branchCityReady = await fillPopupPickerField({
@@ -729,8 +729,8 @@ async function addInfo() {
             }
         }
     }
-    await fillPopupPickerField({ modelKey: "profession", value: form.occupation?.value });
-    await fillPopupPickerField({ modelKey: "educational", value: form.educationalQualification?.value });
+    await fillPopupPickerField({ modelKey: "profession", value: form.occupation });
+    await fillPopupPickerField({ modelKey: "educational", value: form.educationalQualification });
 
     await fillVantRadioField({ value: form.ifIntermediary });
     fillTextField({ label: "居间人姓名", value: form.intermediaryName });
@@ -756,25 +756,25 @@ function appropriate() {
 
 // Page 10 交易者风险测评问卷
 async function question() {
-    const form = data["p10-question"];
+    const form = data["question"];
 
     const ready = await waitForPage10RadioGroups(14);
     if (!ready) return;
 
-    if (!await selectSingleVantRadio({ questionNumber: 1, selectedValue: form["10-1"] })) return;
-    if (!await selectSingleVantRadio({ questionNumber: 2, selectedValue: form["10-2"] })) return;
-    if (!await selectSingleVantRadio({ questionNumber: 3, selectedValue: form["10-3"] })) return;
-    if (!await selectSingleVantRadio({ questionNumber: 4, selectedValue: form["10-4"] })) return;
-    if (!await selectSingleVantRadio({ questionNumber: 5, selectedValue: form["10-5"] })) return;
-    if (!await selectSingleVantRadio({ questionNumber: 6, selectedValue: form["10-6"] })) return;
-    if (!await selectSingleVantRadio({ questionNumber: 7, selectedValue: form["10-7"] })) return;
-    if (!await selectSingleVantRadio({ questionNumber: 8, selectedValue: form["10-8"] })) return;
-    if (!await selectSingleVantRadio({ questionNumber: 9, selectedValue: form["10-9"] })) return;
-    if (!await selectSingleVantRadio({ questionNumber: 10, selectedValue: form["10-10"] })) return;
-    if (!await selectSingleVantRadio({ questionNumber: 11, selectedValue: form["10-11"] })) return;
-    if (!await selectSingleVantRadio({ questionNumber: 12, selectedValue: form["10-12"] })) return;
-    if (!await selectSingleVantRadio({ questionNumber: 13, selectedValue: form["10-13"] })) return;
-    if (!await selectSingleVantRadio({ questionNumber: 14, selectedValue: form["10-14"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 1, selectedValue: form["p1"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 2, selectedValue: form["p2"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 3, selectedValue: form["p3"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 4, selectedValue: form["p4"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 5, selectedValue: form["p5"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 6, selectedValue: form["p6"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 7, selectedValue: form["p7"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 8, selectedValue: form["p8"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 9, selectedValue: form["p9"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 10, selectedValue: form["p10"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 11, selectedValue: form["p11"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 12, selectedValue: form["p12"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 13, selectedValue: form["p13"] })) return;
+    if (!await selectSingleVantRadio({ questionNumber: 14, selectedValue: form["p14"] })) return;
 
     return;
 }
@@ -789,11 +789,11 @@ function echarts() {
 
 // Page 12 账户类型选择 选择商品交易所等
 async function chooseFutures() {
-    const form = data["p12-chooseFutures"];
+    const form = data["chooseFutures"];
 
     await selectPage12MultipleVantCheckboxes({
         sectionTitle: "商品期货",
-        selectedIndexes: form["12-1"],
+        selectedLetters: form["p1"],
     });
 
     return;
