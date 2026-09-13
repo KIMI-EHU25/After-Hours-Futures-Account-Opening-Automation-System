@@ -1,0 +1,16 @@
+@import url("../utils/common.css");
+
+.json-output {
+    min-height: 240px;
+    margin: 0;
+    padding: 18px;
+    overflow: auto;
+    border-radius: 8px;
+    background: #172033;
+    color: #e6edf6;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 14px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    word-break: break-word;
+}

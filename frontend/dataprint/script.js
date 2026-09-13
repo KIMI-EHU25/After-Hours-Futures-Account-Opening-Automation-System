@@ -1,4 +1,4 @@
-import { requestJson, setStatus } from "./api.js";
+import { requestJson, setStatus } from "../utils/api.js";
 
 const output = document.querySelector("#json-output");
 const statusElement = document.querySelector("#status");

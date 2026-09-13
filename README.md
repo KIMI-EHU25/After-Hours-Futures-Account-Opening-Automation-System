@@ -7,8 +7,14 @@
 ## 1. 项目组成
 
 ```text
-夜盘开户/
+openaccount/
 ├─ frontend/                 # 纯 HTML、CSS、JavaScript 前端
+│  ├─ launderingBack/       # 反洗钱页面（index.html/style.css/script.js）
+│  ├─ addInfo/              # 基本资料页面（index.html/style.css/script.js）
+│  ├─ question/             # 风险测评页面（index.html/style.css/script.js）
+│  ├─ chooseFutures/        # 期货品种页面（index.html/style.css/script.js）
+│  ├─ dataprint/            # JSON 结果页面（index.html/style.css/script.js）
+│  └─ utils/                # 通用 API、问卷渲染和公共样式
 ├─ service-api/              # FastAPI 业务接口和 PostgreSQL 数据访问
 ├─ service-js/               # 提供 main.js 下载的 FastAPI 服务
 ├─ test_for_JsInject/        # JavaScript 注入相关的独立测试页面和服务
@@ -179,7 +185,7 @@ Test-NetConnection 127.0.0.1 -Port 5432
 进入后端目录并激活虚拟环境：
 
 ```powershell
-cd D:\programming\夜盘开户\service-api
+cd D:\programming\openaccount\service-api
 .\.venv\Scripts\Activate.ps1
 ```
 
@@ -275,7 +281,7 @@ python -m scripts.seed.seed_all --yes
 首次安装：
 
 ```powershell
-cd D:\programming\夜盘开户\service-api
+cd D:\programming\openaccount\service-api
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
@@ -308,14 +314,14 @@ http://<lan-ip>:8000/docs
 在项目根目录执行：
 
 ```powershell
-cd D:\programming\夜盘开户
+cd D:\programming\openaccount
 python -m http.server 8080 --directory frontend
 ```
 
 浏览器访问：
 
 ```text
-http://127.0.0.1:8080/launderingBack.html
+http://127.0.0.1:8080/launderingBack/index.html
 ```
 
 页面顺序：
@@ -336,7 +342,7 @@ GET /api/jsinject/data?uid=1
 
 并打印后端返回的 JSON。
 
-`frontend/api.js` 默认根据当前网页的主机名连接其 `8000` 端口：
+`frontend/utils/api.js` 默认根据当前网页的主机名连接其 `8000` 端口：
 
 ```text
 网页：http://<lan-ip>:8080/...
@@ -350,7 +356,7 @@ API：http://<lan-ip>:8000/...
 首次安装：
 
 ```powershell
-cd D:\programming\夜盘开户\service-js
+cd D:\programming\openaccount\service-js
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
@@ -407,7 +413,7 @@ ABCD
 修改 SQLAlchemy 模型后，先检查当前连接目标，再生成迁移：
 
 ```powershell
-cd D:\programming\夜盘开户\service-api
+cd D:\programming\openaccount\service-api
 .\.venv\Scripts\Activate.ps1
 python -c "from app.database import engine; print(engine.url.render_as_string(hide_password=True))"
 alembic current
@@ -434,7 +440,7 @@ alembic upgrade head
 先启动 `service-api`，然后可以单独运行测试：
 
 ```powershell
-cd D:\programming\夜盘开户
+cd D:\programming\openaccount
 node .\service-api\test\get_launderingBack_config.js
 node .\service-api\test\get_addInfo_config.js
 node .\service-api\test\get_question_config.js

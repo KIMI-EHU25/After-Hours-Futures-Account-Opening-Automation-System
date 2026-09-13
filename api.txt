@@ -183,3 +183,27 @@ Response :
 body : {
     "msg" : "Success"
 }
+
+
+
+- get_province_code()
+GET /api/code/province
+Request : 
+body : none
+Response : 
+body : [
+    {province_code : str , name : str},
+    {}
+]
+
+
+
+- get_city_code()
+GET /api/code/get_city_code
+Request : 
+body : none
+Response : 
+body : [
+    {province_code : str , city_code : str , name : str},
+    {},
+]

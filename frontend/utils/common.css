@@ -1,0 +1,118 @@
+:root {
+    color-scheme: light;
+    font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    color: #243044;
+    background: #f3f6fa;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+}
+
+.page-shell {
+    width: min(920px, calc(100% - 32px));
+    margin: 32px auto;
+}
+
+.page-header,
+.form-card,
+.data-card {
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #dfe6ef;
+    border-radius: 12px;
+    box-shadow: 0 6px 22px rgb(43 67 101 / 8%);
+}
+
+.page-header {
+    margin-bottom: 18px;
+}
+
+.page-header h1 {
+    margin: 0 0 8px;
+    color: #16233a;
+    font-size: 26px;
+}
+
+.page-header p {
+    margin: 0;
+    color: #69758a;
+    line-height: 1.7;
+}
+
+.progress {
+    margin-top: 14px;
+    color: #1769aa;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+.primary-button {
+    min-width: 132px;
+    padding: 11px 22px;
+    border: 0;
+    border-radius: 8px;
+    background: #1769aa;
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.primary-button:hover {
+    background: #10598f;
+}
+
+.primary-button:disabled {
+    background: #91a5b8;
+    cursor: wait;
+}
+
+.status {
+    min-height: 24px;
+    margin: 18px 0 0;
+    color: #607086;
+    line-height: 1.6;
+}
+
+.status.error {
+    color: #b42318;
+}
+
+.status.success {
+    color: #16794b;
+}
+
+.loading {
+    padding: 24px;
+    color: #607086;
+    text-align: center;
+}
+
+@media (max-width: 680px) {
+    .page-shell {
+        width: min(100% - 20px, 920px);
+        margin: 14px auto;
+    }
+
+    .page-header,
+    .form-card,
+    .data-card {
+        padding: 18px;
+    }
+
+    .page-header h1 {
+        font-size: 22px;
+    }
+}

@@ -1,0 +1,49 @@
+@import url("../utils/common.css");
+
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.field-item {
+    display: grid;
+    gap: 8px;
+}
+
+.field-item label {
+    color: #33415a;
+    font-weight: 600;
+}
+
+.optional-mark {
+    color: #8792a5;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+select {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 11px;
+    border: 1px solid #cfd8e5;
+    border-radius: 7px;
+    background: #fff;
+    color: #243044;
+    font: inherit;
+}
+
+input:focus,
+select:focus {
+    outline: 2px solid rgb(36 124 191 / 20%);
+    border-color: #247cbf;
+}
+
+@media (max-width: 680px) {
+    .field-grid {
+        grid-template-columns: 1fr;
+    }
+}
