@@ -42,6 +42,13 @@ select:focus {
     border-color: #247cbf;
 }
 
+input:disabled,
+select:disabled {
+    background: #edf1f5;
+    color: #8792a5;
+    cursor: not-allowed;
+}
+
 @media (max-width: 680px) {
     .field-grid {
         grid-template-columns: 1fr;

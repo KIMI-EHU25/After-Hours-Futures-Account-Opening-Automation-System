@@ -22,24 +22,24 @@ const optionalFields = new Set([
 
 const fieldLabels = {
     name: "姓名",
-    idCardNumber: "身份证号码",
+    idCardNumber: "身份证号",
     idCardAddress: "身份证地址",
     idCardValidPeriodStart: "身份证有效期开始日期",
     idCardValidPeriodEnd: "身份证有效期结束日期",
     ifIdCardPermanentlyValid: "身份证是否长期有效",
-    contactAddressProvince: "联系地址省份代码",
-    contactAddressCity: "联系地址城市代码",
+    contactAddressProvince: "联系地址省",
+    contactAddressCity: "联系地址市",
     contactAddress: "联系地址",
     postalCode: "邮政编码",
-    departmentProvince: "营业部省份",
+    departmentProvince: "营业部省",
     departmentCity: "营业部城市",
-    departmentCategory: "营业部类别代码",
-    departmentName: "营业部代码",
+    departmentCategory: "营业部类别",
+    departmentName: "开户营业部",
     contactnumber: "联系电话",
     emailAddress: "电子邮箱",
-    occupation: "职业代码",
-    educationalQualification: "学历代码",
-    ifIntermediary: "是否为居间人客户",
+    occupation: "职业",
+    educationalQualification: "学历",
+    ifIntermediary: "是否为存在居间人",
     intermediaryName: "居间人姓名",
     intermediaryCode: "居间人代码",
     referencePersonCode: "推荐人代码",
@@ -143,6 +143,50 @@ function setupAddressSelectors() {
     provinceSelect.addEventListener("change", () => {
         updateCitySelect(provinceSelect.value);
     });
+}
+
+function setupIdCardValidityFields() {
+    const permanentlyValidSelect = form.elements.namedItem(
+        "ifIdCardPermanentlyValid",
+    );
+    const startDateInput = form.elements.namedItem("idCardValidPeriodStart");
+    const endDateInput = form.elements.namedItem("idCardValidPeriodEnd");
+
+    const updateDateInputs = () => {
+        const isPermanentlyValid = permanentlyValidSelect.value === "true";
+
+        if (isPermanentlyValid) {
+            startDateInput.value = "";
+            endDateInput.value = "";
+        }
+
+        startDateInput.disabled = isPermanentlyValid;
+        endDateInput.disabled = isPermanentlyValid;
+    };
+
+    permanentlyValidSelect.addEventListener("change", updateDateInputs);
+    updateDateInputs();
+}
+
+function setupIntermediaryFields() {
+    const intermediarySelect = form.elements.namedItem("ifIntermediary");
+    const intermediaryNameInput = form.elements.namedItem("intermediaryName");
+    const intermediaryCodeInput = form.elements.namedItem("intermediaryCode");
+
+    const updateIntermediaryInputs = () => {
+        const hasNoIntermediary = intermediarySelect.value === "false";
+
+        if (hasNoIntermediary) {
+            intermediaryNameInput.value = "";
+            intermediaryCodeInput.value = "";
+        }
+
+        intermediaryNameInput.disabled = hasNoIntermediary;
+        intermediaryCodeInput.disabled = hasNoIntermediary;
+    };
+
+    intermediarySelect.addEventListener("change", updateIntermediaryInputs);
+    updateIntermediaryInputs();
 }
 
 function createInput(field) {
@@ -261,6 +305,8 @@ async function loadConfig() {
         const fields = await requestJson("/api/addInfo/config");
         formContent.replaceChildren(...fields.map(createField));
         setupAddressSelectors();
+        setupIdCardValidityFields();
+        setupIntermediaryFields();
         formContent.classList.remove("loading");
         submitButton.hidden = false;
         setStatus(statusElement, "");
