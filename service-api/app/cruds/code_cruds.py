@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
-from app.models.code_models import ProvinceCode , CityCode
+from app.models.code_models import ProvinceCode , CityCode , OccupationCode , EducationalQualificationCode
 
 def get_province_code(
     db : Session
@@ -13,6 +13,7 @@ def get_province_code(
     return province_codes
 
 
+
 def get_city_code(
     db : Session
 ) : 
@@ -21,3 +22,25 @@ def get_city_code(
     ).scalars().all()
 
     return city_codes
+
+
+
+def get_occupation_code(
+        db : Session
+) : 
+    occupation_codes = db.execute(
+        select(OccupationCode)
+    ).scalars().all()
+
+    return occupation_codes
+
+
+
+def get_educationalqualification_code(
+    db : Session
+) : 
+    educationalqualification_codes = db.execute(
+        select(EducationalQualificationCode)
+    ).scalars().all()
+
+    return educationalqualification_codes

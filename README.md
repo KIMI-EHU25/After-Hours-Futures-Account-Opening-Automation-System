@@ -10,6 +10,7 @@
 openaccount/
 ├─ frontend/                 # 纯 HTML、CSS、JavaScript 前端
 │  ├─ launderingBack/       # 反洗钱页面（index.html/style.css/script.js）
+│  ├─ index/                # 前端首页（index.html/index.css/index.js）
 │  ├─ addInfo/              # 基本资料页面（index.html/style.css/script.js）
 │  ├─ question/             # 风险测评页面（index.html/style.css/script.js）
 │  ├─ chooseFutures/        # 期货品种页面（index.html/style.css/script.js）
@@ -321,13 +322,14 @@ python -m http.server 8080 --directory frontend
 浏览器访问：
 
 ```text
-http://127.0.0.1:8080/launderingBack/index.html
+http://127.0.0.1:8080/index/index.html
 ```
 
 页面顺序：
 
 ```text
-launderingBack
+index
+→ launderingBack
 → addInfo
 → question
 → chooseFutures

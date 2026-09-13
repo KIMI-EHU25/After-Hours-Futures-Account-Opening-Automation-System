@@ -7,6 +7,8 @@ const submitButton = document.querySelector("#next-button");
 
 let provinceCodes = [];
 let cityCodes = [];
+let occupationCodes = [];
+let educationalQualificationCodes = [];
 
 const optionalFields = new Set([
     "idCardValidPeriodStart",
@@ -44,6 +46,25 @@ const fieldLabels = {
     referencePersonName: "推荐人姓名",
 };
 
+const fixedSelectOptions = {
+    departmentProvince: {
+        label: "湖北省",
+        value: "湖北省",
+    },
+    departmentCity: {
+        label: "武汉市",
+        value: "武汉市",
+    },
+    departmentCategory: {
+        label: "期货公司营业部",
+        value: "0",
+    },
+    departmentName: {
+        label: "总部",
+        value: "2015",
+    },
+};
+
 function createPlaceholder(text) {
     const placeholder = new Option(text, "");
     placeholder.disabled = true;
@@ -65,6 +86,40 @@ function createAddressSelect(fieldName) {
         select.add(createPlaceholder("请先选择省份"));
         select.disabled = true;
     }
+
+    return select;
+}
+
+function createCodeSelect(fieldName) {
+    const select = document.createElement("select");
+    select.name = fieldName;
+    select.required = true;
+
+    if (fieldName === "occupation") {
+        select.add(createPlaceholder("请选择职业"));
+        occupationCodes.forEach((occupation) => {
+            select.add(new Option(occupation.name, occupation.occupation_code));
+        });
+    } else {
+        select.add(createPlaceholder("请选择学历"));
+        educationalQualificationCodes.forEach((education) => {
+            select.add(new Option(
+                education.name,
+                education.educationalqualification_code,
+            ));
+        });
+    }
+
+    return select;
+}
+
+function createFixedSelect(fieldName) {
+    const select = document.createElement("select");
+    const option = fixedSelectOptions[fieldName];
+
+    select.name = fieldName;
+    select.required = true;
+    select.add(new Option(option.label, option.value, true, true));
 
     return select;
 }
@@ -91,11 +146,22 @@ function setupAddressSelectors() {
 }
 
 function createInput(field) {
+    if (fixedSelectOptions[field.field_name]) {
+        return createFixedSelect(field.field_name);
+    }
+
     if (
         field.field_name === "contactAddressProvince"
         || field.field_name === "contactAddressCity"
     ) {
         return createAddressSelect(field.field_name);
+    }
+
+    if (
+        field.field_name === "occupation"
+        || field.field_name === "educationalQualification"
+    ) {
+        return createCodeSelect(field.field_name);
     }
 
     if (field.type === "bool") {
@@ -165,9 +231,16 @@ function collectData() {
 
 async function loadConfig() {
     try {
-        [provinceCodes, cityCodes] = await Promise.all([
+        [
+            provinceCodes,
+            cityCodes,
+            occupationCodes,
+            educationalQualificationCodes,
+        ] = await Promise.all([
             requestJson("/api/code/province"),
             requestJson("/api/code/city"),
+            requestJson("/api/code/occupation"),
+            requestJson("/api/code/educationalqualification"),
         ]);
 
         provinceCodes.sort((left, right) => (
@@ -175,6 +248,14 @@ async function loadConfig() {
         ));
         cityCodes.sort((left, right) => (
             left.city_code.localeCompare(right.city_code)
+        ));
+        occupationCodes.sort((left, right) => (
+            left.occupation_code.localeCompare(right.occupation_code)
+        ));
+        educationalQualificationCodes.sort((left, right) => (
+            left.educationalqualification_code.localeCompare(
+                right.educationalqualification_code,
+            )
         ));
 
         const fields = await requestJson("/api/addInfo/config");
@@ -184,7 +265,7 @@ async function loadConfig() {
         submitButton.hidden = false;
         setStatus(statusElement, "");
     } catch (error) {
-        formContent.innerHTML = '<p class="loading">字段或省市代码加载失败，请确认后端服务已经启动。</p>';
+        formContent.innerHTML = '<p class="loading">字段或代码列表加载失败，请确认后端服务已经启动。</p>';
         setStatus(statusElement, error.message, "error");
     }
 }
