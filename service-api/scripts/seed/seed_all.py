@@ -11,7 +11,6 @@ from app.database import Base, engine
 from app.models import bussiness_models, code_models, config_models  # noqa: F401
 from scripts.seed.seed_code_tables import seed_code_tables
 from scripts.seed.seed_question_config import seed_question_config
-from scripts.seed.seed_users import seed_users
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -163,11 +162,9 @@ def main() -> None:
     with engine.begin() as connection:
         _truncate_model_tables(connection)
         counts: dict[str, int] = {}
-        counts.update(seed_users(connection, SEED_DATA_PATH))
         counts.update(seed_code_tables(connection, SEED_DATA_PATH))
         counts.update(seed_question_config(connection, SEED_DATA_PATH))
 
-        _sync_sequence(connection, "users", "uid")
         _sync_sequence(connection, "launderingbacktitles", "question_code")
         _sync_sequence(connection, "addinfotitles", "field_id")
         _sync_sequence(connection, "questiontitles", "question_code")

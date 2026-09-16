@@ -1,11 +1,4 @@
 {
-  "users": [
-    {
-      "uid": 1,
-      "user_phone": "18212341234",
-      "user_id": "310107111122223333"
-    }
-  ],
   "launderingbacktitles": [
     {
       "question_code": 1,
