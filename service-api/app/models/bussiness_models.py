@@ -26,7 +26,8 @@ class User(Base) :
 
     user_phone : Mapped[str] = mapped_column(
         String(20),
-        nullable=False
+        nullable=False,
+        unique=True
     )
 
     user_id : Mapped[str] = mapped_column(      # 身份证号
