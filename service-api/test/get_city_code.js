@@ -8,7 +8,7 @@ async function get_city_code() {
 
         const result = await response.json();
 
-        console.log(result.length);
+        console.log("数量：" + result.length);
     } catch (error) {
         console.log(error.message);
     }

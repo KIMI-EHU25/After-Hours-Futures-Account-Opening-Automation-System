@@ -89,53 +89,41 @@ SELECT * FROM openaccount.users;
 
 ## 4. 最重要：在家里数据库和公司数据库之间切换
 
-### 4.1 必须同时修改两个文件
+### 4.1 数据库连接统一由 `.env` 管理
 
-当前项目没有使用环境变量，数据库连接分别配置在两个位置：
+当前项目使用 `service-api/.env` 中的 `DATABASE_URL` 作为唯一数据库连接配置：
 
-| 文件 | 使用者 | 配置项 |
-| --- | --- | --- |
-| `service-api/app/database.py` | FastAPI、CRUD、初始化脚本 | `DATABASE_URL` |
-| `service-api/alembic.ini` | Alembic 数据库迁移 | `sqlalchemy.url` |
+| 使用者 | 读取方式 |
+| --- | --- |
+| FastAPI、CRUD、初始化脚本 | `service-api/app/database.py` 读取 `.env` |
+| Alembic 数据库迁移 | `service-api/alembic/env.py` 读取同一个 `.env` |
 
-**切换数据库时必须同时修改这两个文件，并确保主机、端口、用户名、密码和数据库名完全一致。**
+`service-api/alembic.ini` 中的 `sqlalchemy.url` 会保持为空，不能再向其中写入真实用户名或密码：
 
-如果只修改 `database.py`：FastAPI 会连接新数据库，但 Alembic 仍可能修改旧数据库。
+```ini
+sqlalchemy.url =
+```
 
-如果只修改 `alembic.ini`：Alembic 会迁移新数据库，但 FastAPI 仍会读写旧数据库。
-
-这是本项目切换数据库时最需要注意的风险。
+切换数据库时只修改 `service-api/.env`，FastAPI 和 Alembic 就会使用同一个目标。项目提供了不含真实凭据的 `service-api/.env.example` 作为格式参考。
 
 ### 4.2 家里数据库配置
 
 家里的 PostgreSQL 如果运行在当前电脑上，主机通常是 `127.0.0.1`。
 
-在 `service-api/app/database.py` 中配置：
+在 `service-api/.env` 中配置：
 
-```python
-DATABASE_URL = "postgresql+psycopg://<用户名>:<密码>@127.0.0.1:5432/postgres"
-```
-
-在 `service-api/alembic.ini` 中配置：
-
-```ini
-sqlalchemy.url = postgresql+psycopg://<用户名>:<密码>@127.0.0.1:5432/postgres
+```env
+DATABASE_URL=postgresql+psycopg://<用户名>:<密码>@127.0.0.1:5432/postgres
 ```
 
 ### 4.3 公司数据库配置
 
 当前项目代码中记录的公司数据库主机是 `<host>`。切换前应先确认电脑已经连接公司网络或公司 VPN，并确认数据库地址没有变化。
 
-在 `service-api/app/database.py` 中配置：
+在 `service-api/.env` 中配置：
 
-```python
-DATABASE_URL = "postgresql+psycopg://<公司用户名>:<公司密码>@<host>:5432/postgres"
-```
-
-在 `service-api/alembic.ini` 中配置：
-
-```ini
-sqlalchemy.url = postgresql+psycopg://<公司用户名>:<公司密码>@<host>:5432/postgres
+```env
+DATABASE_URL=postgresql+psycopg://<公司用户名>:<公司密码>@<host>:5432/postgres
 ```
 
 如果公司实际提供了不同的主机、端口或数据库名，应以公司 DBA 提供的信息为准，不要机械照抄上面的地址。
@@ -144,18 +132,7 @@ sqlalchemy.url = postgresql+psycopg://<公司用户名>:<公司密码>@<host>:54
 
 如果用户名或密码包含 `@`、`:`、`/`、`#`、`?`、`%` 等 URL 特殊字符，需要先做 URL 编码。例如，密码中的 `@` 应写成 `%40`。
 
-`alembic.ini` 使用 Python 配置文件解析规则，其中百分号需要再转义一次。例如：
-
-```text
-database.py 中：%40
-alembic.ini 中：%%40
-```
-
-否则可能出现：
-
-```text
-InterpolationSyntaxError: '%' must be followed by '%' or '('
-```
+连接串现在只写在 `.env` 中，URL 编码后的百分号保持普通写法即可，例如 `%40`；不再需要为 `alembic.ini` 写成 `%%40`。
 
 不要把真实数据库密码写入 README、Git 提交、截图或聊天记录。
 
@@ -165,7 +142,7 @@ InterpolationSyntaxError: '%' must be followed by '%' or '('
 
 1. 停止正在运行的 `service-api`。
 2. 确认目标数据库的主机和端口。
-3. 同时修改 `database.py` 和 `alembic.ini`。
+3. 只修改 `service-api/.env` 中的 `DATABASE_URL`。
 4. 先检查 TCP 端口是否可达。
 5. 再检查应用连接和 Alembic 连接。
 6. 确认目标服务器、数据库和 Schema 都正确后，才执行迁移。

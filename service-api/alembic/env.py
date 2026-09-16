@@ -1,11 +1,21 @@
 from logging.config import fileConfig
+import os
+from pathlib import Path
 
-from sqlalchemy import engine_from_config
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
 from sqlalchemy import pool
 
 from alembic import context
 
-from app.database import Base
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+load_dotenv(PROJECT_ROOT / ".env")
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise RuntimeError("缺少 DATABASE_URL 环境变量")
+
+from app.database import Base  # noqa: E402
 from app.models import config_models , bussiness_models , code_models
 
 # this is the Alembic Config object, which provides
@@ -41,9 +51,8 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
     context.configure(
-        url=url,
+        url=DATABASE_URL,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
@@ -62,9 +71,8 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
+    connectable = create_engine(
+        DATABASE_URL,
         poolclass=pool.NullPool,
     )
 
