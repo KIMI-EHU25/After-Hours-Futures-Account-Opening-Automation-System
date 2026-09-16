@@ -35,6 +35,11 @@ class User(Base) :
         unique=True
     )
 
+    user_hashed_password: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False,
+    )
+
     user_created_at : Mapped[datetime] = mapped_column(
         TIMESTAMP,
         server_default=func.now()
