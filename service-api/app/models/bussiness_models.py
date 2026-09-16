@@ -7,7 +7,8 @@ from sqlalchemy import (
     func,
     Boolean,
     Integer,
-    Date
+    Date,
+    false
 )
 from sqlalchemy.orm import (
     Mapped,
@@ -39,6 +40,13 @@ class User(Base) :
     user_hashed_password: Mapped[str] = mapped_column(
         String(255),
         nullable=False,
+    )
+
+    is_admin: Mapped[bool] = mapped_column(
+        Boolean,
+        nullable=False,
+        default=False,
+        server_default=false(),
     )
 
     user_created_at : Mapped[datetime] = mapped_column(
