@@ -29,6 +29,8 @@ $testFiles = @(
     "post_chooseFutures_answer.js"
     "get_province_code.js"
     "get_city_code.js"
+    "get_occupation_code.js"
+    "get_educationalqualification_code.js"
     "get_jsinject_data.js"
 )
 
