@@ -3,7 +3,8 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-$serviceApiDir = $PSScriptRoot
+$testDir = $PSScriptRoot
+$serviceApiDir = Split-Path -Parent $testDir
 $venvPython = Join-Path $serviceApiDir ".venv\Scripts\python.exe"
 
 if (-not (Test-Path -LiteralPath $serviceApiDir -PathType Container)) {
@@ -19,19 +20,19 @@ if (Test-Path -LiteralPath $venvPython -PathType Leaf) {
 Get-Command node -ErrorAction Stop | Out-Null
 
 $testFiles = @(
-    "get_launderingBack_config.js"
-    "get_addInfo_config.js"
-    "get_question_config.js"
-    "get_chooseFutures_config.js"
-    "post_launderingBack_answer.js"
-    "post_addInfo_answer.js"
-    "post_question_answer.js"
-    "post_chooseFutures_answer.js"
-    "get_province_code.js"
-    "get_city_code.js"
-    "get_occupation_code.js"
-    "get_educationalqualification_code.js"
-    "get_jsinject_data.js"
+    "launderingBack_test\get_launderingBack_config.js"
+    "addInfo_test\get_addInfo_config.js"
+    "question_test\get_question_config.js"
+    "chooseFutures_test\get_chooseFutures_config.js"
+    "launderingBack_test\post_launderingBack_answer.js"
+    "addInfo_test\post_addInfo_answer.js"
+    "question_test\post_question_answer.js"
+    "chooseFutures_test\post_chooseFutures_answer.js"
+    "code_test\get_province_code.js"
+    "code_test\get_city_code.js"
+    "code_test\get_occupation_code.js"
+    "code_test\get_educationalqualification_code.js"
+    "jsinject_test\get_jsinject_data.js"
 )
 
 Push-Location $serviceApiDir
@@ -43,7 +44,7 @@ try {
     }
 
     foreach ($testFile in $testFiles) {
-        $testPath = Join-Path $serviceApiDir "test\$testFile"
+        $testPath = Join-Path $testDir $testFile
         if (-not (Test-Path -LiteralPath $testPath -PathType Leaf)) {
             throw "Test file not found: $testPath"
         }
