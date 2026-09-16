@@ -1,4 +1,4 @@
-import { base_url } from "./main.js"
+import { base_url } from "../main.js"
 
 async function post_chooseFutures_answer() {
     try {

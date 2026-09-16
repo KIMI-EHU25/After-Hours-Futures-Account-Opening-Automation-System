@@ -1,8 +1,8 @@
-import { base_url } from "./main.js";
+import { base_url } from "../main.js";
 
-async function get_launderingBack_config() {
+async function get_addInfo_config() {
     try {
-        const respone = await fetch(base_url + `/api/launderingBack/config`);
+        const respone = await fetch(base_url + `/api/addInfo/config`);
 
         if(!respone.ok)
             throw new Error(respone.status);
@@ -15,4 +15,4 @@ async function get_launderingBack_config() {
     }
 }
 
-get_launderingBack_config();
+get_addInfo_config();
