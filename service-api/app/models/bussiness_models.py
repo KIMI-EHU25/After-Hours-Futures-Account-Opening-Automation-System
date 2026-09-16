@@ -8,7 +8,8 @@ from sqlalchemy import (
     Boolean,
     Integer,
     Date,
-    false
+    false,
+    DateTime
 )
 from sqlalchemy.orm import (
     Mapped,
@@ -372,5 +373,35 @@ class chooseFuturesAnswer(Base) :
 
     p1 : Mapped[str] = mapped_column(
         String(10),
+        nullable=False
+    )
+
+
+class RefreshToken(Base) : 
+    __tablename__ = "refreshtokens"
+    __table_args__ = {"schema": "openaccount"}
+
+    id : Mapped[int] = mapped_column(
+        primary_key=True
+    )
+
+    hashed_token : Mapped[str] = mapped_column(
+        Text,
+        unique=True,
+        nullable=False
+    )
+
+    uid: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey(
+            "openaccount.users.uid",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    expire_at : Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
         nullable=False
     )
