@@ -1,4 +1,12 @@
 {
+  "users": [
+    {
+      "user_phone": "13800000000",
+      "user_id": "310107000000000000",
+      "user_hashed_password": "<removed>",
+      "is_admin": true
+    }
+  ],
   "launderingbacktitles": [
     {
       "question_code": 1,

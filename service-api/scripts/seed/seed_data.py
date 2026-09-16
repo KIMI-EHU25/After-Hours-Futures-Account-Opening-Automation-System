@@ -6,6 +6,7 @@ from typing import Any
 
 
 EXPECTED_COLUMNS: dict[str, set[str]] = {
+    "users": {"user_phone", "user_id", "user_hashed_password", "is_admin"},
     "launderingbacktitles": {"question_code", "type", "title"},
     "launderingbackoptions": {"question_code", "option", "optiontext"},
     "addinfotitles": {"field_id", "field_name", "type"},
@@ -20,6 +21,7 @@ EXPECTED_COLUMNS: dict[str, set[str]] = {
 }
 
 EXPECTED_COUNTS = {
+    "users": 1,
     "launderingbacktitles": 9,
     "launderingbackoptions": 33,
     "addinfotitles": 23,
@@ -98,6 +100,7 @@ def load_seed_data(path: Path) -> dict[str, list[dict[str, Any]]]:
         data[table_name] = rows
 
     unique_keys = {
+        "users": ("user_phone",),
         "launderingbacktitles": ("question_code",),
         "launderingbackoptions": ("question_code", "option"),
         "addinfotitles": ("field_id",),
@@ -112,5 +115,6 @@ def load_seed_data(path: Path) -> dict[str, list[dict[str, Any]]]:
     }
     for table_name, key_columns in unique_keys.items():
         _assert_unique(data[table_name], table_name, key_columns)
+    _assert_unique(data["users"], "users", ("user_id",))
     _validate_references(data)
     return data
