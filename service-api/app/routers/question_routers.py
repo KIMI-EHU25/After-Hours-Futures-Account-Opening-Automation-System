@@ -1,4 +1,4 @@
-from fastapi import APIRouter , Depends , HTTPException
+from fastapi import APIRouter , Depends , HTTPException , status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -41,7 +41,7 @@ def post_question_answer(
     success = post_question_answer_crud(data , db)
 
     if not success :
-        raise HTTPException(status_code=404 , detail="uid Not Exists")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND , detail="uid Not Exists")
     else :
         return {
             "msg" : "Success"
