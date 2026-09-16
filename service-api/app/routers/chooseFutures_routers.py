@@ -2,11 +2,12 @@ from fastapi import APIRouter , Depends , HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-
 from app.schemas.shared_schemas import TitleResponse
 from app.schemas.chooseFutures_schemas import post_chooseFutures_answer_Request
-from app.cruds.chooseFutures_cruds import get_chooseFutures_config as get_chooseFutures_config_crud
-from app.cruds.chooseFutures_cruds import post_chooseFutures_answer as post_chooseFutures_answer_crud
+from app.cruds.chooseFutures_cruds import (
+    get_chooseFutures_config as get_chooseFutures_config_crud,
+    post_chooseFutures_answer as post_chooseFutures_answer_crud
+)
 
 
 

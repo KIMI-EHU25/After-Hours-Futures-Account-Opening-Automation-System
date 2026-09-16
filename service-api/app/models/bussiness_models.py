@@ -1,3 +1,4 @@
+from datetime import datetime , date
 from sqlalchemy import (
     String,
     ForeignKey,
@@ -6,15 +7,12 @@ from sqlalchemy import (
     func,
     Boolean,
     Integer,
-    Date,
-    text
+    Date
 )
 from sqlalchemy.orm import (
     Mapped,
-    mapped_column,
-    relationship
+    mapped_column
 )
-from datetime import datetime , date
 
 from app.database import Base
 

@@ -2,19 +2,21 @@ from fastapi import APIRouter , Depends , HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-
 from app.schemas.code_schemas import province_code_Response , city_code_Response , occupation_code_Response , educationalqualification_code_Response
+from app.cruds.code_cruds import (
+    get_province_code as get_province_code_crud,
+    get_city_code as get_city_code_crud,
+    get_occupation_code as get_occupation_code_crud,
+    get_educationalqualification_code as get_educationalqualification_code_crud
+)
 
-from app.cruds.code_cruds import get_province_code as get_province_code_crud
-from app.cruds.code_cruds import get_city_code as get_city_code_crud
-from app.cruds.code_cruds import get_occupation_code as get_occupation_code_crud
-from app.cruds.code_cruds import get_educationalqualification_code as get_educationalqualification_code_crud
 
 
 router = APIRouter(
     prefix="/api/code",
     tags=["code"]
 )
+
 
 
 @router.get(

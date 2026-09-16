@@ -1,5 +1,5 @@
-from pydantic import BaseModel
 from datetime import date
+from pydantic import BaseModel
 
 class FieldResponse(BaseModel) :
     field_id : int
@@ -9,8 +9,6 @@ class FieldResponse(BaseModel) :
     model_config = {
         "from_attributes": True
     }
-
-
 
 class post_addInfo_answer_Request(BaseModel) :
     uid : int

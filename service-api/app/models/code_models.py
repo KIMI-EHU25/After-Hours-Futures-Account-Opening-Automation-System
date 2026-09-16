@@ -1,20 +1,11 @@
 from sqlalchemy import (
-    String,
     ForeignKey,
-    Text,
-    TIMESTAMP,
-    func,
-    Boolean,
-    Integer,
-    Date,
-    text
+    Text
 )
 from sqlalchemy.orm import (
     Mapped,
-    mapped_column,
-    relationship
+    mapped_column
 )
-from datetime import datetime , date
 
 from app.database import Base
 

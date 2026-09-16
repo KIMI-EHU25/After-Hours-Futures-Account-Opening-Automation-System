@@ -2,10 +2,11 @@ from fastapi import APIRouter , Depends , HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-
 from app.schemas.addInfo_schemas import FieldResponse , post_addInfo_answer_Request
-from app.cruds.addInfo_cruds import get_addInfo_config as get_addInfo_config_crud
-from app.cruds.addInfo_cruds import post_addInfo_answer as post_addInfo_answer_crud
+from app.cruds.addInfo_cruds import (
+    get_addInfo_config as get_addInfo_config_crud,
+    post_addInfo_answer as post_addInfo_answer_crud
+)
 
 
 

@@ -5,8 +5,10 @@ from app.database import get_db
 
 from app.schemas.shared_schemas import TitleResponse
 from app.schemas.question_schemas import post_question_answer_Request
-from app.cruds.question_cruds import get_question_config as get_question_config_crud
-from app.cruds.question_cruds import post_question_answer as post_question_answer_crud
+from app.cruds.question_cruds import (
+    get_question_config as get_question_config_crud,
+    post_question_answer as post_question_answer_crud
+)
 
 
 
