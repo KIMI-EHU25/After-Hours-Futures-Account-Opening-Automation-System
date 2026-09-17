@@ -2,10 +2,18 @@ from fastapi import APIRouter , HTTPException , status , Depends
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.schemas.auth_schemas import RegisterRequest , RegisterResponse , LoginRequest , LoginResponse
+from app.schemas.auth_schemas import (
+    RegisterRequest ,
+    RegisterResponse ,
+    LoginRequest ,
+    LoginResponse ,
+    RefreshRequest ,
+    RefreshResponse
+)
 from app.cruds.auth_cruds import (
     register as register_crud,
-    login as login_crud
+    login as login_crud,
+    refresh as refresh_crud
 )
 
 
@@ -38,3 +46,15 @@ def login(
     db : Session = Depends(get_db)
 ) : 
     return login_crud(data , db)
+
+
+
+@router.post(
+    "/refresh",
+    response_model=RefreshResponse
+)
+def refresh(
+    data : RefreshRequest , 
+    db : Session = Depends(get_db)
+) : 
+    return refresh_crud(data , db)

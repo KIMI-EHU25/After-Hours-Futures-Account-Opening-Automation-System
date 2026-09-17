@@ -39,3 +39,22 @@ class LoginResponse(BaseModel) :
     access_token : str
     refresh_token : str
     token_type : str = "bearer"
+
+    model_config = {
+        "from_attributes": True
+    }
+
+class RefreshRequest(BaseModel):
+    refresh_token: str = Field(
+        min_length=64,
+        max_length=64,
+        pattern=r"^[0-9a-f]+$",
+    )
+
+class RefreshResponse(BaseModel) : 
+    access_token : str
+    token_type : str = "bearer"
+
+    model_config = {
+        "from_attributes": True
+    }

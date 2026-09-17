@@ -24,14 +24,20 @@ $testFiles = @(
     "addInfo_test\get_addInfo_config.js"
     "question_test\get_question_config.js"
     "chooseFutures_test\get_chooseFutures_config.js"
-    "launderingBack_test\post_launderingBack_answer.js"
-    "addInfo_test\post_addInfo_answer.js"
-    "question_test\post_question_answer.js"
-    "chooseFutures_test\post_chooseFutures_answer.js"
     "code_test\get_province_code.js"
     "code_test\get_city_code.js"
     "code_test\get_occupation_code.js"
     "code_test\get_educationalqualification_code.js"
+
+    "auth_test\register.js"
+    "auth_test\login.js"
+    "auth_test\refresh.js"
+
+    "launderingBack_test\post_launderingBack_answer.js"
+    "addInfo_test\post_addInfo_answer.js"
+    "question_test\post_question_answer.js"
+    "chooseFutures_test\post_chooseFutures_answer.js"
+
     "jsinject_test\get_jsinject_data.js"
 )
 
