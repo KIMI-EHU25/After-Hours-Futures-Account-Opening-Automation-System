@@ -21,7 +21,8 @@ async function post_chooseFutures_answer() {
 
         console.log(result);
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
+        process.exitCode = 1;
     }
 }
 

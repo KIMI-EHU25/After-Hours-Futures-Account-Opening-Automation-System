@@ -43,7 +43,8 @@ async function post_addInfo_answer() {
 
         console.log(result);
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
+        process.exitCode = 1;
     }
 }
 

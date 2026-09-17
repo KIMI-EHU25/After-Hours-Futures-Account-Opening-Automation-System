@@ -26,7 +26,8 @@ async function refresh() {
         console.log(result);
         console.log("新的 Access Token 已写入 test/test_token.json，Refresh Token 保持不变");
     } catch (error) {
-        console.log(error);
+        console.error(error);
+        process.exitCode = 1;
     }
 }
 

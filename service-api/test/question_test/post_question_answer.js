@@ -34,7 +34,8 @@ async function post_question_answer() {
 
         console.log(result)
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
+        process.exitCode = 1;
     }
 }
 

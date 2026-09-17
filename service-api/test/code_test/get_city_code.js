@@ -10,7 +10,8 @@ async function get_city_code() {
 
         console.log("数量：" + result.length);
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
+        process.exitCode = 1;
     }
 }
 

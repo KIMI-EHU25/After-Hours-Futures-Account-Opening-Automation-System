@@ -13,7 +13,8 @@ async function get_jsinject_data() {
 
         console.log(result);
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
+        process.exitCode = 1;
     }
 }
 

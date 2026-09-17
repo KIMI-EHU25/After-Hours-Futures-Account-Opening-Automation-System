@@ -20,7 +20,8 @@ async function register() {
         const result = await response.json();
         console.log(result);
     } catch (error) {
-        console.log(error);
+        console.error(error);
+        process.exitCode = 1;
     }
 }
 

@@ -27,7 +27,8 @@ async function login() {
         console.log("Access Token 和 Refresh Token 已写入 test/test_token.json");
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
+        process.exitCode = 1;
     }
 }
 

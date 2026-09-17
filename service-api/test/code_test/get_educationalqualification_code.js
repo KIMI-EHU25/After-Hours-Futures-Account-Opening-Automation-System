@@ -8,7 +8,8 @@ async function get_educationalqualification_code() {
         const result = await response.json();
         console.log(result);
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
+        process.exitCode = 1;
     }
 }
 
