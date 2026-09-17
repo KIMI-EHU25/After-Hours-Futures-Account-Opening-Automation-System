@@ -1,11 +1,8 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { base_url } from "../main.js"
-
-const currentFile = fileURLToPath(import.meta.url);
-const currentDir = path.dirname(currentFile);
-const tokenPath = path.join(currentDir, 'refresh_token.txt');
+import {
+    writeAccessToken,
+    writeRefreshToken,
+} from "../utils/token_file.js";
 
 async function login() {
     try {
@@ -24,10 +21,9 @@ async function login() {
             throw new Error(response.status);
 
         const result = await response.json();
-        console.log(result);
-
-            // 将 refresh_token 写入文件
-            fs.writeFileSync(tokenPath, result.refresh_token, 'utf8');
+        writeAccessToken(result.access_token);
+        writeRefreshToken(result.refresh_token);
+        console.log("Access Token 和 Refresh Token 已写入 test/test_token.json");
 
     } catch (error) {
         console.log(error);
