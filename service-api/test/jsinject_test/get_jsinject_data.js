@@ -2,7 +2,7 @@ import { base_url } from "../main.js"
 
 async function get_jsinject_data() {
     try {
-        const response = await fetch(base_url + "/api/jsinject/data?uid=1" , {
+        const response = await fetch(base_url + "/api/jsinject/data?uid=2" , {
             method : "GET"
         });
 
