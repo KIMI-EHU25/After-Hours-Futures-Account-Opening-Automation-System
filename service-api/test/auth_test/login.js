@@ -23,6 +23,7 @@ async function login() {
         const result = await response.json();
         writeAccessToken(result.access_token);
         writeRefreshToken(result.refresh_token);
+        console.log(result);
         console.log("Access Token 和 Refresh Token 已写入 test/test_token.json");
 
     } catch (error) {
