@@ -11,7 +11,6 @@ class FieldResponse(BaseModel) :
     }
 
 class post_addInfo_answer_Request(BaseModel) :
-    uid : int
     name : str
     idCardNumber : str
     idCardAddress : str

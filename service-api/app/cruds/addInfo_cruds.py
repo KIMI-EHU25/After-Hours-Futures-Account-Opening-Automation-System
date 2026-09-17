@@ -20,19 +20,11 @@ def get_addInfo_config(
 
 def post_addInfo_answer(
     data : post_addInfo_answer_Request,
+    current_user : User,
     db : Session
 ) : 
-    user = db.execute(
-        select(User).where(
-            User.uid == data.uid
-        )
-    ).scalar_one_or_none()
-
-    if user is None : 
-        return False
-
     addInfoanswer = addInfoAnswer(
-        uid = data.uid,
+        uid = current_user.uid,
         name = data.name,
         idCardNumber = data.idCardNumber,
         idCardAddress = data.idCardAddress,
@@ -62,4 +54,6 @@ def post_addInfo_answer(
     db.commit()
     db.refresh(addInfoanswer)
 
-    return True
+    return {
+        "msg" : "Success"
+    }

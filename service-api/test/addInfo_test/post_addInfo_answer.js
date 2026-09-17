@@ -1,14 +1,15 @@
 import { base_url } from "../main.js"
+import { readAccessToken } from "../utils/token_file.js";
 
 async function post_addInfo_answer() {
     try {
         const response = await fetch(base_url + "/api/addInfo/answer" , {
             method : "POST",
             headers : {
-                "content-type" : "application/json"
+                "content-type" : "application/json",
+                "Authorization" : "Bearer " + readAccessToken()
             },
             body : JSON.stringify({
-                "uid" : 1,
                 "name" : "张三",
                 "idCardNumber" : "110101199003071233",
                 "idCardAddress" : "北京市东城区示例路1号101室",
