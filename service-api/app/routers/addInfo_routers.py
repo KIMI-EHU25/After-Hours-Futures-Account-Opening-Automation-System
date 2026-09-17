@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.schemas.addInfo_schemas import FieldResponse , post_addInfo_answer_Request
+from app.schemas.shared_schemas import MessageResponse
 from app.cruds.addInfo_cruds import (
     get_addInfo_config as get_addInfo_config_crud,
     post_addInfo_answer as post_addInfo_answer_crud
@@ -30,6 +31,7 @@ def get_addInfo_config(
 
 @router.post(
     "/answer",
+    response_model=MessageResponse
 )
 def post_addInfo_answer(
     data : post_addInfo_answer_Request,

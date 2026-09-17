@@ -2,7 +2,7 @@ from fastapi import APIRouter , Depends , HTTPException , status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.schemas.shared_schemas import TitleResponse
+from app.schemas.shared_schemas import TitleResponse , MessageResponse
 from app.schemas.chooseFutures_schemas import post_chooseFutures_answer_Request
 from app.cruds.chooseFutures_cruds import (
     get_chooseFutures_config as get_chooseFutures_config_crud,
@@ -31,6 +31,7 @@ def get_chooseFutures_config(
 
 @router.post(
     "/answer",
+    response_model=MessageResponse
 )
 def post_chooseFutures_answer(
     data : post_chooseFutures_answer_Request,

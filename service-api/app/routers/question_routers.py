@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 
-from app.schemas.shared_schemas import TitleResponse
+from app.schemas.shared_schemas import TitleResponse , MessageResponse
 from app.schemas.question_schemas import post_question_answer_Request
 from app.cruds.question_cruds import (
     get_question_config as get_question_config_crud,
@@ -32,6 +32,7 @@ def get_question_config(
 
 @router.post(
     "/answer",
+    response_model=MessageResponse
 )
 def post_question_answer(
     data : post_question_answer_Request,
