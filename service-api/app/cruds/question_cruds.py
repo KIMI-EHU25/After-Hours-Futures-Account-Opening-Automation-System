@@ -40,19 +40,11 @@ def get_question_config(
 
 def post_question_answer(
     data : post_question_answer_Request,
+    current_user : User,
     db : Session
 ) : 
-    user = db.execute(
-        select(User).where(
-            User.uid == data.uid
-        )
-    ).scalar_one_or_none()
-
-    if user is None : 
-        return False
-
     questionanswer = questionAnswer(
-        uid = data.uid,
+        uid = current_user.uid,
         p1 = data.p1,
         p2 = data.p2,
         p3 = data.p3,
@@ -73,4 +65,6 @@ def post_question_answer(
     db.commit()
     db.refresh(questionanswer)
 
-    return True
+    return {
+        "msg" : "Success"
+    }

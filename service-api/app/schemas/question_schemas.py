@@ -1,18 +1,17 @@
-from pydantic import BaseModel
+from pydantic import BaseModel , Field
 
-class post_question_answer_Request(BaseModel) : 
-    uid : int
-    p1 : str
-    p2 : str
-    p3 : str
-    p4 : str
-    p5 : str
-    p6 : str
-    p7 : str
-    p8 : str
-    p9 : str
-    p10 : str
-    p11 : str
-    p12 : str
-    p13 : str
-    p14 : str
+class post_question_answer_Request(BaseModel) :
+    p1 : str = Field(min_length=1, max_length=1)
+    p2 : str = Field(min_length=1, max_length=1)
+    p3 : str = Field(min_length=1, max_length=1)
+    p4 : str = Field(min_length=1, max_length=1)
+    p5 : str = Field(min_length=1, max_length=1)
+    p6 : str = Field(min_length=1, max_length=1)
+    p7 : str = Field(min_length=1, max_length=1)
+    p8 : str = Field(min_length=1, max_length=1)
+    p9 : str = Field(min_length=1, max_length=1)
+    p10 : str = Field(min_length=1, max_length=1)
+    p11 : str = Field(min_length=1, max_length=1)
+    p12 : str = Field(min_length=1, max_length=1)
+    p13 : str = Field(min_length=1, max_length=1)
+    p14 : str = Field(min_length=1, max_length=1)

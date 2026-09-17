@@ -9,6 +9,8 @@ from app.cruds.question_cruds import (
     get_question_config as get_question_config_crud,
     post_question_answer as post_question_answer_crud
 )
+from app.dependencies.auth_dependencies import get_current_user
+from app.models.bussiness_models import User
 
 
 
@@ -36,14 +38,7 @@ def get_question_config(
 )
 def post_question_answer(
     data : post_question_answer_Request,
+    current_user : User = Depends(get_current_user),
     db : Session = Depends(get_db)
 ) : 
-
-    success = post_question_answer_crud(data , db)
-
-    if not success :
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND , detail="uid Not Exists")
-    else :
-        return {
-            "msg" : "Success"
-        }
+    return post_question_answer_crud(data , current_user , db)
