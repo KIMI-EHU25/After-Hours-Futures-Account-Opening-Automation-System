@@ -20,7 +20,7 @@ def get_current_user(
             SECRET_KEY,
             algorithms=[ALGORITHM]
         )
-        uid = jwt.get("sub")
+        uid = data.get("sub")
         if uid is None :
             raise ValueError()
         uid = int(uid)
