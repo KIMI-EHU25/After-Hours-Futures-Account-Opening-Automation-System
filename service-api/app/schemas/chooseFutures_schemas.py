@@ -1,4 +1,12 @@
-from pydantic import BaseModel , Field
+from typing import Literal
+from pydantic import BaseModel
+
+MultipleChoiceABCD = Literal[
+    "A", "B", "C", "D",
+    "AB", "AC", "AD", "BC", "BD", "CD",
+    "ABC", "ABD", "ACD", "BCD",
+    "ABCD",
+]
 
 class post_chooseFutures_answer_Request(BaseModel) : 
-    p1 : str = Field(min_length=1 , max_length=4)
+    p1 : MultipleChoiceABCD
