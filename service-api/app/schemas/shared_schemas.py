@@ -19,3 +19,5 @@ class TitleResponse(BaseModel) :
         "from_attributes": True
     }
 
+class MessageResponse(BaseModel) :
+    msg : str
