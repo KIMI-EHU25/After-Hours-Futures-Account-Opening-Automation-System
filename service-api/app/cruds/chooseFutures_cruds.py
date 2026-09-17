@@ -40,19 +40,11 @@ def get_chooseFutures_config(
 
 def post_chooseFutures_answer(
     data : post_chooseFutures_answer_Request,
+    current_user : User,
     db : Session
 ) : 
-    user = db.execute(
-        select(User).where(
-            User.uid == data.uid
-        )
-    ).scalar_one_or_none()
-
-    if user is None : 
-        return False
-
     chooseFuturesanswer = chooseFuturesAnswer(
-        uid = data.uid,
+        uid = current_user.uid,
         p1 = data.p1
     )
 
@@ -60,4 +52,6 @@ def post_chooseFutures_answer(
     db.commit()
     db.refresh(chooseFuturesanswer)
 
-    return True
+    return {
+        "msg" : "Success"
+    }
