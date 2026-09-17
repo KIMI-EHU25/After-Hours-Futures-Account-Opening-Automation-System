@@ -158,7 +158,7 @@ def main() -> None:
         entered = input(f"请输入 {confirmation!r} 继续：").strip()
         if entered != confirmation:
             print("输入不匹配，已取消，数据库未修改。")
-            return
+            raise SystemExit(1)
 
     with engine.begin() as connection:
         _truncate_model_tables(connection)

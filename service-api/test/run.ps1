@@ -45,8 +45,9 @@ Push-Location $serviceApiDir
 try {
     Write-Host "Initializing database..."
     & $pythonCommand -m scripts.seed.seed_all
-    if ($LASTEXITCODE -ne 0) {
-        throw "Database initialization failed with exit code $LASTEXITCODE"
+    $seedExitCode = $LASTEXITCODE
+    if ($seedExitCode -ne 0) {
+        throw "Database initialization was cancelled or failed (exit code $seedExitCode). API tests were not run."
     }
 
     foreach ($testFile in $testFiles) {
