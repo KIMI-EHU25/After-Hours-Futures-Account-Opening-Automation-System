@@ -1,14 +1,15 @@
 import { base_url } from "../main.js";
+import { readAccessToken } from "../utils/token_file.js";
 
 async function post_launderingBack_answer() {
     try {
         const response = await fetch(base_url + "/api/launderingBack/answer" , {
             method : "POST",
             headers : {
-                "content-type" : "application/json"
+                "content-type" : "application/json",
+                "Authorization" : "Bearer " + readAccessToken()
             },
             body : JSON.stringify({
-                "uid" : 1,
                 "p1" : "A",
                 "p2" : "A",
                 "p3" : "A",
