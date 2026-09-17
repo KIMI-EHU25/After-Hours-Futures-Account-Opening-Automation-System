@@ -10,7 +10,7 @@ load_dotenv()
 
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ["ACCESS_TOKEN_EXPIRE_MINUTES"])
 REFRESH_TOKEN_EXPIRE_DAYS = int(os.environ["REFRESH_TOKEN_EXPIRE_DAYS"])
-SECRET = os.environ["SECRET"]
+SECRET_KEY = os.environ["SECRET_KEY"]
 ALGORITHM = "HS256"
 
 password_hash = PasswordHash.recommended()
@@ -25,7 +25,7 @@ def create_access_token(user_id : int) -> str :
     }
     return jwt.encode(
         payload,
-        SECRET,
+        SECRET_KEY,
         algorithm=ALGORITHM
     )
 
