@@ -9,7 +9,8 @@ from sqlalchemy import (
     Integer,
     Date,
     false,
-    DateTime
+    DateTime,
+    true
 )
 from sqlalchemy.orm import (
     Mapped,
@@ -404,4 +405,11 @@ class RefreshToken(Base) :
     expire_at : Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False
+    )
+
+    is_active: Mapped[bool] = mapped_column(
+        Boolean,
+        nullable=False,
+        default=True,
+        server_default=true(),
     )
