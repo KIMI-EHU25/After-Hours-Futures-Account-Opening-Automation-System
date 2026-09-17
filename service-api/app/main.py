@@ -2,13 +2,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers import (
-    launderingBack_routers,
     addInfo_routers,
-    question_routers,
-    chooseFutures_routers,
-    jsinject_router,
-    code_routers,
     auth_routers,
+    chooseFutures_routers,
+    code_routers,
+    jsinject_router,
+    launderingBack_routers,
+    question_routers,
 )
 
 app = FastAPI()

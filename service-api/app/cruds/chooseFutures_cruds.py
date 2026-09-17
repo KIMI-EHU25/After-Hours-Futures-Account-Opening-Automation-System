@@ -1,9 +1,9 @@
-from sqlalchemy.orm import Session
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 
+from app.models.bussiness_models import User , chooseFuturesAnswer
 from app.models.config_models import chooseFuturesTitle , chooseFuturesOption
 from app.schemas.chooseFutures_schemas import post_chooseFutures_answer_Request
-from app.models.bussiness_models import User , chooseFuturesAnswer
 
 
 def get_chooseFutures_config(

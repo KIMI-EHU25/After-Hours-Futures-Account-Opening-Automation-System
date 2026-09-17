@@ -1,10 +1,10 @@
-from sqlalchemy.orm import Session
-from sqlalchemy import select
-
-from app.models.config_models import launderingBackTitle , launderingBackOption
-from app.models.bussiness_models import User , launderingBackAnswer
-from app.schemas.launderingBack_schemas import post_launderingBack_answer_Request
 from fastapi import HTTPException , status
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
+from app.models.bussiness_models import User , launderingBackAnswer
+from app.models.config_models import launderingBackTitle , launderingBackOption
+from app.schemas.launderingBack_schemas import post_launderingBack_answer_Request
 
 
 def get_launderingBack_config(

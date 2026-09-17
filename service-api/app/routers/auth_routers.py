@@ -1,6 +1,11 @@
 from fastapi import APIRouter , HTTPException , status , Depends
 from sqlalchemy.orm import Session
 
+from app.cruds.auth_cruds import (
+    register as register_crud,
+    login as login_crud,
+    refresh as refresh_crud
+)
 from app.database import get_db
 from app.schemas.auth_schemas import (
     RegisterRequest ,
@@ -9,11 +14,6 @@ from app.schemas.auth_schemas import (
     LoginResponse ,
     RefreshRequest ,
     RefreshResponse
-)
-from app.cruds.auth_cruds import (
-    register as register_crud,
-    login as login_crud,
-    refresh as refresh_crud
 )
 
 
