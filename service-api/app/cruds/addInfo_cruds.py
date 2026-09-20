@@ -32,7 +32,7 @@ def post_addInfo_answer(
 ) :
     province_exists = db.scalar(
         select(ProvinceCode.province_code).where(
-            ProvinceCode.province_code == data.contactAddressProvince
+            ProvinceCode.province_code == data.p7
         )
     )
     if province_exists is None :
@@ -43,8 +43,8 @@ def post_addInfo_answer(
 
     city_exists = db.scalar(
         select(CityCode.city_code).where(
-            CityCode.province_code == data.contactAddressProvince,
-            CityCode.city_code == data.contactAddressCity
+            CityCode.province_code == data.p7,
+            CityCode.city_code == data.p8
         )
     )
     if city_exists is None :
@@ -55,7 +55,7 @@ def post_addInfo_answer(
 
     occupation_exists = db.scalar(
         select(OccupationCode.occupation_code).where(
-            OccupationCode.occupation_code == data.occupation
+            OccupationCode.occupation_code == data.p17
         )
     )
     if occupation_exists is None :
@@ -67,7 +67,7 @@ def post_addInfo_answer(
     educational_qualification_exists = db.scalar(
         select(EducationalQualificationCode.educationalqualification_code).where(
             EducationalQualificationCode.educationalqualification_code
-            == data.educationalQualification
+            == data.p18
         )
     )
     if educational_qualification_exists is None :
@@ -78,29 +78,29 @@ def post_addInfo_answer(
 
     addInfoanswer = addInfoAnswer(
         uid = current_user.uid,
-        name = data.name,
-        idCardNumber = data.idCardNumber,
-        idCardAddress = data.idCardAddress,
-        idCardValidPeriodStart = data.idCardValidPeriodStart,
-        idCardValidPeriodEnd = data.idCardValidPeriodEnd,
-        ifIdCardPermanentlyValid = data.ifIdCardPermanentlyValid,
-        contactAddressProvince = data.contactAddressProvince,
-        contactAddressCity = data.contactAddressCity,
-        contactAddress = data.contactAddress,
-        postalCode = data.postalCode,
-        departmentProvince = data.departmentProvince,
-        departmentCity = data.departmentCity,
-        departmentCategory = data.departmentCategory,
-        departmentName = data.departmentName,
-        contactnumber = data.contactnumber,
-        emailAddress = data.emailAddress,
-        occupation = data.occupation,
-        educationalQualification = data.educationalQualification,
-        ifIntermediary = data.ifIntermediary,
-        intermediaryName = data.intermediaryName,
-        intermediaryCode = data.intermediaryCode,
-        referencePersonCode = data.referencePersonCode,
-        referencePersonName = data.referencePersonName
+        p1 = data.p1,
+        p2 = data.p2,
+        p3 = data.p3,
+        p4 = data.p4,
+        p5 = data.p5,
+        p6 = data.p6,
+        p7 = data.p7,
+        p8 = data.p8,
+        p9 = data.p9,
+        p10 = data.p10,
+        p11 = data.p11,
+        p12 = data.p12,
+        p13 = data.p13,
+        p14 = data.p14,
+        p15 = data.p15,
+        p16 = data.p16,
+        p17 = data.p17,
+        p18 = data.p18,
+        p19 = data.p19,
+        p20 = data.p20,
+        p21 = data.p21,
+        p22 = data.p22,
+        p23 = data.p23
     )
 
     db.add(addInfoanswer)
