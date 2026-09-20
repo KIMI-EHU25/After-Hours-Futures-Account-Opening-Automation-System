@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.models.bussiness_models import User , RefreshToken
-from app.schemas.auth_schemas import RegisterRequest , LoginRequest , RefreshRequest
+from app.schemas.auth_schemas import RegisterRequest , LoginRequest , RefreshRequest , LogoutRequest
 from app.security import (
     create_access_token,
     create_refresh_token,
@@ -143,3 +143,48 @@ def refresh(
     }
 
     return payload
+
+
+
+def logout(
+    data : LogoutRequest , 
+    current_user : User , 
+    db : Session
+) : 
+    httpexception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Refresh Token 无效",
+        headers={
+            "WWW-Authenticate" : "Bearer"
+        }
+    )
+    
+    refresh_token = db.execute(
+        select(RefreshToken).where(
+            RefreshToken.hashed_token == hash_refresh_token(data.refresh_token)
+        )
+    ).scalar_one_or_none()
+
+    if refresh_token is None : 
+        raise httpexception
+
+    if not refresh_token.is_active or refresh_token.expire_at <= datetime.now(timezone.utc):
+        raise httpexception
+
+    refresh_token_user = db.execute(
+        select(User).where(
+            User.uid == refresh_token.uid
+        )
+    ).scalar_one_or_none()
+
+    if refresh_token_user is None : 
+        raise httpexception
+
+    if not refresh_token_user.uid == current_user.uid : 
+        raise httpexception
+
+    refresh_token.is_active = False
+    db.commit()
+    return {
+        "msg" : "Success"
+    }

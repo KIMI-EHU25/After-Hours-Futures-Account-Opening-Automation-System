@@ -58,3 +58,10 @@ class RefreshResponse(BaseModel) :
     model_config = {
         "from_attributes": True
     }
+
+class LogoutRequest(BaseModel) :
+    refresh_token: str = Field(
+        min_length=64,
+        max_length=64,
+        pattern=r"^[0-9a-f]+$",
+    )
