@@ -130,136 +130,136 @@ class addInfoAnswer(Base) :
     __tablename__ = "addinfoanswers"
     __table_args__ = {"schema": "openaccount"}
 
-    serial_number : Mapped[int] = mapped_column(
+    serial_number : Mapped[int] = mapped_column( # serial_number
         Integer,
         primary_key=True
     )
 
-    uid : Mapped[int] = mapped_column(
+    uid : Mapped[int] = mapped_column( # uid
         ForeignKey("openaccount.users.uid"),
         nullable=False
     )
 
-    ans_created_at : Mapped[datetime] = mapped_column(
+    ans_created_at : Mapped[datetime] = mapped_column( # ans_created_at
         TIMESTAMP,
         server_default=func.now()
     )
 
-    name : Mapped[str] = mapped_column(
+    p1 : Mapped[str] = mapped_column( # name
         Text,
         nullable=False
     )
 
-    idCardNumber : Mapped[str] = mapped_column(
+    p2 : Mapped[str] = mapped_column( # idCardNumber
         Text,
         nullable=False
     )
 
-    idCardAddress : Mapped[str] = mapped_column(
+    p3 : Mapped[str] = mapped_column( # idCardAddress
         Text,
         nullable=False
     )
 
-    idCardValidPeriodStart : Mapped[date | None] = mapped_column(
+    p4 : Mapped[date | None] = mapped_column( # idCardValidPeriodStart
         Date,
         nullable=True
     )
 
-    idCardValidPeriodEnd : Mapped[date | None] = mapped_column(
+    p5 : Mapped[date | None] = mapped_column( # idCardValidPeriodEnd
         Date,
         nullable=True
     )
 
-    ifIdCardPermanentlyValid : Mapped[bool] = mapped_column(
+    p6 : Mapped[bool] = mapped_column( # ifIdCardPermanentlyValid
         Boolean,
         nullable=False
     )
 
-    contactAddressProvince : Mapped[str] = mapped_column(
+    p7 : Mapped[str] = mapped_column( # contactAddressProvince
         Text,
         nullable=False
     )
 
-    contactAddressCity : Mapped[str] = mapped_column(
+    p8 : Mapped[str] = mapped_column( # contactAddressCity
         Text,
         nullable=False
     )
 
-    contactAddress : Mapped[str] = mapped_column(
+    p9 : Mapped[str] = mapped_column( # contactAddress
         Text,
         nullable=False
     )
 
-    postalCode : Mapped[str] = mapped_column(
+    p10 : Mapped[str] = mapped_column( # contactAddressZipCode
         Text,
         nullable=False,
     )
 
-    departmentProvince : Mapped[str] = mapped_column(
+    p11 : Mapped[str] = mapped_column( # departmentProvince
         Text,
         nullable=False,
         server_default="湖北省"
     )
 
-    departmentCity : Mapped[str] = mapped_column(
+    p12 : Mapped[str] = mapped_column( # departmentCity
         Text,
         nullable=False,
         server_default="武汉市"
     )
 
-    departmentCategory : Mapped[str] = mapped_column(
+    p13 : Mapped[str] = mapped_column( # departmentCategory
         Text,
         nullable=False,
         server_default="0",
     )
 
-    departmentName : Mapped[str] = mapped_column(
+    p14 : Mapped[str] = mapped_column( # departmentName
         Text,
         nullable=False,
         server_default="2015"
     )
 
-    contactnumber : Mapped[str] = mapped_column(
+    p15 : Mapped[str] = mapped_column( # contactnumber
         Text,
         nullable=False
     )
 
-    emailAddress : Mapped[str] = mapped_column(
+    p16 : Mapped[str] = mapped_column( # emailAddress
         Text,
         nullable=True
     )
 
-    occupation : Mapped[str] = mapped_column(
+    p17 : Mapped[str] = mapped_column( # occupation
         Text,
         nullable=False
     )
 
-    educationalQualification : Mapped[str] = mapped_column(
+    p18 : Mapped[str] = mapped_column( # educationalQualification
         Text,
         nullable=False
     )
 
-    ifIntermediary : Mapped[bool] = mapped_column(
+    p19 : Mapped[bool] = mapped_column( # ifIntermediary
         Boolean,
         nullable=False
     )
 
-    intermediaryName : Mapped[str] = mapped_column(
+    p20 : Mapped[str] = mapped_column( # intermediaryName
         Text,
         nullable=True
     )
 
-    intermediaryCode : Mapped[str] = mapped_column(
+    p21 : Mapped[str] = mapped_column( # intermediaryCode
         Text,
         nullable=True
     )
 
-    referencePersonCode : Mapped[str] = mapped_column(
+    p22 : Mapped[str] = mapped_column( # referencePersonCode
         Text,
         nullable=True
     )
 
-    referencePersonName : Mapped[str] = mapped_column(
+    p23 : Mapped[str] = mapped_column( # referencePersonName
         Text,
         nullable=True
     )
