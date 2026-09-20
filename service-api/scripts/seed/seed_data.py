@@ -67,6 +67,16 @@ def _validate_references(data: dict[str, list[dict[str, Any]]]) -> None:
             )
 
 
+def _validate_addinfo_field_ids(data: dict[str, list[dict[str, Any]]]) -> None:
+    actual_ids = [row["field_id"] for row in data["addinfotitles"]]
+    expected_ids = list(range(1, len(actual_ids) + 1))
+    if actual_ids != expected_ids:
+        raise ValueError(
+            "初始化数据表 addinfotitles.field_id 必须按顺序连续编号："
+            f"期望 {expected_ids}，实际 {actual_ids}"
+        )
+
+
 def load_seed_data(path: Path) -> dict[str, list[dict[str, Any]]]:
     """读取并校验完整、自包含的 JSON 初始化数据。"""
     try:
@@ -116,5 +126,6 @@ def load_seed_data(path: Path) -> dict[str, list[dict[str, Any]]]:
     for table_name, key_columns in unique_keys.items():
         _assert_unique(data[table_name], table_name, key_columns)
     _assert_unique(data["users"], "users", ("user_id",))
+    _validate_addinfo_field_ids(data)
     _validate_references(data)
     return data
