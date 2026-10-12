@@ -1,5 +1,9 @@
 # 官方开户网站 页面路径说明
 
+本文记录此前采集的官方页面路径，并与当前注入脚本的路径分支对应；未在本次文档更新中重新访问官方网站，后续页面变化需实际核对。注入实现与接入进度见 [service-js README](../service-js/README.md)。
+
+`/canahartaLogin` 当前会填入示例身份证号用于调试，正式流程仍由用户完成登录。该行为不代表已接入真实用户资料。
+
 ## 官方网页开户路径
 
 ```
@@ -18,19 +22,19 @@ pathname = /indexselection
 
 pathname = /canahartaLogin
 
-用户自己输入
+正式流程由用户自己输入；当前脚本保留示例身份证填写的调试行为。
 
 ## Page 4
 
 pathname = /canahartaLogin
 
-用户自己输入
+正式流程由用户自己输入；当前脚本保留示例身份证填写的调试行为。
 
 ## Page 5
 
 pathname = /idcardUpload
 
-目前暂时让用户自己输入
+证件图片上传由用户自己操作。
 
 ## Page 6
 

@@ -1,37 +1,48 @@
-# Js Inject Test
+# JS 注入实验
 
-启动 `http` 服务器
-```bash
-cd http_server
+本目录是独立的两页面注入实验，用于观察 Android 加载网页后执行 JavaScript，以及页面跳转后的填写行为。它不连接 service-api，也不验证真实开户流程。正式脚本服务见 [service-js README](../service-js/README.md)。
+
+## 启动网页服务器
+
+从项目根目录打开 PowerShell：
+
+```powershell
+cd .\test_for_JsInject\http_server
 python server.py
 ```
-端口 `8000`
-手机访问 `http://......:8000`
 
----
+服务监听 `0.0.0.0:8000`，访问 `http://127.0.0.1:8000/` 会跳转到 `/pages/index/index.html`。手机使用电脑的局域网地址访问，例如 `http://<电脑IP>:8000/`，并确保防火墙允许访问。
 
-另开一个终端
-启动 `js` 服务器
-```bash
-cd js_server
+## 启动脚本服务器
+
+另开 PowerShell，从项目根目录执行：
+
+```powershell
+cd .\test_for_JsInject\js_server
 python -m venv .venv
-.venv/scripts/activate
-python -m pip install -r requirements.txt
-python -m uvicorn server:app --port 8001 --host 0.0.0.0
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m uvicorn server:app --port 8001 --host 0.0.0.0
 ```
-端口 `8001`
-手机访问 `http://......:8001/script.js`
 
----
+已有虚拟环境时可跳过创建步骤。APK 请求 `http://<电脑IP>:8001/script.js` 获取 `download.js` 源码，响应类型为 JavaScript，缓存设置为 `no-store`。
 
-当前 `js_server/download.js` 文件即为需要注入的js文件
+这两个示例端口与主项目的 service-api（8000）、frontend（8001）冲突。运行实验时应停止占用端口的服务，或调整实验网页服务器的 `PORT` 和 Uvicorn 的 `--port`，并同步修改访问地址。
 
-这个文件中 `main_func()` 函数为需要执行的业务逻辑
+## 注入与页面逻辑
 
-`js` 文件成功注入后，会在每次刷新页面，或跳转至新页面时执行一次 `mian_func()` 
+下载脚本只是获取代码，Android 端还需要在当前网页环境执行注入。实验页面不会自动请求 `/script.js`。
 
-由于真实开户网站在开户过程中会跳转多个页面，每个页面上都有多个填写字段，因此**需要区分当前处于哪个页面**以填入正确的字段
+`js_server/download.js` 中的 `main_func()` 会显示调试弹窗并调用 `distinguish_by_pathname()`：
 
-在 `main_func()` 函数中目前只有一个函数 `distinguish_by_pathname()` ，代表这个函数使用的区分当前页面的逻辑是通过当前页面的路径来判断，后续也可以使用其他区分方式，例如通过检测每个页面上特有的元素来区分
+| 页面路径 | 填写目标 |
+| --- | --- |
+| `/pages/index/index.html` | `input-index` |
+| `/pages/second/second.html` | `input-second` |
 
-当前前端有两个页面 `pages/index/index.html` 和 `pages/second/second.html` ，在仅两个页面互相跳转的测试中，**js注入测试成功**，每次跳转后都会在 `<input>` 中注入正确的内容
+脚本首次执行时等待 DOM 就绪；随后监听 `pushState`、`replaceState`、`popstate` 和 `hashchange`，URL 改变时执行页面逻辑。同一 URL 会被去重，因此不保证每次 History API 调用都执行。
+
+整页导航或刷新会创建新的网页环境，原脚本和监听器不会自动保留。Android 端需要在新页面加载后重新注入，才能继续填写。
+
+## 实验记录与验证范围
+
+此前记录的两页面跳转实验中，输入框能够填入对应内容。这是历史实验结果，不代表当前 APK、官方网页或所有导航方式均已验证。本次文档更新仅对照静态代码，实际效果仍需在 Android 中检查。

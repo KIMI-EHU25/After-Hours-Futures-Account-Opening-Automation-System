@@ -124,13 +124,15 @@ Access Token 或 Refresh Token 无效时返回 `401`。前端无论此请求是�
 
 `GET /api/launderingBack/config`
 
+问卷配置题型为 `one-choice`（单选）或 `multiple-choice`（多选）。
+
 响应：
 
 ```json
 [
   {
     "question_code": 1,
-    "type": "single",
+    "type": "one-choice",
     "title": "题目内容",
     "options": [
       {
@@ -209,6 +211,8 @@ Access Token 无效或缺失时返回 `401`；请求字段缺失、类型错误�
 
 `POST /api/addInfo/answer`
 
+以下为资料示例，职业 `537`、学历 `3` 及省市代码均来自当前种子数据；提交时还需要有效 Access Token 和数据库中的对应代码记录。
+
 ```json
 {
   "p1": "张三",
@@ -227,8 +231,8 @@ Access Token 无效或缺失时返回 `401`；请求字段缺失、类型错误�
   "p14": "开户营业部名称",
   "p15": "13800138000",
   "p16": "example@example.com",
-  "p17": "职业代码",
-  "p18": "学历代码",
+  "p17": "537",
+  "p18": "3",
   "p19": false,
   "p20": null,
   "p21": null,
