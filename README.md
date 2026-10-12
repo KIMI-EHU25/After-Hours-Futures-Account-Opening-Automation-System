@@ -95,7 +95,7 @@ python -m http.server 8001 --bind 127.0.0.1 --directory frontend
 - Refresh Token 无效时清除本地会话；网络或服务器暂时错误会显示提示，不直接当作会话失效。
 - 退出请求携带当前会话的 Refresh Token，无论请求是否成功都清除本地会话。
 - addInfo 使用配置中的中文 `field_name` 展示，以 `p${field_id}` 提交。
-- 结果页根据当前 Access Token 中的用户编号读取答案；后端 jsinject 权限控制仍待完善。
+- 结果页根据当前 Access Token 中的用户编号请求答案，但尚未携带后端现在要求的注入共享密钥，因此当前读取会被拒绝，前端适配仍待完成。
 
 修改前端后若浏览器仍显示旧样式或模块，可强制刷新，或在开发者工具中禁用缓存。HTTPS 页面请求 HTTP API 可能受到 Mixed Content 限制。
 
@@ -133,9 +133,9 @@ node .\service-api\test\launderingBack_test\get_launderingBack_config.js
 
 ## 当前待完善部分
 
-- 后端 jsinject 数据读取已实现，但身份认证和数据访问权限控制尚未实现；后续应由服务端确定当前用户，限制普通用户读取自己的资料。
+- 后端 jsinject 已加入共享密钥校验：`Authorization: Bearer <JS_INJECT_KEY>`。它与登录 Access Token 不同，持有密钥者仍可查询任意 `uid`，尚无用户数据隔离。后续计划由 Android APK 获取本人资料后交给注入脚本填写，官方网页无需增加额外登录。
 - 注入脚本尚未读取真实 service-api 数据，Android APK 与注入脚本的认证信息传递和数据加载时机仍需联调。
-- 后端 CORS 当前为宽松的开发配置，基本接口检查通过不能作为生产上线依据。
+- 两个服务的 CORS 已使用明确来源列表，部署时需配置各自的 `CORS_ALLOW_ORIGINS`；详见模块 README。基本接口检查通过不能作为生产上线依据。
 - 官方网页的 DOM 或 Vue 结构变化后，需要重新核对注入逻辑。
 - `docs/所有字段整理.md` 和 `docs/pages-pathname.md` 的部分 frontend / service-js 内容尚未同步；当前后端字段以 Schema、CRUD、接口文档和数据库结构说明为准。
 

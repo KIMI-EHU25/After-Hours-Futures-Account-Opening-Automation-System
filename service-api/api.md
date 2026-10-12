@@ -2,7 +2,7 @@
 
 基础地址：`http://<host>:<port>`
 
-除特别说明外，请求和响应均为 JSON。所有需要登录的接口均使用：
+除特别说明外，请求和响应均为 JSON。需要用户登录的接口使用以下请求头；jsinject 使用独立共享密钥，见本文末尾：
 
 ```http
 Authorization: Bearer <access_token>
@@ -357,7 +357,15 @@ Access Token 无效或缺失时返回 `401`；请求字段缺失、类型错误�
 
 `GET /api/jsinject/data?uid=<uid>`
 
-当前接口不需要登录。`uid` 为必填查询参数；用户不存在时返回 `404`。
+当前接口使用临时共享密钥，不使用用户登录 Access Token：
+
+```http
+Authorization: Bearer <JS_INJECT_KEY>
+```
+
+服务端从环境变量 `JS_INJECT_KEY` 读取预期密钥。缺失或非 Bearer 请求头由 `HTTPBearer` 拒绝；密钥不匹配返回 `403`，`detail` 为 `密钥错误`。`uid` 为必填查询参数，验证通过后用户不存在返回 `404`。
+
+共享密钥不与用户绑定，持有者可查询任意 `uid`，尚未实现用户数据隔离。后续计划由 Android APK 获取本人资料后再注入，详见 [后端 README](README.md)。
 
 响应：
 

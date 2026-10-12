@@ -45,6 +45,8 @@ Copy-Item .env.example .env
 | `SECRET_KEY` | JWT 签名密钥，使用随机生成的私有值 |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | Access Token 有效分钟数，填写正整数 |
 | `REFRESH_TOKEN_EXPIRE_DAYS` | Refresh Token 有效天数，填写正整数 |
+| `JS_INJECT_KEY` | jsinject 临时共享密钥，与 JWT 签名密钥和用户 Access Token 分开；由请求方通过 Bearer 请求头发送 |
+| `CORS_ALLOW_ORIGINS` | 逗号分隔的浏览器来源，未设置时允许 `http://127.0.0.1:8001`、`http://localhost:8001`；空值禁止跨域来源 |
 
 应用通过 python-dotenv 加载配置，数据库连接设置 `search_path=openaccount`。不要将真实 `.env`、密码或 Token 提交到仓库。
 
@@ -90,7 +92,9 @@ CREATE SCHEMA IF NOT EXISTS openaccount;
 - Swagger UI：`http://127.0.0.1:8000/docs`
 - OpenAPI：`http://127.0.0.1:8000/openapi.json`
 
-当前 CORS 配置允许所有来源、方法和请求头。它用于目前的开发联调，并不替代用户认证或数据访问权限控制。
+CORS 仅允许配置列表中的来源、`GET` / `POST` 方法及 `Authorization`、`Content-Type` 请求头，不允许跨域 Cookie 凭据。Bearer 请求头仍可使用。来源须包含协议、主机和端口，不带路径或末尾斜杠；局域网访问需加入实际前端来源，例如 `http://<lan-ip>:8001`。不允许配置 `*`，修改后重启服务。
+
+CORS 是浏览器跨域策略，不替代认证，也不会阻止 Android 原生客户端或 Node.js 请求。后续若由官方页面 JS 请求 API，需明确加入 `https://app5.cfmmc.com`；当前默认只允许模拟前端的本机来源。
 
 ## 接口与认证
 
@@ -114,9 +118,9 @@ CREATE SCHEMA IF NOT EXISTS openaccount;
 | GET | `/api/code/city` | 无 | 城市代码 |
 | GET | `/api/code/occupation` | 无 | 职业代码 |
 | GET | `/api/code/educationalqualification` | 无 | 学历代码 |
-| GET | `/api/jsinject/data?uid=<uid>` | 当前无 | 获取用户最新的四类答案 |
+| GET | `/api/jsinject/data?uid=<uid>` | 注入共享密钥 | 获取指定用户最新的四类答案 |
 
-受保护接口的请求头格式为：
+需要用户登录的接口使用以下请求头；jsinject 使用单独的共享密钥，见下方说明：
 
 ```http
 Authorization: Bearer <access_token>
@@ -140,9 +144,18 @@ logout 校验 Refresh Token 属于当前 Access Token 用户，且未过期、�
 
 ## jsinject 的待完善事项
 
-**数据读取接口已实现，身份认证及数据访问权限控制尚未实现。** 当前接口接受查询参数 `uid`，用户不存在时返回 `404`，尚未提交的页面数据为 `null`。
+数据读取接口已实现，并加入临时共享密钥校验：
 
-后续应优先根据 Access Token 确定当前用户，使普通用户只能读取自己的资料，并与 Android APK、service-js 的认证和数据读取方案同步。当前实现及基本接口检查通过，不代表服务已满足生产上线要求。
+```http
+GET /api/jsinject/data?uid=<uid>
+Authorization: Bearer <JS_INJECT_KEY>
+```
+
+这里发送的是环境变量 `JS_INJECT_KEY` 对应的密钥，不是登录获得的 Access Token。密钥不匹配时返回 `403`（`密钥错误`）；缺失或非 Bearer 请求头由 FastAPI 的 `HTTPBearer` 拒绝。验证通过后，用户不存在返回 `404`，尚未提交的页面数据为 `null`。
+
+共享密钥只限制接口入口，不验证请求者与 `uid` 的关系，持有密钥者仍能查询任意用户。前端结果页尚未发送此密钥，目前读取会失败；不要为了适配将共享密钥公开到前端页面中。
+
+后续计划由 Android APK 使用用户认证获取本人资料，再将数据交给注入脚本，官方页面不增加额外登录。届时由服务端根据 Access Token 确定用户，而非信任任意 `uid`。当前临时方案不代表服务已满足生产上线要求。
 
 ## 基本接口检查
 
