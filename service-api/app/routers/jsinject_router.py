@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.cruds.jsinject_cruds import get_jsinject_data as get_jsinject_data_crud
 from app.database import get_db
+from app.dependencies.auth_dependencies import require_jsinject_key
 from app.schemas.jsinject_schemas import get_jsinject_data_Response
 
 
@@ -20,6 +21,7 @@ router = APIRouter(
 )
 def get_jsinject_data(
     uid : int,
+    _ = Depends(require_jsinject_key),
     db : Session = Depends(get_db)
 ) : 
 

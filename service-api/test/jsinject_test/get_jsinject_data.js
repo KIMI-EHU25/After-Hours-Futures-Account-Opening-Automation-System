@@ -6,7 +6,10 @@ const outputFile = new URL("../jsinject_data.json", import.meta.url);
 async function get_jsinject_data() {
     try {
         const response = await fetch(base_url + "/api/jsinject/data?uid=2" , {
-            method : "GET"
+            method : "GET",
+            headers : {
+                "Authorization" : "Bearer " + "<JS_INJECT_KEY>"
+            }
         });
 
         if(!response.ok)

@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.bussiness_models import User
-from app.security import SECRET_KEY , ALGORITHM
+from app.security import SECRET_KEY , ALGORITHM , JS_INJECT_KEY
 
 # 请求头验证用户身份
 def get_current_user(
@@ -56,3 +56,15 @@ def require_admin(
         )
 
     return current_user
+
+
+def require_jsinject_key(
+    credentials : HTTPAuthorizationCredentials = Depends(HTTPBearer())
+) :
+    USER_KEY = credentials.credentials
+    if not USER_KEY == JS_INJECT_KEY :
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="密钥错误"
+        )
+    return None
