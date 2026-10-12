@@ -135,7 +135,7 @@ node .\service-api\test\launderingBack_test\get_launderingBack_config.js
 
 - 后端 jsinject 已加入共享密钥校验：`Authorization: Bearer <JS_INJECT_KEY>`。它与登录 Access Token 不同，持有密钥者仍可查询任意 `uid`，尚无用户数据隔离。后续计划由 Android APK 获取本人资料后交给注入脚本填写，官方网页无需增加额外登录。
 - 注入脚本尚未读取真实 service-api 数据，Android APK 与注入脚本的认证信息传递和数据加载时机仍需联调。
-- 两个服务的 CORS 已使用明确来源列表，部署时需配置各自的 `CORS_ALLOW_ORIGINS`；详见模块 README。基本接口检查通过不能作为生产上线依据。
+- 两个服务的 CORS 当前为宽松的开发配置，允许所有来源、方法和请求头；上线前需按实际调用来源收紧。基本接口检查通过不能作为生产上线依据。
 - 官方网页的 DOM 或 Vue 结构变化后，需要重新核对注入逻辑。
 - `docs/所有字段整理.md` 和 `docs/pages-pathname.md` 的部分 frontend / service-js 内容尚未同步；当前后端字段以 Schema、CRUD、接口文档和数据库结构说明为准。
 

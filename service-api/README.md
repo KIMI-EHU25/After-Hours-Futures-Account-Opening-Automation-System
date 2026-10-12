@@ -46,7 +46,6 @@ Copy-Item .env.example .env
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | Access Token 有效分钟数，填写正整数 |
 | `REFRESH_TOKEN_EXPIRE_DAYS` | Refresh Token 有效天数，填写正整数 |
 | `JS_INJECT_KEY` | jsinject 临时共享密钥，与 JWT 签名密钥和用户 Access Token 分开；由请求方通过 Bearer 请求头发送 |
-| `CORS_ALLOW_ORIGINS` | 逗号分隔的浏览器来源，未设置时允许 `http://127.0.0.1:8001`、`http://localhost:8001`；空值禁止跨域来源 |
 
 应用通过 python-dotenv 加载配置，数据库连接设置 `search_path=openaccount`。不要将真实 `.env`、密码或 Token 提交到仓库。
 
@@ -92,9 +91,9 @@ CREATE SCHEMA IF NOT EXISTS openaccount;
 - Swagger UI：`http://127.0.0.1:8000/docs`
 - OpenAPI：`http://127.0.0.1:8000/openapi.json`
 
-CORS 仅允许配置列表中的来源、`GET` / `POST` 方法及 `Authorization`、`Content-Type` 请求头，不允许跨域 Cookie 凭据。Bearer 请求头仍可使用。来源须包含协议、主机和端口，不带路径或末尾斜杠；局域网访问需加入实际前端来源，例如 `http://<lan-ip>:8001`。不允许配置 `*`，修改后重启服务。
+当前 CORS 在 `app/main.py` 中配置为 `allow_origins=["*"]`、`allow_methods=["*"]`、`allow_headers=["*"]`，并设置 `allow_credentials=True`。这是宽松的开发配置，当前不读取 `CORS_ALLOW_ORIGINS` 环境变量，上线前需按实际调用来源收紧。
 
-CORS 是浏览器跨域策略，不替代认证，也不会阻止 Android 原生客户端或 Node.js 请求。后续若由官方页面 JS 请求 API，需明确加入 `https://app5.cfmmc.com`；当前默认只允许模拟前端的本机来源。
+CORS 是浏览器跨域策略，不替代用户认证或数据访问权限控制，也不会阻止 Android 原生客户端或 Node.js 请求。
 
 ## 接口与认证
 

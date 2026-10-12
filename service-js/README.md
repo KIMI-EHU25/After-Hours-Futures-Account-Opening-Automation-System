@@ -58,13 +58,11 @@ python -m uvicorn app.main:app --host 0.0.0.0 --port 8002
 
 `8002` 是启动示例端口，可按实际部署调整。Android 真机应使用手机可访问的服务器地址；手机上的 `127.0.0.1` 指向手机自身，不能直接代替开发电脑地址。
 
-## 文件分工
-
 ## CORS 配置
 
-服务通过 python-dotenv 读取 `.env`，配置模板见 [.env.example](.env.example)。`CORS_ALLOW_ORIGINS` 使用逗号分隔来源，默认仅允许 `https://app5.cfmmc.com`；空值禁止跨域来源，`*` 会导致启动报错。只允许跨域 `GET`，不开放额外请求头或 Cookie 凭据。
+当前 CORS 在 `app/main.py` 中配置为 `allow_origins=["*"]`、`allow_methods=["*"]`、`allow_headers=["*"]`，并设置 `allow_credentials=True`。这是宽松的开发配置，当前不读取 `.env` 或 `CORS_ALLOW_ORIGINS` 环境变量，上线前需按实际调用来源收紧。
 
-来源须包含协议、主机和端口，不带路径或末尾斜杠；其他官方来源或本地实验来源需显式加入，修改后重启。Android 原生下载脚本不受浏览器 CORS 限制；网页内 `fetch()` 读取源码则受此配置限制。CORS 不作为脚本下载的身份验证。
+Android 原生下载脚本不受浏览器 CORS 限制；网页内 `fetch()` 读取源码则受浏览器跨域策略限制。CORS 不作为脚本下载的身份验证。
 
 ## 文件分工
 
