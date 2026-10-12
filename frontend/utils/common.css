@@ -5,6 +5,29 @@
     background: #f3f6fa;
 }
 
+[hidden] { display: none !important; }
+
+.account-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+    color: #607086;
+    font-size: 14px;
+}
+
+.account-bar a { color: #1769aa; }
+.account-bar button {
+    padding: 8px 14px;
+    border: 1px solid #dfe6ef;
+    border-radius: 9px;
+    background: #fff;
+    color: #1769aa;
+    font: inherit;
+    cursor: pointer;
+}
+
 * {
     box-sizing: border-box;
 }

@@ -1,4 +1,5 @@
 import { requestJson, setStatus } from "./api.js";
+import { initAccountBar } from "./auth.js";
 
 function normalizeTitle(title) {
     return title.replace(/<br\s*\/?>/gi, "\n");
@@ -42,7 +43,7 @@ function createQuestion(question) {
 }
 
 function collectAnswers(formContent) {
-    const answers = { uid: 1 };
+    const answers = {};
     const questions = formContent.querySelectorAll(".question-card");
 
     for (const question of questions) {
@@ -54,13 +55,14 @@ function collectAnswers(formContent) {
             throw new Error(`请完成第 ${code} 题`);
         }
 
-        answers[`p${code}`] = checked.map((input) => input.value).join("");
+        answers[`p${code}`] = checked.map((input) => input.value).sort().join("");
     }
 
     return answers;
 }
 
 export function initQuestionnairePage({ configPath, answerPath, nextPage }) {
+    initAccountBar();
     const form = document.querySelector("#dynamic-form");
     const formContent = document.querySelector("#form-content");
     const statusElement = document.querySelector("#status");
@@ -95,6 +97,7 @@ export function initQuestionnairePage({ configPath, answerPath, nextPage }) {
 
         try {
             await requestJson(answerPath, {
+                authenticated: true,
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body),

@@ -1,5 +1,9 @@
 import { requestJson, setStatus } from "../utils/api.js";
 
+import { initAccountBar } from "../utils/auth.js";
+
+initAccountBar();
+
 const form = document.querySelector("#dynamic-form");
 const formContent = document.querySelector("#form-content");
 const statusElement = document.querySelector("#status");
@@ -11,55 +15,30 @@ let occupationCodes = [];
 let educationalQualificationCodes = [];
 
 const optionalFields = new Set([
-    "idCardValidPeriodStart",
-    "idCardValidPeriodEnd",
-    "emailAddress",
-    "intermediaryName",
-    "intermediaryCode",
-    "referencePersonCode",
-    "referencePersonName",
+    "p4",
+    "p5",
+    "p16",
+    "p20",
+    "p21",
+    "p22",
+    "p23",
 ]);
 
-const fieldLabels = {
-    name: "姓名",
-    idCardNumber: "身份证号",
-    idCardAddress: "身份证地址",
-    idCardValidPeriodStart: "身份证有效期开始日期",
-    idCardValidPeriodEnd: "身份证有效期结束日期",
-    ifIdCardPermanentlyValid: "身份证是否长期有效",
-    contactAddressProvince: "联系地址省",
-    contactAddressCity: "联系地址市",
-    contactAddress: "联系地址",
-    postalCode: "邮政编码",
-    departmentProvince: "营业部省",
-    departmentCity: "营业部城市",
-    departmentCategory: "营业部类别",
-    departmentName: "开户营业部",
-    contactnumber: "联系电话",
-    emailAddress: "电子邮箱",
-    occupation: "职业",
-    educationalQualification: "学历",
-    ifIntermediary: "是否为存在居间人",
-    intermediaryName: "居间人姓名",
-    intermediaryCode: "居间人代码",
-    referencePersonCode: "推荐人代码",
-    referencePersonName: "推荐人姓名",
-};
 
 const fixedSelectOptions = {
-    departmentProvince: {
+    p11: {
         label: "湖北省",
         value: "湖北省",
     },
-    departmentCity: {
+    p12: {
         label: "武汉市",
         value: "武汉市",
     },
-    departmentCategory: {
+    p13: {
         label: "期货公司营业部",
         value: "0",
     },
-    departmentName: {
+    p14: {
         label: "总部",
         value: "2015",
     },
@@ -77,7 +56,7 @@ function createAddressSelect(fieldName) {
     select.name = fieldName;
     select.required = true;
 
-    if (fieldName === "contactAddressProvince") {
+    if (fieldName === "p7") {
         select.add(createPlaceholder("请选择省份"));
         provinceCodes.forEach((province) => {
             select.add(new Option(province.name, province.province_code));
@@ -95,7 +74,7 @@ function createCodeSelect(fieldName) {
     select.name = fieldName;
     select.required = true;
 
-    if (fieldName === "occupation") {
+    if (fieldName === "p17") {
         select.add(createPlaceholder("请选择职业"));
         occupationCodes.forEach((occupation) => {
             select.add(new Option(occupation.name, occupation.occupation_code));
@@ -125,7 +104,7 @@ function createFixedSelect(fieldName) {
 }
 
 function updateCitySelect(provinceCode) {
-    const citySelect = form.elements.namedItem("contactAddressCity");
+    const citySelect = form.elements.namedItem("p8");
     citySelect.replaceChildren(createPlaceholder("请选择城市"));
 
     const matchedCities = cityCodes.filter(
@@ -139,7 +118,7 @@ function updateCitySelect(provinceCode) {
 }
 
 function setupAddressSelectors() {
-    const provinceSelect = form.elements.namedItem("contactAddressProvince");
+    const provinceSelect = form.elements.namedItem("p7");
     provinceSelect.addEventListener("change", () => {
         updateCitySelect(provinceSelect.value);
     });
@@ -147,10 +126,10 @@ function setupAddressSelectors() {
 
 function setupIdCardValidityFields() {
     const permanentlyValidSelect = form.elements.namedItem(
-        "ifIdCardPermanentlyValid",
+        "p6",
     );
-    const startDateInput = form.elements.namedItem("idCardValidPeriodStart");
-    const endDateInput = form.elements.namedItem("idCardValidPeriodEnd");
+    const startDateInput = form.elements.namedItem("p4");
+    const endDateInput = form.elements.namedItem("p5");
 
     const updateDateInputs = () => {
         const isPermanentlyValid = permanentlyValidSelect.value === "true";
@@ -160,6 +139,8 @@ function setupIdCardValidityFields() {
             endDateInput.value = "";
         }
 
+        startDateInput.required = !isPermanentlyValid;
+        endDateInput.required = !isPermanentlyValid;
         startDateInput.disabled = isPermanentlyValid;
         endDateInput.disabled = isPermanentlyValid;
     };
@@ -169,9 +150,9 @@ function setupIdCardValidityFields() {
 }
 
 function setupIntermediaryFields() {
-    const intermediarySelect = form.elements.namedItem("ifIntermediary");
-    const intermediaryNameInput = form.elements.namedItem("intermediaryName");
-    const intermediaryCodeInput = form.elements.namedItem("intermediaryCode");
+    const intermediarySelect = form.elements.namedItem("p19");
+    const intermediaryNameInput = form.elements.namedItem("p20");
+    const intermediaryCodeInput = form.elements.namedItem("p21");
 
     const updateIntermediaryInputs = () => {
         const hasNoIntermediary = intermediarySelect.value === "false";
@@ -181,6 +162,8 @@ function setupIntermediaryFields() {
             intermediaryCodeInput.value = "";
         }
 
+        intermediaryNameInput.required = intermediarySelect.value === "true";
+        intermediaryCodeInput.required = intermediarySelect.value === "true";
         intermediaryNameInput.disabled = hasNoIntermediary;
         intermediaryCodeInput.disabled = hasNoIntermediary;
     };
@@ -190,27 +173,28 @@ function setupIntermediaryFields() {
 }
 
 function createInput(field) {
-    if (fixedSelectOptions[field.field_name]) {
-        return createFixedSelect(field.field_name);
+    const key = `p${field.field_id}`;
+    if (fixedSelectOptions[key]) {
+        return createFixedSelect(key);
     }
 
     if (
-        field.field_name === "contactAddressProvince"
-        || field.field_name === "contactAddressCity"
+        key === "p7"
+        || key === "p8"
     ) {
-        return createAddressSelect(field.field_name);
+        return createAddressSelect(key);
     }
 
     if (
-        field.field_name === "occupation"
-        || field.field_name === "educationalQualification"
+        key === "p17"
+        || key === "p18"
     ) {
-        return createCodeSelect(field.field_name);
+        return createCodeSelect(key);
     }
 
     if (field.type === "bool") {
         const select = document.createElement("select");
-        select.name = field.field_name;
+        select.name = key;
         select.required = true;
         select.dataset.valueType = "boolean";
 
@@ -221,24 +205,28 @@ function createInput(field) {
     }
 
     const input = document.createElement("input");
-    input.name = field.field_name;
+    input.name = key;
     input.type = field.type === "date"
         ? "date"
-        : field.field_name === "emailAddress" ? "email" : "text";
-    input.required = !optionalFields.has(field.field_name);
+        : key === "p16" ? "email" : "text";
+    input.required = !optionalFields.has(key);
+    if (key === "p2") { input.pattern = "[1-9][0-9]{16}[0-9Xx]"; input.maxLength = 18; }
+    if (key === "p10") { input.pattern = "[0-9]{6}"; input.inputMode = "numeric"; }
+    if (key === "p15") { input.type = "tel"; input.pattern = "1[3-9][0-9]{9}"; }
     input.autocomplete = "off";
     return input;
 }
 
 function createField(field) {
+    const key = `p${field.field_id}`;
     const wrapper = document.createElement("div");
     wrapper.className = "field-item";
 
     const label = document.createElement("label");
     label.htmlFor = `field-${field.field_id}`;
-    label.textContent = fieldLabels[field.field_name] || field.field_name;
+    label.textContent = field.field_name;
 
-    if (optionalFields.has(field.field_name)) {
+    if (optionalFields.has(key)) {
         const optionalMark = document.createElement("span");
         optionalMark.className = "optional-mark";
         optionalMark.textContent = "（可不填）";
@@ -253,7 +241,7 @@ function createField(field) {
 
 function collectData() {
     const formData = new FormData(form);
-    const body = { uid: 1 };
+    const body = {};
 
     for (const element of form.elements) {
         if (!element.name) {
@@ -263,10 +251,10 @@ function collectData() {
         const value = formData.get(element.name);
         if (element.dataset.valueType === "boolean") {
             body[element.name] = value === "true";
-        } else if (optionalFields.has(element.name) && value === "") {
+        } else if (optionalFields.has(element.name) && (value === "" || value === null)) {
             body[element.name] = null;
         } else {
-            body[element.name] = value;
+            body[element.name] = typeof value === "string" ? value.trim() : value;
         }
     }
 
@@ -328,6 +316,7 @@ form.addEventListener("submit", async (event) => {
 
     try {
         await requestJson("/api/addInfo/answer", {
+            authenticated: true,
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(collectData()),

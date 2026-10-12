@@ -9,8 +9,16 @@
 <body>
     <main class="welcome-shell">
         <section class="welcome-card">
-            <p class="eyebrow">OPEN ACCOUNT</p>
+            <div class="welcome-toolbar">
+                <p class="eyebrow">OPEN ACCOUNT</p>
+                <div class="account-actions">
+                    <button id="register-button" class="login-button" type="button">注册</button>
+                    <button id="login-button" class="login-button" type="button">登录</button>
+                    <button id="logout-button" class="login-button" type="button" hidden>退出登录</button>
+                </div>
+            </div>
             <h1>夜盘开户</h1>
+            <p id="account-status" class="status" aria-live="polite"></p>
             <p class="description">
                 接下来需要依次填写反洗钱信息、基本资料、交易者风险测评和期货品种选择。
                 请根据实际情况完成所有内容。
@@ -29,6 +37,28 @@
             </button>
         </section>
     </main>
+    <dialog id="login-dialog" class="login-dialog" aria-labelledby="login-title">
+        <div class="login-heading">
+            <h2 id="login-title">登录</h2>
+            <button id="close-login-button" class="login-close" type="button" aria-label="关闭登录弹窗">×</button>
+        </div>
+        <p class="login-description">请输入手机号与密码</p>
+        <form id="auth-form">
+        <div class="login-fields">
+            <label for="login-phone">手机号</label>
+            <input id="login-phone" name="user_phone" type="tel" inputmode="numeric" autocomplete="username" placeholder="请输入手机号" pattern="[0-9]{11,20}" minlength="11" maxlength="20" required autofocus>
+            <div id="register-id-field" class="login-fields" hidden>
+                <label for="register-id">身份证号</label>
+                <input id="register-id" name="user_id" type="text" placeholder="请输入18位身份证号" pattern="[0-9]{17}[0-9Xx]" minlength="18" maxlength="18" disabled>
+            </div>
+            <label for="login-password">密码</label>
+            <input id="login-password" name="user_password" type="password" autocomplete="current-password" placeholder="请输入8至128位密码" minlength="8" maxlength="128" required>
+        </div>
+        <button id="login-submit-button" class="start-button login-submit-button" type="submit">登录</button>
+        <p id="auth-status" class="status" aria-live="polite"></p>
+        </form>
+        <button id="switch-auth-button" class="auth-switch" type="button">没有账号？注册</button>
+    </dialog>
     <script type="module" src="./index.js"></script>
 </body>
 </html>
