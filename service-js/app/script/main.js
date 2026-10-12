@@ -68,29 +68,29 @@ const data = {
     },
 
     "addInfo" : {
-        "name" : "张三",                                      // 姓名 
-        "idCardNumber" : "110101199003071233",                 // 身份证号
-        "idCardAddress" : "北京市东城区示例路1号101室",    // 身份证地址
-        "idCardValidPeriodStart" : "2026-02-04",                 // 身份证有效期起始
-        "idCardValidPeriodEnd" : "2036-02-04",                   // 身份证有效期结束
-        "ifIdCardPermanentlyValid" : false,                     // 身份证是否长期有效
-        "contactAddressProvince" : "156110000",
-        "contactAddressCity" : "156110101",
-        "contactAddress" : "北京市东城区示例路1号101室",     // 联系地址
-        "postalCode" : "200000",                               // 邮政编码
-        "departmentProvince" : "湖北省",                        // 开户营业部省
-        "departmentCity" : "武汉市",                            // 开户营业部市
-        "departmentCategory" : "0",                            // 营业部类别
-        "departmentName" : "2015",                             // 开户营业部
-        "contactnumber" : "13900000000",                       // 联系电话
-        "emailAddress" : null,                                 // 电子邮箱
-        "occupation" : "537",
-        "educationalQualification" : "3",
-        "ifIntermediary" : false,                              // 是否存在居间人
-        "intermediaryName" : null,                             // 居间人姓名
-        "intermediaryCode" : null,                             // 居间人登记编号
-        "referencePersonCode" : null,                          // 推荐人代码
-        "referencePersonName" : null,                          // 推荐人姓名
+        "p1" : "张三",                                      // 姓名
+        "p2" : "110101199003071233",                 // 身份证号
+        "p3" : "北京市东城区示例路1号101室",    // 身份证地址
+        "p4" : "2026-02-04",                 // 身份证有效期起始
+        "p5" : "2036-02-04",                   // 身份证有效期结束
+        "p6" : false,                     // 身份证是否长期有效
+        "p7" : "156110000",
+        "p8" : "156110101",
+        "p9" : "北京市东城区示例路1号101室",     // 联系地址
+        "p10" : "200000",                               // 邮政编码
+        "p11" : "湖北省",                        // 开户营业部省
+        "p12" : "武汉市",                            // 开户营业部市
+        "p13" : "0",                            // 营业部类别
+        "p14" : "2015",                             // 开户营业部
+        "p15" : "13900000000",                       // 联系电话
+        "p16" : null,                                 // 电子邮箱
+        "p17" : "537",
+        "p18" : "3",
+        "p19" : false,                              // 是否存在居间人
+        "p20" : null,                             // 居间人姓名
+        "p21" : null,                             // 居间人登记编号
+        "p22" : null,                          // 推荐人代码
+        "p23" : null,                          // 推荐人姓名
     },
 
     "question" : {
@@ -671,72 +671,72 @@ async function launderingBack() {
 async function addInfo() {
     const form = data["addInfo"];
 
-    fillTextField({ label: "姓名", value: form.name });
-    fillTextField({ label: "身份证号", value: form.idCardNumber });
-    fillTextField({ label: "身份证地址", value: form.idCardAddress });
-    fillTextField({ label: "联系地址", value: form.contactAddress });
-    fillTextField({ label: "邮政编码", value: form.postalCode });
-    fillTextField({ label: "联系电话", value: form.contactnumber });
-    fillTextField({ label: "电子邮箱", value: form.emailAddress });
+    fillTextField({ label: "姓名", value: form.p1 });
+    fillTextField({ label: "身份证号", value: form.p2 });
+    fillTextField({ label: "身份证地址", value: form.p3 });
+    fillTextField({ label: "联系地址", value: form.p9 });
+    fillTextField({ label: "邮政编码", value: form.p10 });
+    fillTextField({ label: "联系电话", value: form.p15 });
+    fillTextField({ label: "电子邮箱", value: form.p16 });
 
-    await fillVantCheckboxField({ value: form.ifIdCardPermanentlyValid });
-    await fillDateField({ modelKey: "startTime", value: form.idCardValidPeriodStart });
-    if (!form.ifIdCardPermanentlyValid) {
-        await fillDateField({ modelKey: "endTime", value: form.idCardValidPeriodEnd });
+    await fillVantCheckboxField({ value: form.p6 });
+    await fillDateField({ modelKey: "startTime", value: form.p4 });
+    if (!form.p6) {
+        await fillDateField({ modelKey: "endTime", value: form.p5 });
     }
 
     const cityReady = await fillPopupPickerField({
         modelKey: "sheng",
-        value: form.contactAddressProvince,
+        value: form.p7,
         onChange: "provinceChange",
         waitOptionsKey: "cityListSelect",
-        waitForValue: form.contactAddressCity,
+        waitForValue: form.p8,
     });
     if (cityReady) {
-        await fillPopupPickerField({ modelKey: "shi", value: form.contactAddressCity });
+        await fillPopupPickerField({ modelKey: "shi", value: form.p8 });
     }
 
     const branchCityReady = await fillPopupPickerField({
         modelKey: "buss1",
-        value: form.departmentProvince,
+        value: form.p11,
         onChange: "buss1Change",
         changeFlagKey: "buss1Flag",
         waitOptionsKey: "buss2ListSelect",
-        waitForValue: form.departmentCity,
+        waitForValue: form.p12,
     });
     if (branchCityReady) {
         const branchCategoryReady = await fillPopupPickerField({
             modelKey: "buss2",
-            value: form.departmentCity,
+            value: form.p12,
             onChange: "buss2Change",
             changeFlagKey: "buss2Flag",
             waitOptionsKey: "buss3ListSelect",
-            waitForValue: form.departmentCategory,
+            waitForValue: form.p13,
         });
 
         if (branchCategoryReady) {
             const branchReady = await fillPopupPickerField({
                 modelKey: "buss3",
-                value: form.departmentCategory,
+                value: form.p13,
                 onChange: "buss3Change",
                 changeFlagKey: "buss3Flag",
                 waitOptionsKey: "buss4ListSelect",
-                waitForValue: form.departmentName,
+                waitForValue: form.p14,
             });
 
             if (branchReady) {
-                await fillPopupPickerField({ modelKey: "buss4", value: form.departmentName });
+                await fillPopupPickerField({ modelKey: "buss4", value: form.p14 });
             }
         }
     }
-    await fillPopupPickerField({ modelKey: "profession", value: form.occupation });
-    await fillPopupPickerField({ modelKey: "educational", value: form.educationalQualification });
+    await fillPopupPickerField({ modelKey: "profession", value: form.p17 });
+    await fillPopupPickerField({ modelKey: "educational", value: form.p18 });
 
-    await fillVantRadioField({ value: form.ifIntermediary });
-    fillTextField({ label: "居间人姓名", value: form.intermediaryName });
-    fillTextField({ label: "居间人登记编号", value: form.intermediaryCode });
-    fillTextField({ label: "推荐人代码", value: form.referencePersonCode });
-    fillTextField({ label: "推荐人名称", value: form.referencePersonName });
+    await fillVantRadioField({ value: form.p19 });
+    fillTextField({ label: "居间人姓名", value: form.p20 });
+    fillTextField({ label: "居间人登记编号", value: form.p21 });
+    fillTextField({ label: "推荐人代码", value: form.p22 });
+    fillTextField({ label: "推荐人名称", value: form.p23 });
 }
 
 
