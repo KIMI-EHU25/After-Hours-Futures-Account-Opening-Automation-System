@@ -1,154 +1,200 @@
-# 夜盘开户项目
+# OpenAccount: Futures Account-Opening Pre-fill System
 
-本项目通过模拟开户网页预采集用户资料，使用 FastAPI + PostgreSQL 保存用户及问卷答案，再由 Android APK 加载官方开户网页并注入 JavaScript，辅助完成资料填写。
+> **Portfolio project, view only.** This repository is published so people can look at my work. It is **not** open source. All rights reserved; see [LICENSE](LICENSE).
 
-目前前端与业务后端的注册、登录和答案提交流程已接入；注入脚本仍使用示例数据，读取真实后端数据及相关权限衔接待完善。Android APK 的网页加载和注入实现由其他同事负责，本项目主要维护 service-api、模拟开户前端及注入脚本服务。
+OpenAccount speeds up opening a **futures trading account** (night-session trading, "夜盘开户") through the official CFMMC mobile web flow. Users fill in their personal information, anti-money-laundering answers, risk questionnaire and product choices **once**, on a simulated account-opening site. An Android app then loads the official account-opening website and **injects JavaScript** that fills each official page with the saved answers. Only the steps that legally need the user (ID card photos, bank card upload, video verification, signing agreements) are left for them to do by hand.
 
-## 项目组成与文档入口
+I built this during an internship. My part covers the backend API, the simulated front end, the injection-script service and the injection experiments. The Android container app that runs the script was built by another team member.
 
-| 模块 | 作用 | 详细说明 |
+---
+
+## Highlights
+
+- **FastAPI + PostgreSQL backend** with a layered layout (routers → schemas → CRUD → models), SQLAlchemy 2.0 typed models and **11 Alembic migrations**.
+- **Full auth flow:** Argon2 password hashing, short-lived **JWT access tokens**, long-lived **refresh tokens stored only as SHA-256 hashes**, refresh and logout endpoints, and an admin-role dependency.
+- **Strict validation of Chinese ID data:** an 18-digit ID-card checksum (ISO 7064 MOD 11-2), embedded birth date, phone/postcode/email formats, linked date ranges, province ↔ city matching, and occupation/education code lookups.
+- **Config-driven questionnaires:** questions, options and score values live in the database, and the front end renders them dynamically.
+- **DOM/Vue injection engine** (`service-js/app/script/main.js`, ~800 lines) that drives a third-party Vue 2 + Vant/Vux SPA it does not control. It hooks the History API to follow SPA routing, writes into Vue reactive state (`$set`, `$nextTick`), uses native value setters plus synthetic events, and waits on cascading async pickers (province → city → branch).
+- **Dependency-free front end:** vanilla ES Modules, with automatic access-token refresh, single-flight refresh shared by concurrent requests, and one retry on `401`.
+- **Safe data reset tooling:** the seed script checks the target DB, schema and Alembic head, asks for typed confirmation, and runs inside a single transaction.
+
+---
+
+## Architecture
+
+```text
+┌────────────────────────┐   register / login / submit answers   ┌──────────────────────────┐
+│  frontend/             │ ─────────────── HTTP + JSON ────────▶ │  service-api/  (FastAPI) │
+│  Simulated account-    │ ◀──────── JWT access + refresh ────── │  auth · config · answers │
+│  opening site (HTML/JS)│                                       │  code tables · jsinject  │
+└────────────────────────┘                                       └────────────┬─────────────┘
+                                                                              │ SQLAlchemy + psycopg
+                                                                              ▼
+                                                                ┌──────────────────────────┐
+                                                                │ PostgreSQL               │
+                                                                │ schema: openaccount      │
+                                                                │ (17 tables + alembic)    │
+                                                                └──────────────────────────┘
+                                                                              ▲
+                                    GET /api/jsinject/data?uid=…              │ latest answers
+┌────────────────────────┐          (shared key, planned: user token)         │
+│  Android APK (WebView) │ ───────────────────────────────────────────────────┘
+│  loads official site   │
+│  app5.cfmmc.com        │ ── GET /script/main.js ──▶ ┌──────────────────────────┐
+│  and injects script    │ ◀──── JavaScript source ── │ service-js/  (FastAPI)   │
+└────────────────────────┘                            │ serves the injection JS  │
+                                                      └──────────────────────────┘
+```
+
+| Module | What it does |
+| --- | --- |
+| [`frontend/`](frontend) | Simulated account-opening site in vanilla HTML/CSS/JS (ES Modules). Collects every answer the official flow will ask for. |
+| [`service-api/`](service-api) | FastAPI business backend: authentication, questionnaire configuration, answer storage, code tables, and the data endpoint for injection. ([README](service-api/README.md), [API reference, Chinese](service-api/api.md)) |
+| [`service-js/`](service-js) | Small FastAPI server that hands the injection script to the Android app. ([README](service-js/README.md)) |
+| [`service-api/scripts/seed/`](service-api/scripts/seed) | Resets the schema and loads the initial admin, questionnaire config and code tables. ([README](service-api/scripts/seed/README.md)) |
+| [`service-api/test/`](service-api/test) | Node.js end-to-end smoke checks against a running API. ([README](service-api/test/README.md)) |
+| [`test_for_JsInject/`](test_for_JsInject) | Standalone two-page lab for proving WebView injection survives SPA navigation. ([README](test_for_JsInject/README.md)) |
+| [`docs/`](docs) | Reference material (Chinese): DB schema, field list, scoring rules, region/occupation/education code tables, official page paths. |
+
+---
+
+## End-to-End System Flow
+
+### Phase 1: Collect data on the simulated site
+
+```text
+Home (register / log in)
+  → Anti-money-laundering questionnaire   (launderingBack, 9 questions)
+  → Supplementary personal info           (addInfo, 23 fields p1–p23)
+  → Trader risk assessment                (question, 14 scored questions)
+  → Futures product selection             (chooseFutures)
+  → Result page                           (dataprint: shows what was saved)
+```
+
+1. **Register:** `POST /api/auth/register` with phone, ID number and password. The password is hashed with Argon2. Phone and ID number must be unique (`409` on conflict).
+2. **Log in:** `POST /api/auth/login` returns:
+   - an **access token**: an HS256 JWT holding `sub = uid` and an expiry.
+   - a **refresh token**: 32 random bytes. Only its SHA-256 hash is stored in `refreshtokens`, with an expiry and an `is_active` flag.
+   The browser keeps both tokens in `sessionStorage` (never the password).
+3. **Load each page's config:** for example `GET /api/addInfo/config` and `GET /api/question/config`. Questions, options and field labels come from the database, so the forms are generated rather than hard-coded. Dropdowns use `GET /api/code/province | city | occupation | educationalqualification`.
+4. **Submit answers:** `POST /api/<page>/answer` with `Authorization: Bearer <access_token>`. The server takes the `uid` **from the token, not from the request body**. It validates the payload (Pydantic schema plus CRUD-level business checks) and inserts a new row. Every submission is kept, and the latest `serial_number` wins.
+5. **Token lifecycle:** when a protected call returns `401`, the front end calls `POST /api/auth/refresh` once and retries. Concurrent requests share one in-flight refresh. `POST /api/auth/logout` deactivates the current refresh token, and the client always clears its local session.
+
+### Phase 2: Fill the official site automatically
+
+6. The **Android app** opens the official account-opening site (`https://app5.cfmmc.com`) in a WebView.
+7. It downloads the script from **service-js**: `GET /script/main.js`, served as `application/javascript` with `Cache-Control: no-store`.
+8. It gets the user's saved data from **service-api**: `GET /api/jsinject/data?uid=<uid>`. The response holds the latest record from each of the four answer tables.
+9. The injected script **watches SPA navigation** by wrapping `history.pushState` / `replaceState` and listening for `popstate` / `hashchange`. It routes on `location.pathname`:
+
+| Official page | Path | Script behaviour |
 | --- | --- | --- |
-| `frontend/` | 原生 HTML、CSS、JavaScript 模拟开户网页 | 本文的前端启动与流程说明 |
-| `service-api/` | 用户认证、配置读取、答案保存及数据汇总 | [后端 README](service-api/README.md)、[接口文档](service-api/api.md) |
-| `service-js/` | 返回供 Android APK 注入官方网页的 JavaScript 代码 | [脚本服务 README](service-js/README.md) |
-| `service-api/scripts/seed/` | 清空项目数据并导入初始管理员、问卷配置和基础代码 | [seed README](service-api/scripts/seed/README.md) |
-| `service-api/test/` | 使用 Node.js 检查接口基本功能 | [接口检查 README](service-api/test/README.md) |
-| `test_for_JsInject/` | 独立的注入实验页面和脚本服务 | [注入实验 README](test_for_JsInject/README.md) |
-| `docs/` | 数据库、字段、代码、评分和官方页面路径记录 | 本文末尾的资料链接 |
+| Login / phone verification | `/canahartaLogin` | Fills the ID field (test helper) |
+| ID card upload | `/idcardUpload` | User action |
+| AML questionnaire | `/launderingBack` | Clicks single- and multi-select Vant/WeUI checkboxes |
+| Supplementary info | `/addInfo` | Text fields, dates, long-term-ID checkbox, cascading pickers (province → city, branch province → city → category → branch), occupation, education, intermediary radio |
+| Bank card | `/settleBank` | User action |
+| Trader type | `/appropriate` | User action |
+| Risk assessment | `/question` | Waits for 14 async radio groups, then selects by question number and option letter |
+| Risk result chart | `/echarts` | User action |
+| Product selection | `/chooseFutures` | Waits for options to load, then toggles commodity-futures checkboxes and checks each one stuck |
+| Agreements / video | `/agreement`, `/video` | User action (end of flow) |
 
-主要数据流程：
+10. The user finishes the steps that need them in person, and the account application is submitted on the official site.
+
+### Data model (simplified)
 
 ```text
-模拟开户网页 frontend
-    │ 注册、登录、提交资料（HTTP / JSON）
-    ▼
-service-api ── SQLAlchemy + psycopg ── PostgreSQL
-    │                                 postgres.openaccount
-    │ 返回用户最新的四类答案
-    ▼
-注入脚本读取数据（尚待接入）
-    │
-    ▼
-Android APK 加载官方网页并执行注入
-    ▲
-    │ 获取 JavaScript 源码
-service-js：GET /script/main.js
+users ─┬─< launderingbackanswers   (p1–p9)
+       ├─< addinfoanswers          (p1–p23)
+       ├─< questionanswers         (p1–p14)
+       ├─< choosefuturesanswers    (p1)
+       └─< refreshtokens           (token_hash, expires_at, is_active)
+
+launderingbacktitles ─< launderingbackoptions
+questiontitles       ─< questionoptions (with scores)
+choosefuturestitles  ─< choosefuturesoptions
+addinfotitles
+provincecodes ─< citycodes        occupationcodes        educationalqualificationcodes
 ```
 
-service-js 返回的是脚本源码，用户预填写资料来自 service-api，官方网页提供待填写的控件。三者的职责和当前限制见 [service-js README](service-js/README.md)。
+All tables live in the `openaccount` schema of the `postgres` database. Field-level details are in [docs/数据库表结构.md](docs/数据库表结构.md) (Chinese).
 
-## 技术栈
+---
 
-- 前端：原生 HTML、CSS、JavaScript ES Modules。
-- 后端与脚本服务器：Python、FastAPI、Uvicorn。
-- 数据与校验：PostgreSQL、SQLAlchemy、Pydantic、Alembic。
-- 认证：JWT Access Token、数据库保存哈希的 Refresh Token、Argon2 密码哈希。
-- 基本接口检查：Node.js 内置 `fetch()`。
+## Tech Stack
 
-后端依赖以各服务的 `requirements.txt` 为准；运行接口检查需使用支持内置 `fetch()` 的 Node.js。
+| Layer | Technology |
+| --- | --- |
+| Front end | HTML5, CSS3, vanilla JavaScript (ES Modules), `fetch`, `sessionStorage` |
+| Backend | Python, FastAPI, Uvicorn, Pydantic v2 |
+| Database | PostgreSQL, SQLAlchemy 2.0 (typed `Mapped[]` models), psycopg 3, Alembic |
+| Security | PyJWT (HS256), pwdlib + Argon2, SHA-256 hashed refresh tokens, `HTTPBearer` |
+| Injection | Browser DOM APIs, History API hooks, Vue 2 instance manipulation, Vant/Vux components |
+| Tooling | Node.js smoke-test scripts, PowerShell runner, python-dotenv |
 
-## 启动 service-api
+---
 
-后端环境、`.env` 配置、Schema 准备、迁移和启动步骤统一见 [service-api README](service-api/README.md)。
+## API Overview
 
-完成配置与迁移后，从 `service-api` 目录启动本机开发服务：
+| Method | Path | Auth | Purpose |
+| --- | --- | --- | --- |
+| POST | `/api/auth/register` | none | Register a user |
+| POST | `/api/auth/login` | none | Get access and refresh tokens |
+| POST | `/api/auth/refresh` | refresh token (body) | Get a new access token |
+| POST | `/api/auth/logout` | access token + refresh token | Deactivate the session |
+| GET | `/api/{launderingBack,addInfo,question,chooseFutures}/config` | none | Questionnaire / form configuration |
+| POST | `/api/{launderingBack,addInfo,question,chooseFutures}/answer` | access token | Submit answers |
+| GET | `/api/code/{province,city,occupation,educationalqualification}` | none | Code tables for dropdowns |
+| GET | `/api/jsinject/data?uid=` | shared injection key | Latest answers for injection |
+| GET | `/script/main.js` (service-js) | none | Injection script source |
 
-```powershell
-.\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
-```
+Interactive docs are at `http://127.0.0.1:8000/docs` while the API is running.
 
-Swagger UI：`http://127.0.0.1:8000/docs`。
+---
 
-数据库使用 `postgres` 中的 `openaccount` Schema，而非名为 openaccount 的数据库。数据库结构详见 [数据库表结构](docs/数据库表结构.md)。日常启动不需要重新初始化数据。
+## Running Locally
 
-## 启动模拟开户前端
+**Requirements:** Python 3.10+, PostgreSQL, and Node.js 18+ (only for the smoke tests).
 
-前端使用 ES Modules，应通过 HTTP 静态服务器访问。从项目根目录执行：
+```bash
+# 1. Backend
+cd service-api
+python -m venv .venv && source .venv/bin/activate      # Windows: .\.venv\Scripts\activate
+pip install -r requirements.txt
+cp .env.example .env                                    # fill in DATABASE_URL, SECRET_KEY, JS_INJECT_KEY, token lifetimes
+psql -c "CREATE SCHEMA IF NOT EXISTS openaccount;"      # once, as a privileged user
+alembic upgrade head
+python -m scripts.seed.seed_all                         # WARNING: truncates all project tables
+uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 
-```powershell
+# 2. Simulated front end (from the repository root)
 python -m http.server 8001 --bind 127.0.0.1 --directory frontend
+# open http://127.0.0.1:8001/index/index.html
+
+# 3. Injection-script server
+cd service-js && pip install -r requirements.txt
+uvicorn app.main:app --host 0.0.0.0 --port 8002
 ```
 
-浏览器访问：`http://127.0.0.1:8001/index/index.html`。
+The ports (API 8000, front end 8001, script server 8002) are conventions and can be changed. To use the front end from a phone, bind to `0.0.0.0` and open the computer's LAN address.
 
-这里约定 service-api 使用 8000、前端使用 8001、service-js 使用 8002；这些都是启动示例端口，可按实际环境调整。独立注入实验服务使用自己的端口，运行时注意避免冲突。
+---
 
-前端默认请求当前网页主机的 HTTP 8000 端口，可以通过在模块加载前设置 `window.API_BASE_URL` 指定其他后端地址。手机访问时需让服务监听 `0.0.0.0`，使用开发电脑的局域网地址，并确认防火墙放行相应端口；手机的 `127.0.0.1` 指向手机自身。
+## Project Status and Known Limitations
 
-页面顺序：
+I'm stating these openly because this was a work in progress when my internship ended:
 
-```text
-首页（注册 / 登录）
-→ 反洗钱信息
-→ 补充资料
-→ 交易者风险测评
-→ 期货品种选择
-→ 提交结果
-```
+- The injection script still uses **hard-coded sample data**. The `/api/jsinject/data` endpoint is built, but wiring it into the Android app is unfinished.
+- `/api/jsinject/data` is protected by a **temporary shared key**. Anyone with the key can read any `uid`. The planned design is for the Android app to authenticate as the user and fetch only that user's own data.
+- CORS is wide open (`*`) for development and must be locked down before production.
+- The injection logic depends on the official site's DOM and Vue structure, so it has to be re-checked whenever that site changes.
+- The Node.js scripts in `service-api/test/` are smoke checks, not a full automated test suite.
 
-当前前端行为：
+All personal data in this repository (names, ID numbers, addresses, phone numbers) is **fictional sample data**.
 
-- 首页提供注册、登录弹窗；注册成功后切换到登录，登录后可以开始填写。
-- 两个 Token 和登录手机号保存在当前浏览器标签页的 `sessionStorage` 中，不保存密码。
-- 四类答案提交通过 Bearer 请求头携带 Access Token，不传固定 `uid`。
-- 受保护请求返回 `401` 后，使用 Refresh Token 刷新 Access Token，并重试原请求一次；同一页面的并发请求共用一次刷新。
-- Refresh Token 无效时清除本地会话；网络或服务器暂时错误会显示提示，不直接当作会话失效。
-- 退出请求携带当前会话的 Refresh Token，无论请求是否成功都清除本地会话。
-- addInfo 使用配置中的中文 `field_name` 展示，以 `p${field_id}` 提交。
-- 结果页根据当前 Access Token 中的用户编号请求答案，但尚未携带后端现在要求的注入共享密钥，因此当前读取会被拒绝，前端适配仍待完成。
+---
 
-修改前端后若浏览器仍显示旧样式或模块，可强制刷新，或在开发者工具中禁用缓存。HTTPS 页面请求 HTTP API 可能受到 Mixed Content 限制。
+## License
 
-## 启动 service-js
-
-启动方式和 Android APK 的接入流程见 [service-js README](service-js/README.md)。该服务提供 `GET /script/main.js`，目前脚本内的四类数据为硬编码示例，addInfo 键名已统一为 `p1` 至 `p23`。
-
-## 切换数据库与初始化
-
-家里、公司或其他环境的数据库连接统一通过 `service-api/.env` 中的 `DATABASE_URL` 配置；主机、端口和账号以实际环境为准。切换后重启后端，不要修改源码或在 `alembic.ini` 中写入真实凭据。
-
-在 `service-api` 目录可先核对连接目标，命令会隐藏连接串密码：
-
-```powershell
-.\.venv\Scripts\python.exe -c "from app.database import engine; print(engine.url.render_as_string(hide_password=True))"
-.\.venv\Scripts\python.exe -m alembic current
-.\.venv\Scripts\python.exe -m alembic heads
-```
-
-用户名或密码含 URL 特殊字符时需编码；例如 `@` 写为 `%40`。迁移前核对目标并检查迁移文件，避免影响已有数据。
-
-**seed 会清空模型表，包括用户、答案和 Refresh Token，并重置自增序列。`service-api/test/run.ps1` 会先调用 seed，因此也会重置数据库。** 仅在明确需要重置且已确认目标时执行，完整说明见 [seed README](service-api/scripts/seed/README.md)。
-
-## 基本接口检查
-
-`service-api/test/` 用于检查预设请求和接口基本流程，不是生产验收标准。先启动后端，再按 [test README](service-api/test/README.md) 选择单独检查或批量运行。
-
-例如，从项目根目录只读取反洗钱配置：
-
-```powershell
-node .\service-api\test\launderingBack_test\get_launderingBack_config.js
-```
-
-批量入口是 `service-api/test/run.ps1`，不是 service-api 根目录中的 run.ps1。jsinject 检查成功后将响应保存到 `service-api/test/jsinject_data.json`，不再打印完整 JSON。
-
-## 当前待完善部分
-
-- 后端 jsinject 已加入共享密钥校验：`Authorization: Bearer <JS_INJECT_KEY>`。它与登录 Access Token 不同，持有密钥者仍可查询任意 `uid`，尚无用户数据隔离。后续计划由 Android APK 获取本人资料后交给注入脚本填写，官方网页无需增加额外登录。
-- 注入脚本尚未读取真实 service-api 数据，Android APK 与注入脚本的认证信息传递和数据加载时机仍需联调。
-- 两个服务的 CORS 当前为宽松的开发配置，允许所有来源、方法和请求头；上线前需按实际调用来源收紧。基本接口检查通过不能作为生产上线依据。
-- 官方网页的 DOM 或 Vue 结构变化后，需要重新核对注入逻辑。
-- `docs/所有字段整理.md` 和 `docs/pages-pathname.md` 的部分 frontend / service-js 内容尚未同步；当前后端字段以 Schema、CRUD、接口文档和数据库结构说明为准。
-
-## 相关资料
-
-- [service-api README](service-api/README.md)
-- [service-js README](service-js/README.md)
-- [seed README](service-api/scripts/seed/README.md)
-- [test README](service-api/test/README.md)
-- [后端接口文档](service-api/api.md)
-- [数据库表结构](docs/数据库表结构.md)
-- [所有字段整理（部分内容待更新）](docs/所有字段整理.md)
-- [交易者风险测评问卷评分标准](docs/交易者风险测评问卷评分标准.md)
-- [行政区划代码对照](docs/行政区划代码对照.md)
-- [职业和学历代码对照](docs/职业和学历代码对照.md)
-- [官方页面路径记录](docs/pages-pathname.md)
+Copyright © 2026 Kimi Hu. **All rights reserved.** You may view this code for evaluation (for example, recruiting). You may not copy, modify, distribute or use it. See [LICENSE](LICENSE).

@@ -1,163 +1,134 @@
-# service-api 开户资料后端
+# service-api: Account-Opening Data Backend
 
-`service-api` 使用 FastAPI、SQLAlchemy 和 PostgreSQL，负责用户认证、提供问卷及字段配置、保存用户提交的开户资料与答案，以及返回供页面注入使用的数据。
+`service-api` is built with FastAPI, SQLAlchemy and PostgreSQL. It handles user authentication, serves questionnaire and form configuration, stores the account-opening data and answers users submit, and returns the data used for page injection.
 
-模拟开户页面 `frontend` 调用本服务收集资料。`service-js` 提供供 Android APK 注入官方开户网页的脚本，其读取本服务真实数据的流程仍待完善。本服务不执行官方网页注入，也不完成真实开户操作。
+The simulated front end (`frontend/`) calls this service to collect data. `service-js` serves the script that the Android app injects into the official account-opening site; the step where that script reads real data from this service is still unfinished. This service does not inject anything into the official site and does not open real accounts.
 
-## 目录说明
+## Directory Layout
 
-| 路径 | 作用 |
+| Path | Purpose |
 | --- | --- |
-| `app/main.py` | FastAPI 入口、路由注册和 CORS 配置 |
-| `app/database.py` | 数据库连接、Session 和模型基类 |
-| `app/security.py` | 密码哈希、Access Token 签发及 Refresh Token 生成和哈希 |
-| `app/routers/` | HTTP 路由与依赖声明 |
-| `app/schemas/` | 请求、响应结构及字段校验 |
-| `app/cruds/` | 数据库读写和业务校验 |
-| `app/models/` | 用户、答案、问卷配置及基础代码表模型 |
-| `app/dependencies/` | 当前用户验证和管理员权限依赖 |
-| `alembic/`、`alembic.ini` | 数据库迁移 |
-| `scripts/seed/` | 数据重置与初始化脚本 |
-| `test/` | Node.js 接口基本功能检查脚本 |
-| `.env.example` | 环境变量模板 |
-| `api.md` | 详细接口文档 |
+| `app/main.py` | FastAPI entry point, router registration, CORS |
+| `app/database.py` | DB engine, session factory, declarative base |
+| `app/security.py` | Password hashing, access-token signing, refresh-token generation and hashing |
+| `app/routers/` | HTTP routes and dependency wiring |
+| `app/schemas/` | Request/response models and field validation |
+| `app/cruds/` | Database reads/writes and business validation |
+| `app/models/` | Users, answers, questionnaire config and code-table models |
+| `app/dependencies/` | Current-user, admin-role and injection-key dependencies |
+| `alembic/`, `alembic.ini` | Database migrations |
+| `scripts/seed/` | Data reset and initialisation |
+| `test/` | Node.js API smoke checks |
+| `.env.example` | Environment-variable template |
+| `api.md` | Detailed API reference (Chinese) |
 
-## 环境与配置
+## Environment and Configuration
 
-需要 Python、PostgreSQL，以及 `requirements.txt` 中的依赖。只有运行 `test/` 内的接口检查时才需要 Node.js。
+You need Python, PostgreSQL and the packages in `requirements.txt`. Node.js is only needed for the scripts in `test/`.
 
-以下 PowerShell 命令均从 `service-api` 目录执行：
+From the `service-api` directory:
 
-```powershell
+```bash
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.venv/bin/python -m pip install -r requirements.txt     # Windows: .\.venv\Scripts\python.exe
+cp .env.example .env                                    # do not overwrite an existing .env
 ```
 
-首次配置时，将 `.env.example` 复制为 `.env` 并填写实际值。已有 `.env` 时不要覆盖：
-
-```powershell
-Copy-Item .env.example .env
-```
-
-| 环境变量 | 含义 |
+| Variable | Meaning |
 | --- | --- |
-| `DATABASE_URL` | 数据库连接地址，如 `postgresql+psycopg://<username>:<password>@<host>:5432/postgres` |
-| `SECRET_KEY` | JWT 签名密钥，使用随机生成的私有值 |
-| `ACCESS_TOKEN_EXPIRE_MINUTES` | Access Token 有效分钟数，填写正整数 |
-| `REFRESH_TOKEN_EXPIRE_DAYS` | Refresh Token 有效天数，填写正整数 |
-| `JS_INJECT_KEY` | jsinject 临时共享密钥，与 JWT 签名密钥和用户 Access Token 分开；由请求方通过 Bearer 请求头发送 |
+| `DATABASE_URL` | e.g. `postgresql+psycopg://<username>:<password>@<host>:5432/postgres` |
+| `SECRET_KEY` | JWT signing key; use a private random value |
+| `ACCESS_TOKEN_EXPIRE_MINUTES` | Access-token lifetime in minutes (positive integer) |
+| `REFRESH_TOKEN_EXPIRE_DAYS` | Refresh-token lifetime in days (positive integer) |
+| `JS_INJECT_KEY` | Temporary shared key for the jsinject endpoint. It is separate from the JWT key and from user tokens, and is sent as a Bearer header. |
 
-应用通过 python-dotenv 加载配置，数据库连接设置 `search_path=openaccount`。不要将真实 `.env`、密码或 Token 提交到仓库。
+Configuration is loaded with python-dotenv, and the DB connection sets `search_path=openaccount`. Never commit a real `.env`, password or token.
 
-## 数据库迁移与初始化
+## Migrations and Initialisation
 
-当前项目使用 PostgreSQL 数据库 `postgres` 中的 `openaccount` Schema。迁移脚本不负责创建该 Schema；首次准备数据库时，需要由具备权限的数据库用户执行：
+The project uses the `openaccount` schema inside the `postgres` database. Migrations do not create the schema, so a privileged user must run this once:
 
 ```sql
 CREATE SCHEMA IF NOT EXISTS openaccount;
 ```
 
-准备好连接配置和 Schema 后执行迁移：
+Then:
 
-```powershell
-.\.venv\Scripts\python.exe -m alembic upgrade head
-.\.venv\Scripts\python.exe -m alembic current
+```bash
+alembic upgrade head
+alembic current
 ```
 
-当前本地迁移链 head 为 `c70cdb6870d2`。实际数据库版本以 `alembic current` 输出为准，后续新增迁移时以最新 head 为准。Alembic 版本表位于 `openaccount.alembic_version`。
+The current head is `c70cdb6870d2`. The Alembic version table is `openaccount.alembic_version`.
 
-需要重置初始数据时，可执行：
+To reset the initial data:
 
-```powershell
-.\.venv\Scripts\python.exe -m scripts.seed.seed_all
+```bash
+python -m scripts.seed.seed_all
 ```
 
-**seed 会清空全部模型表中的现有用户、答案、Refresh Token 和配置数据，重置自增序列，再导入初始管理员、问卷配置及基础代码。它不是增量更新，也不是日常启动步骤。** 默认需要核对目标并输入 `TRUNCATE openaccount` 确认。
+**The seed script truncates every model table: users, answers, refresh tokens and config. It also resets identity sequences, then imports the initial admin, questionnaire config and code tables. It is not an incremental update and is not part of normal start-up.** By default you have to type `TRUNCATE openaccount` to confirm. See the [seed README](scripts/seed/README.md).
 
-完整行为、数据数量和初始管理员登录信息见 [seed README](scripts/seed/README.md)。数据库表及字段说明见 [数据库表结构](../docs/数据库表结构.md)。
+## Running the Server
 
-## 启动服务器
-
-本机开发启动：
-
-```powershell
-.\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+```bash
+uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-需要供局域网内手机或其他机器访问时，可将 `--host` 改为 `0.0.0.0`，客户端使用服务器实际地址访问。`--reload` 用于开发调试。
+To reach it from a phone on the LAN, use `--host 0.0.0.0`. Then open:
 
-启动后可访问：
+- Swagger UI: `http://127.0.0.1:8000/docs`
+- OpenAPI: `http://127.0.0.1:8000/openapi.json`
 
-- Swagger UI：`http://127.0.0.1:8000/docs`
-- OpenAPI：`http://127.0.0.1:8000/openapi.json`
+CORS currently allows every origin, method and header (`allow_credentials=True`). That is a development setting and must be tightened before production. CORS is a browser policy: it is not authentication and does not stop native or Node.js clients.
 
-当前 CORS 在 `app/main.py` 中配置为 `allow_origins=["*"]`、`allow_methods=["*"]`、`allow_headers=["*"]`，并设置 `allow_credentials=True`。这是宽松的开发配置，当前不读取 `CORS_ALLOW_ORIGINS` 环境变量，上线前需按实际调用来源收紧。
+## Endpoints and Authentication
 
-CORS 是浏览器跨域策略，不替代用户认证或数据访问权限控制，也不会阻止 Android 原生客户端或 Node.js 请求。
+Full request/response details are in [api.md](api.md).
 
-## 接口与认证
-
-详细请求体、响应和字段规则见 [api.md](api.md)。当前业务接口如下：
-
-| 方法 | 路径 | 登录要求 | 用途 |
+| Method | Path | Auth | Purpose |
 | --- | --- | --- | --- |
-| POST | `/api/auth/register` | 无 | 注册普通用户 |
-| POST | `/api/auth/login` | 无 | 登录并获取两个 Token |
-| POST | `/api/auth/refresh` | 请求体携带 Refresh Token | 获取新的 Access Token |
-| POST | `/api/auth/logout` | Access Token + 请求体中的 Refresh Token | 注销当前会话的 Refresh Token |
-| GET | `/api/launderingBack/config` | 无 | 反洗钱配置 |
-| POST | `/api/launderingBack/answer` | Access Token | 提交反洗钱答案 |
-| GET | `/api/addInfo/config` | 无 | 补充资料字段配置 |
-| POST | `/api/addInfo/answer` | Access Token | 提交补充资料 |
-| GET | `/api/question/config` | 无 | 风险测评配置 |
-| POST | `/api/question/answer` | Access Token | 提交风险测评答案 |
-| GET | `/api/chooseFutures/config` | 无 | 期货选择配置 |
-| POST | `/api/chooseFutures/answer` | Access Token | 提交期货选择答案 |
-| GET | `/api/code/province` | 无 | 省份代码 |
-| GET | `/api/code/city` | 无 | 城市代码 |
-| GET | `/api/code/occupation` | 无 | 职业代码 |
-| GET | `/api/code/educationalqualification` | 无 | 学历代码 |
-| GET | `/api/jsinject/data?uid=<uid>` | 注入共享密钥 | 获取指定用户最新的四类答案 |
+| POST | `/api/auth/register` | none | Register a regular user |
+| POST | `/api/auth/login` | none | Log in and receive both tokens |
+| POST | `/api/auth/refresh` | refresh token in body | Get a new access token |
+| POST | `/api/auth/logout` | access token + refresh token in body | Deactivate the current refresh token |
+| GET | `/api/launderingBack/config` | none | AML questionnaire config |
+| POST | `/api/launderingBack/answer` | access token | Submit AML answers |
+| GET | `/api/addInfo/config` | none | Supplementary-info field config |
+| POST | `/api/addInfo/answer` | access token | Submit supplementary info |
+| GET | `/api/question/config` | none | Risk-assessment config |
+| POST | `/api/question/answer` | access token | Submit risk-assessment answers |
+| GET | `/api/chooseFutures/config` | none | Futures-selection config |
+| POST | `/api/chooseFutures/answer` | access token | Submit futures selection |
+| GET | `/api/code/province` | none | Province codes |
+| GET | `/api/code/city` | none | City codes |
+| GET | `/api/code/occupation` | none | Occupation codes |
+| GET | `/api/code/educationalqualification` | none | Education codes |
+| GET | `/api/jsinject/data?uid=<uid>` | injection shared key | Latest answers of all four kinds for a user |
 
-需要用户登录的接口使用以下请求头；jsinject 使用单独的共享密钥，见下方说明：
+Login returns `access_token`, `refresh_token` and `token_type`. The access token is a JWT holding the user ID and expiry. The database stores only a **hash** of the refresh token, plus its owner, expiry and active flag.
 
-```http
-Authorization: Bearer <access_token>
-```
+- **refresh** needs a valid, unexpired, active refresh token. It returns only a new access token and does not rotate the refresh token.
+- **logout** checks that the refresh token belongs to the access-token user and is still valid, then marks it inactive. Access tokens already issued stay valid until they expire, so clients should always clear both tokens locally.
+- The four answer endpoints take the `uid` from the access token. Clients do not send a `uid`. Each submission inserts a new row, and jsinject returns the newest row per page.
 
-登录返回 `access_token`、`refresh_token` 和 `token_type`。Access Token 是带有用户编号及过期时间的 JWT；数据库只保存 Refresh Token 的哈希及所属用户、过期时间和 active 状态。
+## addInfo Field Convention
 
-refresh 需要有效、未过期且仍为 active 的 Refresh Token，仅返回新的 Access Token，不轮换 Refresh Token。客户端可在受保护请求返回 `401` 后刷新并重试一次，刷新失败时按返回原因处理登录状态。
+Supplementary-info keys and columns are `p1`–`p23`. The config endpoint returns `field_id`, a display `field_name` (Chinese) and a `type`. The front end shows the name and submits `p${field_id}`.
 
-logout 校验 Refresh Token 属于当前 Access Token 用户，且未过期、仍为 active，再将其设为 inactive。它不会立即撤销已经签发的 Access Token；客户端退出时应清除本地两个 Token，即使 logout 请求失败也应清除。
+Validation covers: ID-card format, embedded birth date and check digit; phone, postcode and email; long-term-validity ↔ date-range consistency; intermediary-field dependencies; province ↔ city matching; and valid occupation/education codes. See `app/schemas/addInfo_schemas.py` and `app/cruds/addInfo_cruds.py`.
 
-四个答案提交接口由服务端根据 Access Token 确定 `uid`，客户端不需要也不应在答案请求体中传入 `uid`。每次成功提交新增一条记录，jsinject 数据读取按流水号返回每一类的最新记录。
-
-## addInfo 字段约定
-
-补充资料的请求键名和答案表字段统一为 `p1` 至 `p23`。配置接口返回 `field_id`、中文 `field_name` 和 `type`：前端以中文名称展示，以 `p${field_id}` 提交，不能再使用旧英文字段键名。
-
-校验包括身份证格式、出生日期与校验位、手机号、邮编、邮箱、长期有效日期关联、居间人字段关联，以及省市匹配、职业和学历代码有效性。
-
-具体规则以 `app/schemas/addInfo_schemas.py`、`app/cruds/addInfo_cruds.py` 及数据库结构文档为准。
-
-## jsinject 的待完善事项
-
-数据读取接口已实现，并加入临时共享密钥校验：
+## jsinject: Open Items
 
 ```http
 GET /api/jsinject/data?uid=<uid>
 Authorization: Bearer <JS_INJECT_KEY>
 ```
 
-这里发送的是环境变量 `JS_INJECT_KEY` 对应的密钥，不是登录获得的 Access Token。密钥不匹配时返回 `403`（`密钥错误`）；缺失或非 Bearer 请求头由 FastAPI 的 `HTTPBearer` 拒绝。验证通过后，用户不存在返回 `404`，尚未提交的页面数据为 `null`。
+A wrong key returns `403`. A missing or non-Bearer header is rejected by FastAPI's `HTTPBearer`. An unknown user returns `404`, and pages the user has not submitted come back as `null`.
 
-共享密钥只限制接口入口，不验证请求者与 `uid` 的关系，持有密钥者仍能查询任意用户。前端结果页尚未发送此密钥，目前读取会失败；不要为了适配将共享密钥公开到前端页面中。
+The shared key only guards the entry point. It does not tie the caller to the `uid`. The planned design is for the Android app to authenticate as the user and fetch only that user's own data, with the server taking the user from the access token. **Never ship the shared key inside a public page or script.**
 
-后续计划由 Android APK 使用用户认证获取本人资料，再将数据交给注入脚本，官方页面不增加额外登录。届时由服务端根据 Access Token 确定用户，而非信任任意 `uid`。当前临时方案不代表服务已满足生产上线要求。
+## Smoke Checks
 
-## 基本接口检查
-
-`test/` 使用 Node.js 请求正在运行的后端，仅检查预设请求及基本流程，不是严谨的生产验收测试。使用方式与限制见 [test README](test/README.md)。
-
-**`test/run.ps1` 会先调用 seed 重置数据库，再运行注册、登录、答案提交等会写入数据的请求。** 执行前务必核对目标；不要将其作为无副作用的服务健康检查。
+`test/` uses Node.js to call a running backend. It only exercises preset requests and basic flows; see the [test README](test/README.md). **`test/run.ps1` runs the seed (which resets the database) before it registers users and submits answers.**

@@ -1,75 +1,70 @@
-# service-js 注入脚本服务器
+# service-js: Injection-Script Server
 
-`service-js` 是一个基于 FastAPI 的 JavaScript 脚本分发服务器。客户端请求脚本接口后，服务器返回 `app/script/main.js` 的 JavaScript 源码，供手机 Android APK 获取并注入其加载的官方开户网页，实现资料预填写。
+`service-js` is a small FastAPI server that hands out JavaScript. When a client calls the script endpoint, the server returns the source of `app/script/main.js`. The Android app downloads it and injects it into the official account-opening site it has loaded, which pre-fills the user's data.
 
-Android APK 内加载官方网页、获取脚本及执行注入的具体实现由 Android 端负责。本目录提供脚本下载接口和页面填写逻辑。
+The Android side owns loading the official site, fetching the script and running the injection. This directory provides the download endpoint and the page-filling logic.
 
-## 脚本接口
+## Script Endpoint
 
 ```http
 GET /script/main.js
 ```
 
-请求地址为 `http://<service-js 主机>:<端口>/script/main.js`。响应是 JavaScript 文件内容，类型为 `application/javascript; charset=utf-8`，不是 JSON 数据。服务器通过 `FileResponse` 返回文件，设置 `Content-Disposition: inline` 和 `Cache-Control: no-store`。
+The response is JavaScript (not JSON) with `Content-Type: application/javascript; charset=utf-8`, `Content-Disposition: inline` and `Cache-Control: no-store`, served via `FileResponse`. The server only serves the code. It never runs it.
 
-服务器仅返回代码，不在服务端执行网页注入，也不替 Android APK 加载官方开户网站。
+## Intended Flow
 
-## 预期使用流程
+1. The user fills in their data on the simulated front end, which submits it to `service-api`.
+2. The Android app loads the official account-opening site, `https://app5.cfmmc.com`.
+3. The app requests `/script/main.js` and injects it into the page.
+4. The script reads the user's saved data and fills the controls on whichever official page is showing.
+5. Steps that need the user (ID/bank-card photos, video verification) stay manual.
 
-1. 用户在模拟开户前端填写资料，前端将答案提交到 `service-api`。
-2. Android APK 加载官方开户网站 `https://app5.cfmmc.com`。
-3. APK 请求 service-js 的 `/script/main.js`，取得代码并注入官方网页环境执行。
-4. 注入逻辑读取该用户已提交的资料，根据官方网页当前路径填写对应控件。
-5. 上传证件、银行卡、视频验证等需要用户操作的步骤仍由用户完成。
+Keep the two sources apart: **the data to fill comes from service-api, and the page and its controls come from the official site.** The script works the DOM, clicks options, updates the page's Vue instance state where needed, and waits for cascading options to load.
 
-这里需要区分两个来源：**待预填写的用户资料来自 service-api；官方开户网页提供被填写的页面和控件。** 注入脚本在官方网页中操作 DOM、触发选项点击，必要时更新页面 Vue 实例的状态，并等待联动选项加载。
+## Current Implementation
 
-## 当前实现
+`main.js` runs on first load and whenever `pushState`, `replaceState`, `popstate` or `hashchange` fires, and dispatches on `location.pathname`:
 
-`app/script/main.js` 监听首次页面加载及 `pushState`、`replaceState`、`popstate`、`hashchange` 等路径变化，根据 `location.pathname` 执行相应页面逻辑。
-
-目前主要填写以下四个页面：
-
-| 官方页面路径 | 注入数据分组 | 内容 |
+| Official path | Data group | Content |
 | --- | --- | --- |
-| `/launderingBack` | `launderingBack` | 反洗钱问卷 |
-| `/addInfo` | `addInfo` | 开户补充资料 |
-| `/question` | `question` | 交易者风险测评问卷 |
-| `/chooseFutures` | `chooseFutures` | 期货品种选择 |
+| `/launderingBack` | `launderingBack` | AML questionnaire |
+| `/addInfo` | `addInfo` | Supplementary account info |
+| `/question` | `question` | Trader risk assessment |
+| `/chooseFutures` | `chooseFutures` | Futures product selection |
 
-数据当前保存在脚本内的 `const data` 示例对象中。addInfo 的键名已与 service-api 统一为 `p1` 至 `p23`，其他问卷也使用 `p<题号>`；多选答案使用连续字母字符串，如 `AC`、`ACD`。脚本仍保留路径提示弹窗和登录页填写示例身份证号等调试行为。
+Techniques used:
 
-## 真实后端数据读取尚待完善
+- **Native value setters plus synthetic `input`/`change` events**, so Vue's `v-model` picks up programmatic input.
+- **Direct Vue 2 state updates** (`__vue__`, `$set`, `$nextTick`) for Vux date pickers and popup pickers.
+- **Cascading-picker orchestration:** province → city and branch province → city → category → branch. The script calls the page's own change handlers and polls until the dependent option list contains the target value.
+- **Re-querying the DOM on every step** so it never works on stale nodes after Vue re-renders, and **verifying after each click** that the checkbox or radio state actually changed.
 
-**当前注入脚本尚未发起读取真实 service-api 数据的请求，运行时使用的是硬编码示例数据。** 数据结构对齐不代表真实数据获取流程已经完成。
+Data is currently a hard-coded sample `const data` object (fictional). The addInfo keys match service-api (`p1`–`p23`), the other pages use `p<question number>`, and multi-select answers are letter strings such as `AC`. Debug alerts are still enabled.
 
-service-api 已有 `GET /api/jsinject/data?uid=<uid>` 数据读取接口，可返回四个页面的数据。当前使用临时共享密钥校验，请求需携带 `Authorization: Bearer <JS_INJECT_KEY>`，不是用户 Access Token。持有密钥者仍可查询任意 `uid`，尚未实现用户数据隔离。当前脚本既未请求该接口，也未携带该密钥。
+## Reading Real Backend Data: Not Done Yet
 
-后续计划由 Android APK 使用用户认证请求本人资料，再将数据交给注入脚本，官方页面不增加额外登录。服务端根据 Access Token 确定用户；APK 与脚本的数据传递、请求失败处理及数据加载完成后的注入时机仍需完善。不要将共享密钥放入公开下载的脚本作为生产权限保护。
+**The script does not yet call service-api. It runs on the hard-coded sample data.** service-api already exposes `GET /api/jsinject/data?uid=<uid>`, protected by a temporary shared key. The planned design is for the Android app to fetch the user's own data with the user's credentials and pass it to the script, with no extra login on the official site. Never embed the shared key in a publicly downloadable script.
 
-## 本地启动
+## Running Locally
 
-在配置好 Python 环境后，从 `service-js` 目录执行：
-
-```powershell
-python -m pip install -r requirements.txt
-python -m uvicorn app.main:app --host 0.0.0.0 --port 8002
+```bash
+pip install -r requirements.txt
+uvicorn app.main:app --host 0.0.0.0 --port 8002
 ```
 
-`8002` 是启动示例端口，可按实际部署调整。Android 真机应使用手机可访问的服务器地址；手机上的 `127.0.0.1` 指向手机自身，不能直接代替开发电脑地址。
+On a real Android device, use an address the phone can reach. The phone's `127.0.0.1` is the phone itself.
 
-## CORS 配置
+## CORS
 
-当前 CORS 在 `app/main.py` 中配置为 `allow_origins=["*"]`、`allow_methods=["*"]`、`allow_headers=["*"]`，并设置 `allow_credentials=True`。这是宽松的开发配置，当前不读取 `.env` 或 `CORS_ALLOW_ORIGINS` 环境变量，上线前需按实际调用来源收紧。
+CORS currently allows all origins, methods and headers. That is a development setting. A native Android download is not subject to CORS, but an in-page `fetch()` is. CORS is not authentication.
 
-Android 原生下载脚本不受浏览器 CORS 限制；网页内 `fetch()` 读取源码则受浏览器跨域策略限制。CORS 不作为脚本下载的身份验证。
+## Files
 
-## 文件分工
-
-| 文件 | 用途 |
+| File | Purpose |
 | --- | --- |
-| `app/main.py` | FastAPI 应用、CORS 配置及脚本返回接口 |
-| `app/script/main.js` | 路径监听、示例数据及官方页面填写逻辑 |
-| `requirements.txt` | 服务器 Python 依赖 |
+| `app/main.py` | FastAPI app, CORS, script endpoint |
+| `app/script/main.js` | Route listener, sample data, page-filling logic |
+| `requirements.txt` | Python dependencies |
 
-脚本依赖官方网页的 DOM 和 Vue 组件结构，网页变化后需要重新核对。脚本下载成功不等于 Android APK 内注入成功，最终效果仍需在实际 APK 和官方页面中联调验证。
+The script depends on the official site's DOM and Vue component structure and has to be re-checked when that site changes. A successful download does not prove that the injection works inside the app. That still needs end-to-end checking on a device.
