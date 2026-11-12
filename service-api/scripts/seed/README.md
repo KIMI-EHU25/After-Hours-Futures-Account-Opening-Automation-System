@@ -23,15 +23,13 @@ All 17 tables defined by the SQLAlchemy models are truncated with `TRUNCATE ... 
 | Occupation codes | `occupationcodes` | 38 |
 | Education codes | `educationalqualificationcodes` | 4 |
 
-The initial user has `is_admin = true`. Its password comes straight from the existing `user_hashed_password` in the JSON and is not re-hashed. addInfo fields use `field_id` 1–23, which map to the submission keys `p1`–`p23`. The four answer tables and `refreshtokens` start empty.
+The initial user has `is_admin = true`. Its password is read from the `SEED_ADMIN_PASSWORD` environment variable and hashed with Argon2 at seed time; no password or hash is stored in the repository. addInfo fields use `field_id` 1–23, which map to the submission keys `p1`–`p23`. The four answer tables and `refreshtokens` start empty.
 
 ## Initial Admin Login (local development only)
 
 - Phone (`user_phone`): `13800000000`
-- Password: `<password>`
+- Password: the value of `SEED_ADMIN_PASSWORD` in your `.env` (at least 8 characters)
 - `is_admin`: `true`
-
-The JSON stores only the Argon2 hash. This is a throwaway development credential and must never be used in a real deployment.
 
 ## Pre-flight Checks
 

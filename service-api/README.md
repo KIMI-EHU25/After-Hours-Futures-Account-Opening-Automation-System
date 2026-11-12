@@ -40,6 +40,7 @@ cp .env.example .env                                    # do not overwrite an ex
 | `SECRET_KEY` | JWT signing key; use a private random value |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | Access-token lifetime in minutes (positive integer) |
 | `REFRESH_TOKEN_EXPIRE_DAYS` | Refresh-token lifetime in days (positive integer) |
+| `SEED_ADMIN_PASSWORD` | Password for the initial admin account; hashed with Argon2 when the seed script runs and never stored in the repository |
 | `JS_INJECT_KEY` | Temporary shared key for the jsinject endpoint. It is separate from the JWT key and from user tokens, and is sent as a Bearer header. |
 
 Configuration is loaded with python-dotenv, and the DB connection sets `search_path=openaccount`. Never commit a real `.env`, password or token.
@@ -75,10 +76,7 @@ python -m scripts.seed.seed_all
 uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-To reach it from a phone on the LAN, use `--host 0.0.0.0`. Then open:
-
-- Swagger UI: `http://127.0.0.1:8000/docs`
-- OpenAPI: `http://127.0.0.1:8000/openapi.json`
+To reach it from a phone on the LAN, use `--host 0.0.0.0`.
 
 CORS currently allows every origin, method and header (`allow_credentials=True`). That is a development setting and must be tightened before production. CORS is a browser policy: it is not authentication and does not stop native or Node.js clients.
 

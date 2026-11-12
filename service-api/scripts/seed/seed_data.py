@@ -6,7 +6,7 @@ from typing import Any
 
 
 EXPECTED_COLUMNS: dict[str, set[str]] = {
-    "users": {"user_phone", "user_id", "user_hashed_password", "is_admin"},
+    "users": {"user_phone", "user_id", "is_admin"},
     "launderingbacktitles": {"question_code", "type", "title"},
     "launderingbackoptions": {"question_code", "option", "optiontext"},
     "addinfotitles": {"field_id", "field_name", "type"},

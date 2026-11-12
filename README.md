@@ -1,8 +1,8 @@
-# OpenAccount: Futures Account-Opening Pre-fill System
+# After-Hours Futures Account Opening Automation System
 
 > **Portfolio project, view only.** This repository is published so people can look at my work. It is **not** open source. All rights reserved; see [LICENSE](LICENSE).
 
-OpenAccount speeds up opening a **futures trading account** (night-session trading, "夜盘开户") through the official CFMMC mobile web flow. Users fill in their personal information, anti-money-laundering answers, risk questionnaire and product choices **once**, on a simulated account-opening site. An Android app then loads the official account-opening website and **injects JavaScript** that fills each official page with the saved answers. Only the steps that legally need the user (ID card photos, bank card upload, video verification, signing agreements) are left for them to do by hand.
+This system speeds up opening a **futures trading account** (night-session trading, "夜盘开户") through the official CFMMC mobile web flow. Users fill in their personal information, anti-money-laundering answers, risk questionnaire and product choices **once**, on a simulated account-opening site. An Android app then loads the official account-opening website and **injects JavaScript** that fills each official page with the saved answers. Only the steps that legally need the user (ID card photos, bank card upload, video verification, signing agreements) are left for them to do by hand.
 
 I built this during an internship. My part covers the backend API, the simulated front end, the injection-script service and the injection experiments. The Android container app that runs the script was built by another team member.
 
@@ -149,8 +149,6 @@ All tables live in the `openaccount` schema of the `postgres` database. Field-le
 | GET | `/api/jsinject/data?uid=` | shared injection key | Latest answers for injection |
 | GET | `/script/main.js` (service-js) | none | Injection script source |
 
-Interactive docs are at `http://127.0.0.1:8000/docs` while the API is running.
-
 ---
 
 ## Running Locally
@@ -162,7 +160,7 @@ Interactive docs are at `http://127.0.0.1:8000/docs` while the API is running.
 cd service-api
 python -m venv .venv && source .venv/bin/activate      # Windows: .\.venv\Scripts\activate
 pip install -r requirements.txt
-cp .env.example .env                                    # fill in DATABASE_URL, SECRET_KEY, JS_INJECT_KEY, token lifetimes
+cp .env.example .env                                    # fill in DATABASE_URL, SECRET_KEY, JS_INJECT_KEY, SEED_ADMIN_PASSWORD, token lifetimes
 psql -c "CREATE SCHEMA IF NOT EXISTS openaccount;"      # once, as a privileged user
 alembic upgrade head
 python -m scripts.seed.seed_all                         # WARNING: truncates all project tables

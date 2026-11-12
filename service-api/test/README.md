@@ -38,7 +38,7 @@ Not covered: invalid input, edge cases, the full permission rules, concurrency, 
 5. Logs out.
 6. Reads the jsinject data and saves it to `test/jsinject_data.json`.
 
-The test user is phone `13900000000`, password `<password>` (fictional). It is a different account from the seeded admin.
+The test user is phone `13900000000` (fictional). Its password is read from the `TEST_USER_PASSWORD` environment variable (at least 8 characters), so set it before running the auth scripts. It is a different account from the seeded admin.
 
 Login saves both tokens to `test_token.json`. Refresh updates the access token and keeps the refresh token. The answer scripts send `Authorization: Bearer <access_token>` and leave `uid` out of the body. Logout sends both tokens and then sets the local values to `"None"`.
 
